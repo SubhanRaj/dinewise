@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/assets/css/semi-dark.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin-assets/assets/css/header-colors.css') }}" />
     <link href="{{ asset('admin-assets/assets/plugins/notifications/css/lobibox.min.css') }}" rel="stylesheet">
-    <title>Digicrowd Restaurant Management Software</title>
+    <title>{{ config('app.name') }}</title>
 </head>
 
 <body>
