@@ -1,0 +1,86 @@
+.DT_pageLenght {
+    background: #6a11cb;
+    background: -webkit-linear-gradient(45deg, #6a11cb, #2575fc) !important;
+    background: linear-gradient(45deg, #6a11cb, #2575fc) !important;
+    border: none;
+    outline: none;
+}
+
+.DT_pageLenght:hover {
+    background: #7508ea;
+    border: none;
+    outline: none;
+}
+
+
+.DT_ExcelExport {
+    background-color: #15ca20;
+    border: none;
+    outline: none;
+}
+
+.DT_ExcelExport:hover {
+    background-color: #21c62c;
+    border: none;
+    outline: none;
+}
+
+.DT_columnVisibility {
+    background: #00b09b;
+    border: none;
+    outline: none;
+}
+
+.DT_columnVisibility:hover {
+    background: #22c6b2;
+    border: none;
+    outline: none;
+}
+
+.DT_CSVExport {
+    background-color: #8a00a6;
+    border: none;
+    outline: none;
+}
+
+.DT_CSVExport:hover {
+    background-color: #932aa8;
+    border: none;
+    outline: none;
+}
+
+.DT_Pdf {
+    background-color: #dc3545;
+    border: none;
+    outline: none;
+}
+
+.DT_Pdf:hover {
+    background-color: #c7404e;
+    border: none;
+    outline: none;
+}
+
+.DT_print {
+    background-color: #ffc107;
+    border: none;
+    outline: none;
+}
+
+.DT_print:hover {
+    background-color: #c19921;
+    border: none;
+    outline: none;
+}
+
+.DT_copy {
+    background-color: #2f80ed;
+    border: none;
+    outline: none;
+}
+
+.DT_copy:hover {
+    background-color: #3b75c1;
+    border: none;
+    outline: none;
+}
