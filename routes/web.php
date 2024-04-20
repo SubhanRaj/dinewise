@@ -13,6 +13,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StaffOrderDetails;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ReceptonController;
 use App\Http\Controllers\DeleteAllController;
 use App\Http\Controllers\ReceiptVerification;
@@ -22,19 +23,15 @@ use App\Http\Controllers\StaffIndexController;
 use App\Http\Controllers\StaffLeaveController;
 use App\Http\Controllers\TableModelController;
 use App\Http\Controllers\AjaxRequestController;
+use App\Http\Controllers\ChefPanelOrderDetails;
 use App\Http\Controllers\PricingUnitController;
+use App\Http\Controllers\CustomerAjaxController;
 use App\Http\Controllers\ProductModelController;
 use App\Http\Controllers\StaffPaymentController;
 use App\Http\Controllers\StaffProfileController;
+use App\Http\Controllers\ChefDashboardController;
 use App\Http\Controllers\CreatePaymentController;
 use App\Http\Controllers\AdvancePaymentController;
-use App\Http\Controllers\ChefDashboardController;
-use App\Http\Controllers\ChefPanelOrderDetails;
-use App\Http\Controllers\customer\CustomerDashboardController;
-use App\Http\Controllers\customer\CustomerLoginController;
-use App\Http\Controllers\CustomerAjaxController;
-use App\Http\Controllers\customer\CustomerOrderController;
-use App\Http\Controllers\customer\CustomerShoppingController;
 use App\Http\Controllers\CustomersModelController;
 use App\Http\Controllers\ReleasePaymentController;
 use App\Http\Controllers\ProductCategoryController;
@@ -42,6 +39,11 @@ use App\Http\Controllers\ProductMaterialController;
 use App\Http\Controllers\StaffAttendanceController;
 use App\Http\Controllers\StaffPanelProfileController;
 use App\Http\Controllers\ReceptionDashboardController;
+use App\Http\Controllers\customer\CustomerLoginController;
+use App\Http\Controllers\customer\CustomerOrderController;
+use App\Http\Controllers\customer\CustomerShoppingController;
+use App\Http\Controllers\customer\CustomerDashboardController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -54,9 +56,14 @@ use App\Http\Controllers\ReceptionDashboardController;
 |
 */
 
+// ------------------ Frontend Route Start ------------------
+Route::controller(FrontendController::class)->group(function(){
+    Route::get('/', 'index')->name('frontend-index');
+
+});
 //  ----------------- Admin Login Controller Start ----------------
 Route::controller(Login::class)->group(function () {
-    Route::get('/', 'index')->name('login-view');
+    Route::get('/login', 'index')->name('login-view');
     Route::post('/login', 'login')->name('login-check');
     Route::post('/otp-verification', 'loginOtpVerification')->name('login-otp-verification');
     Route::get('/reset-otp-verification', 'resetOtpVerification')->name('reset-otp-verification');
