@@ -65,7 +65,10 @@
                         </table>
                         <table class="table table-bordered w-100">
                             @php
-                                $customer_data = getCustomer($orderData->customer_or_booking, $orderData->customer_id_or_booking_id);
+                                $customer_data = getCustomer(
+                                    $orderData->customer_or_booking,
+                                    $orderData->customer_id_or_booking_id,
+                                );
                             @endphp
                             <tr class="bg-primary">
                                 <th colspan="2" class="text-center">
@@ -113,6 +116,22 @@
 
 
                         <table class="table table-bordered w-100">
+
+                            <tr class="bg-primary">
+                                <th class="text-center">
+                                    Order Instructions
+                                </th>
+                            </tr>
+                            <tr>
+                                <td class="text-center">
+                                    {{ $orderData->orderInstruction }}
+                                </td>
+                            </tr>
+
+                        </table>
+
+
+                        <table class="table table-bordered w-100">
                             <tr class="bg-primary">
                                 <th colspan="10" class="text-center">
                                     Payment Details
@@ -141,19 +160,20 @@
                                 <th class='w-50 text-center'>{{ IND_num_format($orderData->discount_amount) }}</th>
                             </tr>
                             <tr>
-                                <th class="text-center">Paid </th>
-                                <th class='w-50 text-center'> {{ IND_num_format($orderData->paid_amount) }}</th>
+                                <th class="text-center">Loyalty Discount </th>
+                                <th class='w-50 text-center'> {{ IND_num_format($orderData->loyalty_discount) }}</th>
                             </tr>
                             <tr>
-                                <th class="text-center">Due </th>
-                                <th class='w-50 text-center'>{{ IND_num_format($orderData->due_amount) }}</th>
+                                <th class="text-center">Payable Amount </th>
+                                <th class='w-50 text-center'> {{ IND_num_format($orderData->payable_amount) }}</th>
                             </tr>
+
                             <tr>
                                 <th class="text-center">Payment Method </th>
                                 <th class='w-50 text-center'> {{ $orderData->payment_method }}</th>
                             </tr>
                             <tr>
-                                <th class="text-center">Payment STatus </th>
+                                <th class="text-center">Payment Status </th>
                                 <th class='w-50 text-center'>{{ $orderData->payment_status }}</th>
                             </tr>
                         </table>

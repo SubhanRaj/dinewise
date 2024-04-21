@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Orders;
+use App\Models\ProductCategory;
 use App\Models\ProductModel;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -53,6 +54,19 @@ class CustomerAjaxController extends Controller
             }
         }
 
+        if ($request->has('isset_get_category_banner')) {
+            $cat_id = sanitizeInput($request->cat_id);
+            $category_data = ProductCategory::where('cat_id', '=', $cat_id)->first();
+            if (!is_null($category_data)) {
+                $cat_banner = json_decode($category_data->cat_banner, true);
+                $banner = getMediaUrl($cat_banner[0]['file_id'], true);
+            } else {
+                $banner = '';
+            }
+            return response()->json([
+                'banner' => $banner
+            ]);
+        }
 
         if ($request->has('isset_get_product_according_to_search')) {
             $search = sanitizeInput($request->search);
@@ -109,7 +123,7 @@ class CustomerAjaxController extends Controller
                     $pdf->setOption(['defaultFont' => 'Courier']);
                     $fileName = time() . mt_rand(100, 10000) . '.pdf';
                     $pdf->save(public_path() . "/tempPdf/" . $fileName);
-                    $pdf = url('public/tempPdf') .'/'. $fileName;
+                    $pdf = url('public/tempPdf') . '/' . $fileName;
                     return response()->json([
                         'status' => true,
                         'url' => $pdf,

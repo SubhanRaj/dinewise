@@ -1,0 +1,32 @@
+#qr-scanner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 100000;
+    background-color: #2c2c2c;
+}
+
+.qr-box {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    align-items: center;
+}
+.qr-scanner-area {
+    width: 100%;
+}
+
+.close-qr-scanner {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    outline: none;
+    font-size: 20px;
+}

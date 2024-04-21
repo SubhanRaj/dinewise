@@ -31,7 +31,7 @@
 <script src="{{ asset('admin-assets/assets/plugins/yearpicker/yearpicker.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
-<script src="{{ asset('admin-assets/assets/js/custom.js') }}"></script>
+<script src="{{ asset('admin-assets/assets/js/custom.js') }}?v={{ time() }}"></script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 @stack('scripts')
 </body>

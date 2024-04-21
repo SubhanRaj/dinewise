@@ -56,7 +56,7 @@
                                                     data-bs-title="Use unique product id for every products. Max : 20"> <i
                                                         class="fa-light fa-circle-info"></i></span></label>
                                             <input type="text" name="product_id" class="form-control"
-                                                placeholder="Product Id" required>
+                                                placeholder="Product Id" required value="{{ uid_generator() }}">
                                             <p class="form-feedback invalid-feedback" data-name="product_id"></p>
                                         </div>
                                         <div class="col-lg-6 col-12 mb-3">

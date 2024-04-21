@@ -31,10 +31,7 @@ class InquiryController extends Controller
             "requirement" => "required",
             "business" => "required",
         ]);
-
-
-
-
+ 
 
         if ($validator->fails()) {
             return response()->json([

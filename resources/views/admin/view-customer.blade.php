@@ -48,11 +48,7 @@
                                                     data-bs-placement="auto" data-bs-title="Add New"
                                                     class="btn btn-primary"><i class="fa-regular fa-plus"></i>
                                                 </a>
-                                                <a href="{{ route('admin.exportCustomers') }}" data-bs-toggle="tooltip"
-                                                    data-bs-placement="auto" data-bs-title="Export"
-                                                    class="btn btn-success"><i class="fas fa-file-excel"></i>
-                                                </a>
-
+                                                
                                                 <a href="{{ route('admin.Trash', 'customers-trash') }}"
                                                     data-bs-toggle="tooltip" data-bs-placement="auto"
                                                     data-bs-title="Show Trash" class="btn btn-warning"> <i

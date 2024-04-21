@@ -34,6 +34,7 @@
 
     <link rel="stylesheet" href="{{ asset('admin-assets/assets/plugins/yearpicker/yearpicker.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-assets/assets/css/customer.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('admin-assets/assets/js/customer/qr-scanner.css') }}?v={{ time() }}">
     @stack('title')
 
     @stack('style')
@@ -43,6 +44,18 @@
 <body>
     <!--wrapper-->
     <div class="wrapper">
+
+        <div id="qr-scanner" class="d-none">
+            <button type="button" class="close-qr-scanner" onclick="closeQrScanner()"><i
+                    class="fa-solid fa-x"></i></button>
+            <div class="qr-box">
+                <div class="qr-scanner-area">
+                    <div id="reader">
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 

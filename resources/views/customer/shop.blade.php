@@ -6,7 +6,7 @@
     <main class="customer-wrapper">
         <section class="page-title-box">
             <div class="page-title">
-                <strong>Shop</strong>
+                <strong>Shop </strong>
             </div>
             <div class="d-flex align-items-center">
                 <div class="page-search">
@@ -50,9 +50,7 @@
             <div class="shop-category-container">
                 <div>
                     @php
-                        $category_data = DB::table('product_categories')
-                            ->orderBy('cat_name', 'asc')
-                            ->get();
+                        $category_data = DB::table('product_categories')->orderBy('cat_name', 'asc')->get();
                     @endphp
                     @if (count($category_data) > 0)
                         @foreach ($category_data as $single_category)
@@ -87,15 +85,24 @@
         </section>
     </main>
 
+
+
     @include('customer.footer-menu')
+
+
+    @if ($table_no != null)
+        @push('scripts')
+            <script>
+                sessionStorage.setItem('table_no', {{ Js::from($table_no) }})
+                getOrderDetailsUsingOrderId({{ Js::from($order_id) }})
+            </script>
+        @endpush
+    @endif
 
     @push('scripts')
         <script>
-            sessionStorage.setItem('table_no', {{ Js::from($table_no) }})
-            sessionStorage.setItem('shop_page', {{ Js::from(URL::current()) }})
-            getOrderDetailsUsingOrderId({{ Js::from($order_id) }})
-
             footerMenuActiveClass('shop')
         </script>
     @endpush
+
 @endsection
