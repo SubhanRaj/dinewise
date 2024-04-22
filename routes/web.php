@@ -35,13 +35,17 @@ use App\Http\Controllers\customer\CustomerLoginController;
 use App\Http\Controllers\CustomerAjaxController;
 use App\Http\Controllers\customer\CustomerOrderController;
 use App\Http\Controllers\customer\CustomerShoppingController;
+use App\Http\Controllers\CustomerLoyaltyPointsModelController;
 use App\Http\Controllers\CustomersModelController;
+use App\Http\Controllers\LoyaltyModelController;
 use App\Http\Controllers\ReleasePaymentController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductMaterialController;
 use App\Http\Controllers\StaffAttendanceController;
 use App\Http\Controllers\StaffPanelProfileController;
 use App\Http\Controllers\ReceptionDashboardController;
+use App\Http\Controllers\SettingModelController;
+use App\Http\Controllers\UserAccessController;
 
 /*
 |--------------------------------------------------------------------------
@@ -185,6 +189,7 @@ Route::middleware('adminLogin')->group(function () {
         Route::post('/add-customer', 'addCustomer')->name('addCustomer');
         Route::get('/view-customer-details', 'getCustomersData')->name('getCustomersData');
         Route::get('/export-customer-data', 'exportCustomers')->name('exportCustomers');
+        Route::get('/customer-profile/{customer_id}', 'customerProfile')->name('customerProfile');
     });
 
 
@@ -281,7 +286,7 @@ Route::middleware('adminLogin')->group(function () {
     });
 
 
-    Route::controller(SettingController::class)->prefix('admin')->name('admin.')->group(function () {
+    Route::controller(UserAccessController::class)->prefix('admin')->name('admin.')->group(function () {
         Route::get('/add-users', 'addUsers')->name('addUsers');
         Route::post('/add-users', 'saveUsers')->name('saveUsers');
         Route::get('/edit-users/{id}', 'editUsers')->name('editUsers');
@@ -306,6 +311,22 @@ Route::middleware('adminLogin')->group(function () {
         Route::get('/staff-profile-get-leave', 'getStaffProfileleave')->name('getStaffProfileleave');
         Route::get('/staff-profile-get-worksheet', 'getStaffProfileworksheet')->name('getStaffProfileworksheet');
         Route::get('/staff-profile-get-payout', 'getStaffProfilepayout')->name('getStaffProfilepayout');
+    });
+    Route::controller(LoyaltyModelController::class)->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/loyalty-setup', 'loyaltySetup')->name('loyaltySetup');
+        Route::post('/loyalty-setup', 'saveLoyaltySetup')->name('saveLoyaltySetup');
+        Route::get('/edit-loyalty-setup/{id}', 'editLoyaltySetup')->name('editLoyaltySetup');
+        Route::post('/edit-loyalty-setup/{id}', 'updateLoyaltySetup')->name('updateLoyaltySetup');
+        Route::get('/show-loyalty', 'showLoyaltySetup')->name('showLoyaltySetup');
+        Route::get('/get-loyalty', 'getLoyaltySetup')->name('getLoyaltySetup');
+    });
+    Route::controller(CustomerLoyaltyPointsModelController::class)->prefix('admin')->name('admin.')->group(function () {
+        Route::post('/save-customer-loyalty-point', 'saveLoyaltyPoint')->name('saveLoyaltyPoint');
+    });
+
+    Route::controller(SettingModelController::class)->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/settings', 'settings')->name('settings');
+        Route::post('/save-settings', 'saveSettings')->name('saveSettings');
     });
 });
 
@@ -450,7 +471,7 @@ Route::controller(CustomerDashboardController::class)->prefix('customer')->name(
     Route::get('/dashboard', 'index')->name('index');
 });
 Route::controller(CustomerShoppingController::class)->prefix('customer')->name('customer.')->group(function () {
-    Route::get('/shop/{table_no}', 'customerShopping')->name('customerShopping');
+    Route::get('/shop/{table_no?}', 'customerShopping')->name('customerShopping');
     Route::get('/payment', 'customerShoppingPayment')->name('customerShoppingPayment');
     Route::post('/place-order', 'placeOrder')->name('placeOrder');
     Route::get('/order-details/{order_id}', 'orderDetails')->name('orderDetails');

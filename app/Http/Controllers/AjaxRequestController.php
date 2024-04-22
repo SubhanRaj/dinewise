@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Orders;
 use App\Models\Booking;
+use App\Models\CustomerLoyaltyPointsModel;
 use App\Models\StaffModel;
 use App\Models\TableModel;
 use PhpParser\JsonDecoder;
@@ -12,11 +13,14 @@ use App\Models\ProductModel;
 use Illuminate\Http\Request;
 use Spatie\FlareClient\Flare;
 use App\Models\CustomersModel;
+use App\Models\SettingModel;
 use App\Models\StaredProducts;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
+use PhpOffice\PhpSpreadsheet\Calculation\Financial\TreasuryBill;
 use PHPUnit\Event\Application\Started;
+use Symfony\Component\String\CodePointString;
 
 class AjaxRequestController extends Controller
 {
@@ -365,37 +369,44 @@ class AjaxRequestController extends Controller
         // generate kot 
 
         if ($request->has('isset_generate_kot')) {
-            $productData =  $request->product_data;
-            $tables =  $request->tables;
-            $orderInstruction = $request->orderInstruction;
-            $pdf = Pdf::loadView('admin.pdf-kot',  compact('productData', 'tables', 'orderInstruction'));
-            $fileName = time() . mt_rand(100, 10000) . '.pdf';
-            $pdf->save(public_path() . "/tempPdf/" . $fileName);
-            $pdf = asset('tempPdf') . '/' . $fileName;
-            return response()->json([
-                'url' => $pdf,
-                'filename' => $fileName
-            ]);
+            try {
+                //code...
+                $productData =  $request->product_data;
+                $tables =  $request->tables;
+                $orderInstruction = $request->orderInstruction;
+                $pdf = Pdf::loadView('admin.pdf-kot',  compact('productData', 'tables', 'orderInstruction'));
+                $fileName = time() . mt_rand(100, 10000) . '.pdf';
+                $pdf->save(public_path() . "/tempPdf/" . $fileName); // local  
+                // $pdf->save("tempPdf/" . $fileName); // production  
+                $pdf = asset('tempPdf') . '/' . $fileName;
+                return response()->json([
+                    'status' => true,
+                    'url' => $pdf,
+                    'filename' => $fileName
+                ]);
+            } catch (\Throwable $th) {
+                return $th->getMessage();
+            }
         }
 
         // save order details 
 
-        if ($request->has('isset_save_order_details')) {
-            $productData = $request->productData;
-            $selectedTable = $request->selectedTable;
-            $customer_or_booking = $request->customer_or_booking;
-            $customer_id_or_booking_id = $request->customer_id_or_booking_id;
-            $orderInstruction = $request->orderInstruction;
-            $total_item = $request->total_item;
-            $total_amount = $request->total_amount;
-            $gst_amount = $request->gst_amount;
-            $discount_amount = $request->discount_amount;
-            $paid_amount = $request->paid_amount;
-            $due_amount = $request->due_amount;
-            $payment_method = $request->payment_method;
-            $other_method = $request->other_method;
-            $grand_amount = $request->grand_amount;
-        }
+        // if ($request->has('isset_save_order_details')) {
+        //     $productData = $request->productData;
+        //     $selectedTable = $request->selectedTable;
+        //     $customer_or_booking = $request->customer_or_booking;
+        //     $customer_id_or_booking_id = $request->customer_id_or_booking_id;
+        //     $orderInstruction = $request->orderInstruction;
+        //     $total_item = $request->total_item;
+        //     $total_amount = $request->total_amount;
+        //     $gst_amount = $request->gst_amount;
+        //     $discount_amount = $request->discount_amount;
+        //     $paid_amount = $request->paid_amount;
+        //     $due_amount = $request->due_amount;
+        //     $payment_method = $request->payment_method;
+        //     $other_method = $request->other_method;
+        //     $grand_amount = $request->grand_amount;
+        // }
 
         // get search result 
 
@@ -485,20 +496,29 @@ class AjaxRequestController extends Controller
 
             $check = Orders::where([
                 ['order_id', '=', $order_id],
-                ['status', '=', 'completed'],
+                // ['status', '=', 'completed'],
             ])->count();
 
             if ($check != 0) {
-                $pdf = Pdf::loadView('admin.pdf-bill',  compact('order_id'));
-                $pdf->setOption(['defaultFont' => 'Courier']);
-                $fileName = time() . mt_rand(100, 10000) . '.pdf';
-                $pdf->save(public_path() . "/tempPdf/" . $fileName);
-                $pdf = asset('tempPdf') . '/' . $fileName;
-                return response()->json([
-                    'status' => true,
-                    'url' => $pdf,
-                    'filename' => $fileName
-                ]);
+                try {
+                    //code...
+                    $pdf = Pdf::loadView('admin.pdf-bill',  compact('order_id'));
+                    $pdf->setOption(['defaultFont' => 'Courier']);
+                    $fileName = time() . mt_rand(100, 10000) . '.pdf';
+                    $pdf->save(public_path() . "/tempPdf/" . $fileName); // local 
+                    // $pdf->save("tempPdf/" . $fileName); // production 
+                    $pdf = asset('tempPdf') . '/' . $fileName;
+                    return response()->json([
+                        'status' => true,
+                        'url' => $pdf,
+                        'filename' => $fileName
+                    ]);
+                } catch (\Throwable $th) {
+                    return response()->json([
+                        'status' => false,
+                        'msg' => $th->getMessage()
+                    ]);
+                }
             } else {
                 return response()->json([
                     'status' => false,
@@ -710,7 +730,6 @@ class AjaxRequestController extends Controller
         }
 
 
-
         if ($request->has('isset_get_order_chart')) {
             $year = $request->year;
             $getOrderData = Orders::all();
@@ -846,6 +865,48 @@ class AjaxRequestController extends Controller
                 return response()->json([
                     'status' => false
                 ]);
+            }
+        }
+
+
+        if ($request->has('isset_loyalty_discount')) {
+
+            try {
+                //code...
+                $points = $request->points;
+                $setting = SettingModel::where('name', 'loyalty_point_value')->get();
+                if (count($setting) > 0) {
+                    $value = $setting[0]->value;
+                    return round($points * $value);
+                } else {
+                    return 0;
+                }
+            } catch (\Throwable $th) {
+                return 0;
+            }
+        }
+
+        if ($request->has('isset_get_customer_loyalty_points')) {
+            $customer_id_or_booking_id = $request->customer_id_or_booking_id;
+            $customerLoyaltyPoints  = CustomerLoyaltyPointsModel::where('customer_id', $customer_id_or_booking_id)->get();
+            if (count($customerLoyaltyPoints) > 0) {
+                $points = $customerLoyaltyPoints[0]->points;
+            } else {
+                $points = 0;
+            }
+
+            return $points;
+        }
+
+
+        if ($request->has('isset_calculate_shopping_amount')) {
+            $shopping_amount = $request->shopping_amount;
+            $setting = SettingModel::where('name', 'loyalty_point_value')->get();
+            if (count($setting) > 0) {
+                $value = $setting[0]->value;
+                return round($shopping_amount * $value);
+            } else {
+                return 0;
             }
         }
     }

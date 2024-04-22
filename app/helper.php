@@ -271,6 +271,17 @@ function getUnit()
 
 
 
+function getMediaUrl($id)
+{
+    $getMedia = DB::table('media')->where('id', '=', $id)->get();
+    if (count($getMedia) != 0) {
+        $url = $getMedia[0]->img_name;
+    } else {
+        $url = '';
+    }
+    $src = asset('mystorage/media/') . '/' . $url;
+    return  $src;
+}
 function getMediaFile($id)
 {
     $getMedia = DB::table('media')->where('id', '=', $id)->get();

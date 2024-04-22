@@ -65,7 +65,6 @@
                                                 <option value="Processing">Processing</option>
                                                 <option value="Prepared">Prepared</option>
                                             </select>
-
                                         </td>
                                     </tr>
                                 @endforeach
@@ -78,9 +77,7 @@
                             </div>
                         </form>
 
-
                     </div>
-
                 </div>
             </div>
         </div>

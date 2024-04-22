@@ -1,3 +1,6 @@
+
+
+
 <div class="cart-container">
     <div class="cart-details">
         <button type="button" onclick="showHideCart('hide')" class="cart-close"><i
@@ -91,6 +94,8 @@
 <script src="{{ asset('admin-assets/assets/plugins/notifications/js/notifications.min.js') }}"></script>
 <script src="{{ asset('admin-assets/assets/plugins/notifications/js/notification-custom-script.js') }}"></script>
 <script src="{{ asset('admin-assets/assets/js/customer/customer.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('admin-assets/assets/js/customer/qrscanner.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('admin-assets/assets/js/customer/qr-custom-scanning.js') }}?v={{ time() }}"></script>
 
 @stack('scripts')
 </body>

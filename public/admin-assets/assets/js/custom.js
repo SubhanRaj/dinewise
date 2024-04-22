@@ -900,14 +900,14 @@ function showProductData(id) {
 }
 
 function editOrder(order_id, redirecturl) {
-    localStorage.clear();
-    localStorage.setItem("edit_order_id", order_id);
+    sessionStorage.clear();
+    sessionStorage.setItem("edit_order_id", order_id);
     window.location.href = redirecturl;
 }
 
 // redired to function
 function redirectTo(url) {
-    localStorage.clear();
+    sessionStorage.clear();
     window.location.href = url;
 }
 

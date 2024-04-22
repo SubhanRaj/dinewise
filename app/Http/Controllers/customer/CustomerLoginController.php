@@ -79,8 +79,8 @@ class CustomerLoginController extends Controller
     {
         $validator =  Validator::make($request->all(), [
             "name" => "required",
-            "phone" => "required|unique:customers,phone,$id",
-            "email" => "required",
+            // "phone" => "required|unique:customers,phone,$id",
+            // "email" => "required",
             "dob" => "required",
         ]);
 
@@ -96,11 +96,11 @@ class CustomerLoginController extends Controller
 
                 $data = CustomersModel::find($id);
                 $data->name  = sanitizeInput($request->name);
-                $data->phone  = sanitizeInput($request->phone);
-                $data->email  = sanitizeInput($request->email);
+                // $data->phone  = sanitizeInput($request->phone);
+                // $data->email  = sanitizeInput($request->email);
                 $data->dob  = sanitizeInput($request->dob);
                 $data->save();
-                session()->put(['customer_id' => $id, 'phone_number' => $request->phone]);
+                session()->put(['customer_id' => $id, 'phone_number' => $data->phone]);
                 return response()->json([
                     'status' => true,
                     'errors' => '',

@@ -1,3 +1,59 @@
+saveButtonStatus()
+if (sessionStorage.getItem('edit_order_id') !== null) {
+    let order_id = sessionStorage.getItem('edit_order_id')
+
+    $.ajax({
+        type: "POST",
+        url: "/admin/get-order-details",
+        data: {
+            order_id: order_id
+        },
+        success: function (response) {
+
+
+            setCustomerLoyaltyPoints(response['customer_id_or_booking_id'])
+
+            sessionStorage.setItem('orderSelectedCategory', 'stared')
+            sessionStorage.setItem('total_item', response['total_item'])
+            sessionStorage.setItem('total_amount', response['total_amount'])
+            sessionStorage.setItem('customer_id_or_booking_id', response['customer_id_or_booking_id'])
+            sessionStorage.setItem('customer_or_booking', response['customer_or_booking'])
+            sessionStorage.setItem('discount_amount', response['discount_amount'])
+            sessionStorage.setItem('grand_amount', response['grand_amount'])
+            sessionStorage.setItem('gst_amount', response['gst_amount'])
+            sessionStorage.setItem('orderInstruction', response['orderInstruction'])
+            sessionStorage.setItem('payable_amount', response['payable_amount'])
+            sessionStorage.setItem('loyalty_discount', response['loyalty_discount'])
+            sessionStorage.setItem('loyalty_points_using', response['loyalty_points_using'])
+
+            if (response['payment_method'] != '') {
+                sessionStorage.setItem('payment_method', response['payment_method'])
+            }
+
+            sessionStorage.setItem('productData', JSON.stringify(response['productData']))
+            sessionStorage.setItem('selectedTables', response['selectedTable'])
+            sessionStorage.setItem('no_of_people', response['no_of_people'])
+            sessionStorage.setItem('saved', true)
+            sessionStorage.setItem('saved_order_id', order_id)
+
+            getProducts()
+            getSelectedItem()
+            setCustomerSelectionButton()
+            showOrderInstruction()
+            calculateAmountDetails()
+            // discountAndPayableAmountDetails()
+            showOrderStatus()
+            getOrderDetails()
+            getNumberOfPeople()
+            getPaymentMethod()
+
+            sessionStorage.setItem('save_status', 'saved')
+            saveButtonStatus()
+
+        }
+    });
+}
+
 function downloadPDF(url, filename) {
     fetch(url)
         .then(response => response.blob())
@@ -31,8 +87,8 @@ $.each($('.billing-toggle'), function () {
         $(this).addClass('active')
 
         let toggle_btn_id = $(this).attr('id');
-        localStorage.setItem('toggleBillingBoxBtn', toggle_btn_id)
-        localStorage.setItem('toggleBillingBox', dataBillingBox)
+        sessionStorage.setItem('toggleBillingBoxBtn', toggle_btn_id)
+        sessionStorage.setItem('toggleBillingBox', dataBillingBox)
     })
 })
 
@@ -41,11 +97,10 @@ $.each($('.collect-payment-method'), function () {
     $(this).on('change', function () {
         if ($(this).prop('checked')) {
             let this_value = $(this).val();
-            if (this_value == 'other') {
-                $('#collect-payment-other').removeClass('d-none')
-            } else {
-                $('#collect-payment-other').addClass('d-none')
-            }
+            sessionStorage.setItem('payment_method', this_value)
+
+            sessionStorage.setItem('save_status', 'unsaved')
+            saveButtonStatus()
         }
     })
 });
@@ -55,7 +110,7 @@ $.each($('.collect-payment-method'), function () {
 
 function orderCategory(cat) {
 
-    localStorage.setItem('orderSelectedCategory', cat)
+    sessionStorage.setItem('orderSelectedCategory', cat)
 
     $('.order-product-box .order-spiner').removeClass('d-none').addClass('d-flex')
     $('.order-navigation .list-group-item').removeClass('active');
@@ -122,8 +177,8 @@ function orderCategory(cat) {
                     // set green color if product is selected 
                     let selected_or_not = '';
                     let matched = 0;
-                    if (localStorage.getItem('productData') !== null) {
-                        productData = JSON.parse(localStorage.getItem('productData'))
+                    if (sessionStorage.getItem('productData') !== null) {
+                        productData = JSON.parse(sessionStorage.getItem('productData'))
                         productData.forEach(element => {
                             let product_id = element['product_id'];
                             if (product_id == auto_product_id) {
@@ -177,10 +232,10 @@ function orderCategory(cat) {
 
 // initialize order data default on page load 
 function getProducts() {
-    if (localStorage.getItem('orderSelectedCategory') === null) {
+    if (sessionStorage.getItem('orderSelectedCategory') === null) {
         orderCategory('stared')
     } else {
-        let orderSelectedCategory = localStorage.getItem('orderSelectedCategory');
+        let orderSelectedCategory = sessionStorage.getItem('orderSelectedCategory');
         orderCategory(orderSelectedCategory)
     }
 
@@ -200,7 +255,7 @@ function markStar(auto_product_id, event) {
         },
         success: function (response) {
             let data = response['data']
-            orderCategory(localStorage.getItem('orderSelectedCategory'))
+            orderCategory(sessionStorage.getItem('orderSelectedCategory'))
             $('#stared-count').text(data)
         }
     });
@@ -221,8 +276,8 @@ function selectTableModal(modal_id) {
         },
         success: function (response) {
             let data = response['data']
-            // get selected table from localstorage 
-            let selectedTables = localStorage.getItem('selectedTables')
+            // get selected table from sessionstorage 
+            let selectedTables = sessionStorage.getItem('selectedTables')
             let selectTable_arr = []
             if (selectedTables === null) {
                 selectTable_arr = []
@@ -305,8 +360,8 @@ function markTable(table_input_id, tableSelectionCard) {
 
 function selectTableFromDashboard(table_no, url) {
     let tables = [table_no]
-    localStorage.clear()
-    localStorage.setItem('selectedTables', JSON.stringify(tables))
+    sessionStorage.clear()
+    sessionStorage.setItem('selectedTables', JSON.stringify(tables))
     window.location.href = url
 }
 
@@ -323,12 +378,14 @@ function selectTable() {
     }
 
     if (selectedArr.length != 0) {
-        localStorage.setItem('selectedTables', JSON.stringify(selectedArr))
+        sessionStorage.setItem('selectedTables', JSON.stringify(selectedArr))
         round_alert('success', 'Table selected successfully')
         $('#table-select-modal').modal('hide')
     } else {
         round_alert('error', 'Table not selected')
     }
+
+    showSelectedTables()
 }
 
 // customer search function 
@@ -388,7 +445,7 @@ function selectCustomerModal(id, search_in) {
         }),
         success: function (response) {
             let data = response['data']
-            console.log(data)
+
             if (data.length != 0) {
                 if (search_in == 'customers') {
                     let id = data['id']
@@ -448,7 +505,7 @@ function selectCustomerModal(id, search_in) {
 
             }
 
-            if (localStorage.getItem('customer_or_booking') !== null && localStorage.getItem('customer_id_or_booking_id') !== null) {
+            if (sessionStorage.getItem('customer_or_booking') !== null && sessionStorage.getItem('customer_id_or_booking_id') !== null) {
                 $('#customer-selection-dis-selection-btn').html(`
                                  <button type="button" data-bs-toggle="tooltip" data-bs-title="Select"
                                      data-bs-placement="auto" class="btn btn-danger" onclick="setCustomer('minus')">
@@ -471,32 +528,49 @@ function selectCustomerModal(id, search_in) {
 
 // set customer type and customer id in locastorage
 
+function setCustomerLoyaltyPoints(customer_id) {
+    // get loyalty points of this customer 
+    $.ajax({
+        type: "post",
+        url: "/admin/ajax-request",
+        data: {
+            isset_get_customer_loyalty_points: 1,
+            customer_id_or_booking_id: customer_id
+        },
+        success: function (response) {
+            sessionStorage.setItem('customer_loyalty_points', response)
+            showLoyaltyCheckbox()
+        }
+    });
+}
+
 function setCustomer(plus_minus) {
 
     if (plus_minus == 'plus') {
         let customer_or_booking = $('#customer_or_booking').val()
         let customer_id_or_booking_id = $('#customer_id_or_booking_id').val()
 
-        localStorage.setItem('customer_or_booking', customer_or_booking)
-        localStorage.setItem('customer_id_or_booking_id', customer_id_or_booking_id)
+        sessionStorage.setItem('customer_or_booking', customer_or_booking)
+        sessionStorage.setItem('customer_id_or_booking_id', customer_id_or_booking_id)
+
+        setCustomerLoyaltyPoints(customer_id_or_booking_id)
+
         setAlertData('Customer Selected', false)
     } else {
-
-        localStorage.removeItem('customer_or_booking')
-        localStorage.removeItem('customer_id_or_booking_id')
+        sessionStorage.removeItem('customer_or_booking')
+        sessionStorage.removeItem('customer_id_or_booking_id')
+        sessionStorage.removeItem('customer_loyalty_points')
     }
 
     window.location.reload()
-
-
 }
 
 // set the customer selection button 
 
 function setCustomerSelectionButton() {
-    if (localStorage.getItem('customer_or_booking') !== null && localStorage.getItem('customer_id_or_booking_id') !== null) {
-        let customer_or_booking = localStorage.getItem('customer_or_booking');
-        let customer_id_or_booking_id = localStorage.getItem('customer_id_or_booking_id');
+    if (sessionStorage.getItem('customer_or_booking') !== null && sessionStorage.getItem('customer_id_or_booking_id') !== null) {
+        let customer_or_booking = sessionStorage.getItem('customer_or_booking');
+        let customer_id_or_booking_id = sessionStorage.getItem('customer_id_or_booking_id');
         $('#customer-selection-btn').html(`
           <button type="button" data-bs-toggle="tooltip" data-bs-title='Customer Details'
                 data-bs-placement='auto' class="btn btn-success ms-2"
@@ -520,7 +594,7 @@ setCustomerSelectionButton()
 function saveNumberOfPeople() {
     let people = $('#number_of_people').val();
     if (people > 0) {
-        localStorage.setItem('no_of_people', people)
+        sessionStorage.setItem('no_of_people', people)
         $('#order-no-of-people').modal('hide')
         round_alert('success', 'Number of people set');
     } else {
@@ -530,8 +604,8 @@ function saveNumberOfPeople() {
 }
 
 function getNumberOfPeople() {
-    if (localStorage.getItem('no_of_people') !== null) {
-        let people = localStorage.getItem('no_of_people')
+    if (sessionStorage.getItem('no_of_people') !== null) {
+        let people = sessionStorage.getItem('no_of_people')
         $('#number_of_people').val(people)
     }
 }
@@ -541,7 +615,7 @@ getNumberOfPeople()
 // reset order 
 
 function resetOrder() {
-    localStorage.clear();
+    sessionStorage.clear();
 
     window.location.reload();
 
@@ -551,10 +625,10 @@ function resetOrder() {
 function selectProduct(pro_id, pro_unit, pro_price, this_id) {
     let productData
     let n = 0;
-    if (localStorage.getItem('productData') === null) {
+    if (sessionStorage.getItem('productData') === null) {
         productData = []
     } else {
-        productData = JSON.parse(localStorage.getItem('productData'))
+        productData = JSON.parse(sessionStorage.getItem('productData'))
         productData.forEach(element => {
             let product_id = element['product_id'];
             let product_unit = element['product_unit'];
@@ -575,7 +649,7 @@ function selectProduct(pro_id, pro_unit, pro_price, this_id) {
             order_status: 'Recieved'
         }
         productData.push(pro_obj)
-        localStorage.setItem('productData', JSON.stringify(productData))
+        sessionStorage.setItem('productData', JSON.stringify(productData))
 
         $('#' + this_id).addClass('order-product-selected')
 
@@ -614,15 +688,18 @@ function selectProduct(pro_id, pro_unit, pro_price, this_id) {
     }
     showHideEmptyIcon()
     calculateAmountDetails()
-    reInitiateAmountDetails()
+    // reInitiateAmountDetails()
+
+    sessionStorage.setItem('save_status', 'unsaved')
+    saveButtonStatus()
 
 }
 
 // get selected item when page reload
 
 function getSelectedItem() {
-    if (localStorage.getItem('productData') !== null) {
-        let productData = JSON.parse(localStorage.getItem('productData'));
+    if (sessionStorage.getItem('productData') !== null) {
+        let productData = JSON.parse(sessionStorage.getItem('productData'));
 
         productData.forEach(element => {
             let product_id = element['product_id']
@@ -685,7 +762,7 @@ getSelectedItem()
 
 function removeProductFromSelectedItem(given_pro_unit) {
 
-    let pro_data = JSON.parse(localStorage.getItem('productData'))
+    let pro_data = JSON.parse(sessionStorage.getItem('productData'))
 
     let new_pro_arr = []
 
@@ -711,14 +788,16 @@ function removeProductFromSelectedItem(given_pro_unit) {
         }
     });
 
-    localStorage.setItem('productData', JSON.stringify(new_pro_arr))
+    sessionStorage.setItem('productData', JSON.stringify(new_pro_arr))
     $('#tr' + given_pro_unit).remove()
     getProducts()
 
     showHideEmptyIcon()
     calculateAmountDetails()
-    reInitiateAmountDetails()
+    // reInitiateAmountDetails()
 
+    sessionStorage.setItem('save_status', 'unsaved')
+    saveButtonStatus()
 }
 
 
@@ -727,7 +806,7 @@ function removeProductFromSelectedItem(given_pro_unit) {
 
 function increaseQuantity(given_pro_unit, plus_minus) {
 
-    let pro_data = JSON.parse(localStorage.getItem('productData'))
+    let pro_data = JSON.parse(sessionStorage.getItem('productData'))
 
     let new_pro_arr = []
 
@@ -766,16 +845,18 @@ function increaseQuantity(given_pro_unit, plus_minus) {
         new_pro_arr.push(pro_obj)
     });
 
-    localStorage.setItem('productData', JSON.stringify(new_pro_arr))
+    sessionStorage.setItem('productData', JSON.stringify(new_pro_arr))
 
     calculateAmountDetails()
-    reInitiateAmountDetails()
+    // reInitiateAmountDetails()
+    sessionStorage.setItem('save_status', 'unsaved')
+    saveButtonStatus()
 
 }
 
 
 function showHideEmptyIcon() {
-    let productData = localStorage.getItem('productData');
+    let productData = sessionStorage.getItem('productData');
     if (productData !== null) {
         if (JSON.parse(productData).length != 0) {
             $('.empty-selected-item').addClass('d-none').removeClass('d-block')
@@ -790,8 +871,8 @@ function showHideEmptyIcon() {
 // show order instruction default
 
 function showOrderInstruction() {
-    if (localStorage.getItem('orderInstruction') !== null) {
-        $('#order-instructions').val(localStorage.getItem('orderInstruction'))
+    if (sessionStorage.getItem('orderInstruction') !== null) {
+        $('#order-instructions').val(sessionStorage.getItem('orderInstruction'))
     }
 }
 
@@ -803,18 +884,20 @@ showOrderInstruction()
 function saveOrderInstruction(order_instruction) {
     let orderInstruction_data = $('#' + order_instruction).val()
     if (orderInstruction_data != '') {
-        localStorage.setItem('orderInstruction', orderInstruction_data)
+        sessionStorage.setItem('orderInstruction', orderInstruction_data)
         success_noti('Order instruction saved successfully')
     } else {
         danger_noti('Please enter order instruction')
     }
+    sessionStorage.setItem('save_status', 'unsaved')
+    saveButtonStatus()
 
 }
 
 function generateKOT(btn_span_id, print_or_download) {
 
-    let productData = localStorage.getItem('productData');
-    let selectedTables = localStorage.getItem('selectedTables')
+    let productData = sessionStorage.getItem('productData');
+    let selectedTables = sessionStorage.getItem('selectedTables')
 
     let old_btn = $('#' + btn_span_id).html();
     $('#' + btn_span_id).html('<span class="spinner-border spinner-border-sm"></span>')
@@ -841,16 +924,21 @@ function generateKOT(btn_span_id, print_or_download) {
                     isset_generate_kot: true,
                     tables: JSON.parse(selectedTables),
                     product_data: JSON.parse(productData),
-                    orderInstruction: localStorage.getItem('orderInstruction')
+                    orderInstruction: sessionStorage.getItem('orderInstruction')
                 },
                 success: function (response) {
-                    $('#' + btn_span_id).html(old_btn)
-                    let url = response['url']
-                    let filename = response['filename']
-                    if (print_or_download == 'download') {
-                        downloadPDF(url, filename)
+                    if (response['status']) {
+                        $('#' + btn_span_id).html(old_btn)
+                        let url = response['url']
+                        let filename = response['filename']
+                        if (print_or_download == 'download') {
+                            downloadPDF(url, filename)
+                        } else {
+                            window.open(url, '_blank')
+                        }
+
                     } else {
-                        window.open(url, '_blank')
+                        console.log(response)
                     }
                 }
             });
@@ -887,8 +975,9 @@ function calculateAmountDetails() {
     let gst_amount = 0;
     let grand_amount = 0;
 
-    if (localStorage.getItem('productData') !== null) {
-        let productData = JSON.parse(localStorage.getItem('productData'))
+
+    if (sessionStorage.getItem('productData') !== null) {
+        let productData = JSON.parse(sessionStorage.getItem('productData'))
         if (productData.length != 0) {
             total_item = productData.length;
             total_amount = 0;
@@ -913,7 +1002,6 @@ function calculateAmountDetails() {
             grand_amount = total_amount + gst_amount
             $("#amount-details-grand-amount").text(toIndianCurrency(grand_amount))
 
-
         }
     } else {
         $("#amount-details-total-item").text('0')
@@ -923,144 +1011,167 @@ function calculateAmountDetails() {
 
     }
 
-    localStorage.setItem('total_item', total_item)
-    localStorage.setItem('total_amount', total_amount)
-    localStorage.setItem('gst_amount', gst_amount)
-    localStorage.setItem('grand_amount', grand_amount)
+    sessionStorage.setItem('total_item', total_item)
+    sessionStorage.setItem('total_amount', total_amount)
+    sessionStorage.setItem('gst_amount', gst_amount)
+    sessionStorage.setItem('grand_amount', grand_amount)
 
+
+    showAmounts()
 }
 
 calculateAmountDetails()
 
-// set discount and paid amount 
 
-function setDiscountAndPaidAmount() {
-    let grandAmount = localStorage.getItem('grand_amount')
+function showAmounts() {
 
-    let discount_amount = $('#discount-input').val()
-    let paid_amount = $("#paid-amount-input").val()
-    let due_amount = $("#due-input").val()
+    let grand_amount = parseInt(sessionStorage.getItem('grand_amount'))
 
-    localStorage.setItem('discount_amount', discount_amount)
-    localStorage.setItem('paid_amount', paid_amount)
-    localStorage.setItem('due_amount', due_amount)
+    let discount_amount_session = sessionStorage.getItem('discount_amount');
+    let payable_amount_session = sessionStorage.getItem('payable_amount');
+    let loyalty_amount_session = sessionStorage.getItem('loyalty_discount');
 
-    success_noti('Amount details saved !')
+    let discount_amount = (discount_amount_session !== null && discount_amount_session != 'null' && discount_amount_session != '') ? parseInt(discount_amount_session) : 0
+    let payable_amount = (payable_amount_session !== null && payable_amount_session != 'null' && payable_amount_session != '') ? parseInt(payable_amount_session) : 0
+    let loyalty_discount = (loyalty_amount_session !== null && loyalty_amount_session != 'null' && loyalty_amount_session != '') ? parseInt(loyalty_amount_session) : 0
 
+
+    payable_amount = grand_amount - discount_amount - loyalty_discount;
+
+
+
+    sessionStorage.setItem('payable_amount', payable_amount)
+    sessionStorage.setItem('discount_amount', discount_amount)
+    sessionStorage.setItem('loyalty_discount', loyalty_discount)
+    $('#discount-input').val(discount_amount)
+    $("#payable-amount-input").val(payable_amount)
+    $("#loyalty-discount-input").val(loyalty_discount)
 }
+
+
+// set discount and Payable amount 
+
+// function setDiscountAndPayableAmount() {
+//     let grandAmount = sessionStorage.getItem('grand_amount')
+//     let loyalty_discount = sessionStorage.getItem('loyalty_discount')
+
+//     let discount_amount = $('#discount-input').val()
+//     let payable_amount = $("#payable-amount-input").val()
+
+
+//     if (loyalty_discount !== null && loyalty_discount != 'null') {
+//         payable_amount = parseInt(grandAmount) - parseInt(discount_amount) - parseInt(loyalty_discount)
+//     }
+
+//     sessionStorage.setItem('discount_amount', discount_amount)
+//     sessionStorage.setItem('payable_amount', payable_amount)
+
+//     success_noti('Amount details saved !')
+
+//     // discountAndPayableAmountDetails()
+// }
 
 
 
 // calculate payable amount
 
-function calculatePaidAmount(this_value) {
+function calculatePayableAmount(this_value) {
     let discount = this_value;
-    let grandAmount = localStorage.getItem('grand_amount')
+    // let grandAmount = sessionStorage.getItem('grand_amount')
+    // let loyalty_discount = sessionStorage.getItem('loyalty_discount')
+    // let payableAmount;
+    // if (loyalty_discount !== null) {
+    //     payableAmount = grandAmount - discount - parseInt(loyalty_discount)
+    // } else {
+    //     payableAmount = grandAmount - discount
+    // }
 
-    let payableAmount = grandAmount - discount
+    // $("#payable-amount-input").val(payableAmount)
 
-    $("#paid-amount-input").val(payableAmount)
-    $('#due-input').val('0')
+    sessionStorage.setItem('discount_amount', discount)
+    showAmounts()
+    sessionStorage.setItem('save_status', 'unsaved')
+    saveButtonStatus()
 }
 
 // calculate due amount  
 
-function calculateDueAmount(paid_value) {
-    let discount_amount = $('#discount-input').val();
-    let grandAmount = localStorage.getItem('grand_amount')
 
-    let payable_amount = grandAmount - discount_amount;
+// function discountAndPayableAmountDetails() {
 
-    let due_amount = payable_amount - paid_value
+//     let discount_amount = sessionStorage.getItem('discount_amount')
+//     let payable_amount = sessionStorage.getItem('payable_amount')
 
-    $('#due-input').val(due_amount)
-}
+//     $('#discount-input').val(discount_amount);
+//     $("#payable-amount-input").val(payable_amount)
+// }
 
-
-function discountAndPaidAmountDetails() {
-
-    let discount_amount = localStorage.getItem('discount_amount')
-    let paid_amount = localStorage.getItem('paid_amount')
-    let due_amount = localStorage.getItem('due_amount')
-
-
-    $('#discount-input').val(discount_amount);
-    $("#paid-amount-input").val(paid_amount)
-    $('#due-input').val(due_amount)
-}
-
-discountAndPaidAmountDetails()
+// discountAndPayableAmountDetails()
 
 // re- initiate amount details
 
 function reInitiateAmountDetails() {
-    localStorage.setItem('discount_amount', 0)
-    localStorage.setItem('paid_amount', 0)
-    localStorage.setItem('due_amount', 0)
+    sessionStorage.setItem('discount_amount', 0)
+    sessionStorage.setItem('payable_amount', 0)
 
-    discountAndPaidAmountDetails()
+    discountAndPayableAmountDetails()
 }
 
 // save payment method details 
 
-function savePaymentMethod() {
-    let PaymentMethod_input = $('#payment-method input')
-    let payment_method = '';
-    $.each(PaymentMethod_input, function () {
-        if ($(this).prop('checked')) {
-            payment_method = $(this).val()
-        }
-    });
+// function savePaymentMethod() {
+//     let PaymentMethod_input = $('#payment-method input')
+//     let payment_method = '';
+//     $.each(PaymentMethod_input, function () {
+//         if ($(this).prop('checked')) {
+//             payment_method = $(this).val()
+//         }
+//     });
 
-    let other_method;
-    if (payment_method == 'other') {
-        other_method = $('#payment-method input[name=other_method]').val()
-    } else {
-        other_method = '';
-    }
+//     let other_method;
+//     if (payment_method == 'other') {
+//         other_method = $('#payment-method input[name=other_method]').val()
+//     } else {
+//         other_method = '';
+//     }
 
-    // get paid amount 
-    let paid_amount = localStorage.getItem('paid_amount');
+//     // get Payable amount 
+//     let payable_amount = sessionStorage.getItem('payable_amount');
 
-    if (paid_amount != '0' || paid_amount != 0) {
-        if (payment_method != '') {
-            if (payment_method != 'other') {
-                localStorage.setItem('payment_method', payment_method)
-                localStorage.setItem('other_method', other_method)
-                success_noti('Payment method saved')
-            } else {
-                if (other_method != '') {
-                    localStorage.setItem('payment_method', payment_method)
-                    localStorage.setItem('other_method', other_method)
-                    success_noti('Payment method saved')
-                } else {
-                    danger_noti('Please fill required field')
-                }
-            }
+//     if (payable_amount != '0' || payable_amount != 0) {
+//         if (payment_method != '') {
+//             if (payment_method != 'other') {
+//                 sessionStorage.setItem('payment_method', payment_method)
+//                 sessionStorage.setItem('other_method', other_method)
+//                 success_noti('Payment method saved')
+//             } else {
+//                 if (other_method != '') {
+//                     sessionStorage.setItem('payment_method', payment_method)
+//                     sessionStorage.setItem('other_method', other_method)
+//                     success_noti('Payment method saved')
+//                 } else {
+//                     danger_noti('Please fill required field')
+//                 }
+//             }
 
-        } else {
-            danger_noti('Please select a payment method')
-        }
+//         } else {
+//             danger_noti('Please select a payment method')
+//         }
 
-    } else {
-        round_alert('error', 'Invalid Amount Details.')
-    }
+//     } else {
+//         round_alert('error', 'Invalid Amount Details.')
+//     }
 
-}
+// }
 
 
 // get payment method 
 
 function getPaymentMethod() {
-    let payment_method = localStorage.getItem('payment_method')
-    let other_method = localStorage.getItem('other_method')
+    let payment_method = sessionStorage.getItem('payment_method')
 
     if (payment_method !== null) {
         $(`#payment-method input[value=${payment_method}]`).prop('checked', true)
-        if (other_method !== null) {
-            $('#payment-method input[name=other_method]').val(other_method)
-            $('#collect-payment-other').removeClass('d-none')
-        }
     }
 
 }
@@ -1070,28 +1181,29 @@ getPaymentMethod()
 
 function saveOrder() {
     // get product data
-    let productData = localStorage.getItem('productData')
+    let productData = sessionStorage.getItem('productData')
     // get selected table 
-    let selectedTable = localStorage.getItem('selectedTables')
+    let selectedTable = sessionStorage.getItem('selectedTables')
     // get customer or booking data
-    let customer_or_booking = localStorage.getItem('customer_or_booking')
-    let customer_id_or_booking_id = localStorage.getItem('customer_id_or_booking_id');
+    let customer_or_booking = sessionStorage.getItem('customer_or_booking')
+    let customer_id_or_booking_id = sessionStorage.getItem('customer_id_or_booking_id');
 
     // get order instruction
-    let orderInstruction = localStorage.getItem('orderInstruction');
+    let orderInstruction = sessionStorage.getItem('orderInstruction');
     // get number of people 
-    let people = localStorage.getItem('no_of_people')
+    let people = sessionStorage.getItem('no_of_people')
 
     // get amount details 
-    let total_item = localStorage.getItem('total_item');
-    let total_amount = localStorage.getItem('total_amount');
-    let gst_amount = localStorage.getItem('gst_amount');
-    let discount_amount = localStorage.getItem('discount_amount');
-    let paid_amount = localStorage.getItem('paid_amount');
-    let due_amount = localStorage.getItem('due_amount');
-    let payment_method = localStorage.getItem('payment_method');
-    let other_method = localStorage.getItem('other_method');
-    let grand_amount = localStorage.getItem('grand_amount');
+    let total_item = sessionStorage.getItem('total_item');
+    let total_amount = sessionStorage.getItem('total_amount');
+    let gst_amount = sessionStorage.getItem('gst_amount');
+    let discount_amount = sessionStorage.getItem('discount_amount');
+    let loyalty_points_using = sessionStorage.getItem('loyalty_points_using') !== null ? sessionStorage.getItem('loyalty_points_using') : 0;
+    let loyalty_discount = sessionStorage.getItem('loyalty_discount') !== null ? sessionStorage.getItem('loyalty_discount') : 0;
+    let payable_amount = sessionStorage.getItem('payable_amount');
+    let payment_method = sessionStorage.getItem('payment_method');
+    // let other_method = sessionStorage.getItem('other_method');
+    let grand_amount = sessionStorage.getItem('grand_amount');
 
     if (productData === null) {
         danger_noti('Please select at least 1 product')
@@ -1104,8 +1216,8 @@ function saveOrder() {
     } else if (people === null) {
         danger_noti('Please add number of people')
     } else {
-        let saved_status = localStorage.getItem('saved')
-        let saved_order_id = localStorage.getItem('saved_order_id');
+        let saved_status = sessionStorage.getItem('saved')
+        let saved_order_id = sessionStorage.getItem('saved_order_id');
         let url, data;
 
         if (saved_status === true || saved_status === 'true' || saved_status === 'partial_saved') {
@@ -1122,12 +1234,13 @@ function saveOrder() {
                 total_amount: total_amount,
                 gst_amount: gst_amount,
                 discount_amount: discount_amount,
-                paid_amount: paid_amount,
-                due_amount: due_amount,
+                payable_amount: payable_amount,
                 payment_method: payment_method,
-                other_method: other_method,
+                // other_method: other_method,
                 grand_amount: grand_amount,
-                no_of_people: people
+                no_of_people: people,
+                loyalty_points_using: loyalty_points_using,
+                loyalty_discount: loyalty_discount,
             }
         } else {
             url = "/admin/save-order"
@@ -1142,12 +1255,13 @@ function saveOrder() {
                 total_amount: total_amount,
                 gst_amount: gst_amount,
                 discount_amount: discount_amount,
-                paid_amount: paid_amount,
-                due_amount: due_amount,
+                payable_amount: payable_amount,
                 payment_method: payment_method,
-                other_method: other_method,
+                // other_method: other_method,
                 grand_amount: grand_amount,
-                no_of_people: people
+                no_of_people: people,
+                loyalty_points_using: loyalty_points_using,
+                loyalty_discount: loyalty_discount,
             }
         }
 
@@ -1159,12 +1273,14 @@ function saveOrder() {
                 console.log(response)
                 if (response['status'] === true) {
                     let data = response['data']
-                    localStorage.setItem('saved', true)
-                    localStorage.setItem('saved_order_id', data);
+                    sessionStorage.setItem('saved', true)
+                    sessionStorage.setItem('saved_order_id', data);
                     success_noti(response['msg'])
                     showOrderStatus()  // show order status 
                     getOrderDetails() // get order details
 
+                    sessionStorage.setItem('save_status', 'saved')
+                    saveButtonStatus()
                 } else {
                     danger_noti(response['msg'])
                 }
@@ -1174,13 +1290,31 @@ function saveOrder() {
 }
 
 
-function changeSaveButton() {
-    let saved_status = localStorage.setItem('saved', 'partial_saved')
+
+function saveButtonStatus() {
+    let save_status = sessionStorage.getItem('save_status')
+    if (save_status == 'saved') {
+        $('#save-btn').html(`
+        <button type="button" class="btn btn-success text-nowrap ms-2" id="order-save-button"
+          data-bs-toggle="tooltip" data-bs-title="Order Saved" data-bs-placement="auto"><i class="fa-solid fa-badge-check"></i> 
+          Saved
+        </button>
+       `)
+    } else {
+        $('#save-btn').html(`
+        <button type="button" class="btn btn-warning text-nowrap ms-2" id="order-save-button"
+            data-bs-toggle="tooltip" data-bs-title="Save order" data-bs-placement="auto"
+            onclick="saveOrder()"><i class="fa-solid fa-floppy-disk"></i> Save
+            Order
+       </button>
+        `)
+    }
 }
 
 function showOrderStatus() {
-    let order_status = localStorage.getItem('saved')
+    let order_status = sessionStorage.getItem('saved')
     if (order_status === 'true') {
+        $('#order-detail-btn').removeClass('d-none')
         $('#order-status-btn').removeClass('d-none')
     }
 }
@@ -1188,7 +1322,7 @@ function showOrderStatus() {
 showOrderStatus()
 
 function getOrderDetails() {
-    let order_id = localStorage.getItem('saved_order_id');
+    let order_id = sessionStorage.getItem('saved_order_id');
 
     if (order_id !== null) {
         $.ajax({
@@ -1200,6 +1334,7 @@ function getOrderDetails() {
             },
             success: function (response) {
 
+
                 if (response.length !== 0) {
                     let productData = response['productData']
                     let selectedTable = JSON.parse(response['selectedTable']).toString()
@@ -1210,10 +1345,10 @@ function getOrderDetails() {
                     let total_amount = response['total_amount']
                     let gst_amount = response['gst_amount']
                     let discount_amount = response['discount_amount']
-                    let paid_amount = response['paid_amount']
-                    let due_amount = response['due_amount']
+                    let loyalty_discount = response['loyalty_discount']
+                    let payable_amount = response['payable_amount']
                     let payment_method = response['payment_method']
-                    let other_method = response['other_method']
+                    // let other_method = response['other_method']
                     let grand_amount = response['grand_amount']
                     let payment_status = response['payment_status']
                     let status = response['status']
@@ -1221,6 +1356,12 @@ function getOrderDetails() {
                     let people = response['no_of_people']
 
 
+
+                    showOrderStatusTab(productData, order_id)
+
+                    sessionStorage.setItem('productData', JSON.stringify(productData));
+
+                    calculateLoyaltyReward(parseInt(total_amount) + parseInt(gst_amount))
 
                     let order_status_show;
                     //  check where order completed or not 
@@ -1323,7 +1464,7 @@ function getOrderDetails() {
                            `
                     });
 
-                    $('#order-details').html(`
+                    $('#order-data').html(`
                     <table class='table table-borderless mb-2 p-0 border'>
                       <tr>
                           <td class='text-center'>${order_status_show}</td>
@@ -1389,33 +1530,40 @@ function getOrderDetails() {
                         <td>Gst Amount</td>
                         <td>${gst_amount}</td>
                     </tr>
-                    <tr>
-                        <td>Grand Total Amount</td>
-                        <td>${grand_amount}</td>
-                    </tr>
+                   
                     <tr>
                         <td>Discount</td>
                         <td>${discount_amount}</td>
                     </tr>
                     <tr>
-                        <td>Paid Amount</td>
-                        <td>${paid_amount}</td>
+                        <td>Loyalty Discount</td>
+                        <td>${loyalty_discount}</td>
                     </tr>
                     <tr>
-                        <td>Due Amount</td>
-                        <td>${due_amount}</td>
+                        <td>Payable Amount</td>
+                        <td>${payable_amount}</td>
                     </tr>
+                     
                     <tr>
                         <td>Payment Method</td>
                         <td>${payment_method}</td>
                      </tr>
                      </table>
+
+
+                     <table class="table table-borderless mb-2 p-0 border">
+                    <tr>
+                        <th><i class="fa-solid fa-circle text-info"></i> Loyalty Reward: <b id='loyalty-reward' class='float-end'></b></th>
+                    </tr>
+                     
+
+                    </table>
                   `)
 
-                    $("#order-status .order-spiner").addClass('d-none')
+                    $("#order-detail .order-spiner").addClass('d-none')
                 } else {
-                    $("#order-status .order-spiner").addClass('d-none')
-                    $('#order-details').html(`
+                    $("#order-detail .order-spiner").addClass('d-none')
+                    $('#order-data').html(`
                      <h4 class='text-center my-3'> Not Found</h4>
                     `)
                 }
@@ -1423,9 +1571,57 @@ function getOrderDetails() {
         })
     }
 
-
 }
 getOrderDetails()
+
+
+function showOrderStatusTab(productdata, order_id) {
+
+    let product_data_tr = '';
+    const productTr = (item, index) => {
+        product_data_tr += `
+        <tr>
+        <td class="text-center align-middle">${item['product_name']}</td>
+        <td class="text-center align-middle">${item['product_qty']}</td>
+        <td class="text-center align-middle">
+            <input type="hidden" name="index[]" value="${index}">
+            <select name="order_status[]" class="form-control">
+                <option value="${item['order_status']}">
+                    ${item['order_status']}</option>
+                <option value="Recieved">Recieved</option>
+                <option value="Processing">Processing</option>
+                <option value="Prepared">Prepared</option>
+            </select>
+        </td>
+    </tr>
+        `
+    }
+    productdata.forEach(productTr);
+
+
+
+    $('#order-status-details').html(`
+    <form method="POST" id='order-status-form' onsubmit="uploadData1('order-status-form','/admin/order-details/${order_id}', 'alert-box', 'order-status-btn-box', event)">
+    <table class="table table-bordered ">
+        <thead class="table-primary">
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${product_data_tr}
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center py-4" id='order-status-btn-box'>
+        <button type="submit" class="btn btn-primary" >Save Status</button>
+    </div>
+</form>
+    `)
+
+}
+
 
 function productSearch(this_value) {
 
@@ -1484,8 +1680,8 @@ function productSearch(this_value) {
                         // set green color if product is selected 
                         let selected_or_not = '';
                         let matched = 0;
-                        if (localStorage.getItem('productData') !== null) {
-                            productData = JSON.parse(localStorage.getItem('productData'))
+                        if (sessionStorage.getItem('productData') !== null) {
+                            productData = JSON.parse(sessionStorage.getItem('productData'))
                             productData.forEach(element => {
                                 let product_id = element['product_id'];
                                 if (product_id == auto_product_id) {
@@ -1537,12 +1733,10 @@ function productSearch(this_value) {
     }
 }
 
-
-
 // save and settle order 
 
 function completedOrder() {
-    let order_id = localStorage.getItem('saved_order_id')
+    let order_id = sessionStorage.getItem('saved_order_id')
 
     $.confirm({
         icon: 'fas fa-exclamation-triangle ',
@@ -1568,7 +1762,7 @@ function completedOrder() {
                         },
                         success: function (response) {
                             if (response['status'] === true) {
-                                localStorage.clear();
+                                sessionStorage.clear();
                                 setAlertData('Order completed.', false)
                                 window.location.reload();
                             } else {
@@ -1587,57 +1781,6 @@ function completedOrder() {
 
 
 
-if (localStorage.getItem('edit_order_id') !== null) {
-    let order_id = localStorage.getItem('edit_order_id')
-
-    if (localStorage.getItem('productData') === null) {
-        $.ajax({
-            type: "POST",
-            url: "/admin/get-order-details",
-            data: {
-                order_id: order_id
-            },
-            success: function (response) {
-                localStorage.setItem('orderSelectedCategory', 'stared')
-                localStorage.setItem('total_item', response['total_item'])
-                localStorage.setItem('total_amount', response['total_amount'])
-                localStorage.setItem('customer_id_or_booking_id', response['customer_id_or_booking_id'])
-                localStorage.setItem('customer_or_booking', response['customer_or_booking'])
-                localStorage.setItem('discount_amount', response['discount_amount'])
-                localStorage.setItem('due_amount', response['due_amount'])
-                localStorage.setItem('grand_amount', response['grand_amount'])
-                localStorage.setItem('gst_amount', response['gst_amount'])
-                localStorage.setItem('orderInstruction', response['orderInstruction'])
-                localStorage.setItem('paid_amount', response['paid_amount'])
-
-                if (response['payment_method'] != '') {
-                    localStorage.setItem('payment_method', response['payment_method'])
-                    localStorage.setItem('other_method', response['other_method'])
-                }
-
-                localStorage.setItem('productData', JSON.stringify(response['productData']))
-                localStorage.setItem('selectedTables', response['selectedTable'])
-                localStorage.setItem('no_of_people', response['no_of_people'])
-                localStorage.setItem('saved', true)
-                localStorage.setItem('saved_order_id', order_id)
-
-                getProducts()
-                getSelectedItem()
-                setCustomerSelectionButton()
-                showOrderInstruction()
-                calculateAmountDetails()
-                discountAndPaidAmountDetails()
-                showOrderStatus()
-                getOrderDetails()
-                getNumberOfPeople()
-            }
-        });
-
-    }
-
-}
-
-
 // print & download bill 
 
 function printAndDownloadBill(print_or_download, o_id = null) {
@@ -1646,7 +1789,7 @@ function printAndDownloadBill(print_or_download, o_id = null) {
     if (o_id !== null) {
         order_id = o_id
     } else {
-        order_id = localStorage.getItem('saved_order_id');
+        order_id = sessionStorage.getItem('saved_order_id');
     }
 
     if (order_id !== null) {
@@ -1659,6 +1802,9 @@ function printAndDownloadBill(print_or_download, o_id = null) {
                 order_id: order_id
             },
             success: function (response) {
+
+                console.log(response)
+
                 if (response['status'] === true) {
                     $('.loading-box').removeClass('d-flex').addClass('d-none')
                     let url = response['url']
@@ -1678,6 +1824,228 @@ function printAndDownloadBill(print_or_download, o_id = null) {
         round_alert('error', 'Order not completed');
     }
 }
+
+
+
+// function getLoyaltyPoints(amount) {
+//     $.ajax({
+//         type: "get",
+//         url: "/admin/get-loyalty",
+//         data: {
+//             amount: amount
+//         },
+//         success: function (response) {
+
+//             $('#loyalty-checkboxes').html('')
+
+//             response.forEach(element => {
+//                 console.log(element['amount'])
+//                 if (parseInt(amount) < parseInt(element['amount'])) {
+//                     $('#loyalty-checkboxes').append(`
+//                     <div class="loyalty-box danger">
+//                     <label class="d-flex">
+//                         <input type="radio" class="form-check-input" value='${element['points']}' name="loyalty" disabled>
+//                         <div class="ps-3">
+//                             <p class="mb-0 pb-0"> ${element['points']} points on order of minimum
+//                                 ₹${element['amount']}.
+//                             </p>
+//                             <ul class='pb-0 mb-0'>
+//                             <li>Min Order Amount: ₹${element['amount']}</li>
+//                                 <li>Loyalty Points: ${element['points']}</li>
+//                             </ul>
+//                         </div>
+//                     </label>
+//                 </div>
+//                     `)
+
+//                 } else {
+//                     $('#loyalty-checkboxes').append(`
+//                     <div class="loyalty-box success">
+//                     <label class="d-flex">
+//                         <input type="radio" class="form-check-input" value='${element['points']}' name="loyalty" >
+//                         <div class="ps-3">
+//                             <p class="mb-0 pb-0"> ${element['points']} points on order of minimum
+//                                 ₹${element['amount']}.
+//                             </p>
+//                             <ul class='pb-0 mb-0'>
+//                             <li>Min Order Amount: ₹${element['amount']}</li>
+//                                 <li>Loyalty Points: ${element['points']}</li>
+//                             </ul>
+//                         </div>
+//                     </label>
+//                 </div>
+//                     `)
+//                 }
+
+//             });
+//         }
+//     });
+// }
+
+
+// function saveLoyaltyPoints() {
+
+//     let customer_id_or_booking_id = sessionStorage.getItem('customer_id_or_booking_id')
+
+//     if (sessionStorage.getItem('loyalty_point') !== null) {
+//         round_alert('error', 'Loyalty points already added into customer account.')
+//     } else {
+//         $.each($("#loyalty-checkboxes input[name='loyalty']"), function () {
+//             if ($(this).prop('checked')) {
+//                 let loyalty_point = $(this).val()
+//                 $.ajax({
+//                     type: "post",
+//                     url: "/admin/save-customer-loyalty-point",
+//                     data: {
+//                         customer_id_or_booking_id: customer_id_or_booking_id,
+//                         loyalty_point: loyalty_point
+//                     },
+//                     success: function (response) {
+//                         if (response['status']) {
+//                             sessionStorage.setItem('loyalty_point', loyalty_point)
+//                             round_alert('success', response['message'])
+//                         } else {
+//                             round_alert('error', response['message'])
+//                         }
+//                     }
+//                 });
+//             }
+//         });
+//     }
+// }
+
+
+
+function showLoyaltyCheckbox() {
+    let customer_loyalty_points = sessionStorage.getItem('customer_loyalty_points');
+    let loyalty_discount = sessionStorage.getItem('loyalty_discount')
+    let loyalty_points_using = sessionStorage.getItem('loyalty_points_using')
+
+    $('#loyalty-discount-input').val(loyalty_discount)
+
+    if (customer_loyalty_points !== null) {
+        let loyalty_checked;
+        if (loyalty_discount !== null) {
+            loyalty_checked = 'checked'
+        } else {
+            loyalty_checked = ''
+        }
+
+        $('#loyalty-discount-checkbox').html(`
+         <p class="mb-0 mt-3 text-info">Enter points to apply loyalty discount</p>
+         <div class="payment-box-loyalty-points ">
+             <label class="d-flex">
+                 <input type="checkbox" ${loyalty_checked} class="form-check-input"
+                     onchange="setLoyaltyDiscount(event)" >
+                 <p class="ps-2 pb-0 mb-0">
+                     <strong class="d-block"> Loyalty Discount</strong>
+                     <span id="loyalty-point-span">${customer_loyalty_points} points</span>
+                 </p>
+             </label>
+             <input type="text" class="form-control loyalty-input"
+                 onkeyup="typeLoyaltyPoints(event)" ${loyalty_checked == 'checked' ? '' : 'readonly'} value='${loyalty_points_using !== null ? loyalty_points_using : ''}' >
+         </div>
+         `)
+    }
+}
+
+showLoyaltyCheckbox()
+
+
+function setLoyaltyDiscount(e) {
+
+    let customer_loyalty_points = sessionStorage.getItem('customer_loyalty_points')
+
+    if ($(e.target).prop('checked')) {
+        $(".loyalty-input").prop('readonly', false)
+    } else {
+        $(".loyalty-input").prop('readonly', true)
+        $('.loyalty-input').val('')
+        sessionStorage.removeItem('loyalty_discount')
+        sessionStorage.removeItem('loyalty_points_using')
+        $('#loyalty-discount-input').val(0)
+    }
+
+    calculateAmountDetails()
+    sessionStorage.setItem('save_status', 'unsaved')
+    saveButtonStatus()
+}
+
+function typeLoyaltyPoints(e) {
+    let type_loyalty_val = parseInt($(e.target).val());
+    let customer_loyalty_points = parseInt(sessionStorage.getItem('customer_loyalty_points'))
+
+    if (sessionStorage.getItem('customer_loyalty_points') !== null) {
+        if (type_loyalty_val > customer_loyalty_points) {
+            round_alert('error', 'Enter valid loyalty points.')
+            $(e.target).css({
+                border: '2px solid red'
+            })
+        } else {
+            $(e.target).css({
+                border: '2px solid green'
+            })
+            $.ajax({
+                type: "post",
+                url: "/admin/ajax-request",
+                data: ({
+                    isset_loyalty_discount: 1,
+                    points: type_loyalty_val
+                }),
+                success: function (response) {
+
+                    $('#loyalty-discount-input').val(response)
+
+                    let discount = $('#discount-input').val()
+                    let grand_amount = sessionStorage.getItem('grand_amount')
+                    let payable_amount = parseInt(grand_amount) - parseInt(discount) - parseInt(response)
+                    $('#payable-amount-input').val(payable_amount)
+
+                    sessionStorage.setItem('payable_amount', payable_amount)
+
+                    sessionStorage.setItem('loyalty_discount', response)
+                    sessionStorage.setItem('loyalty_points_using', type_loyalty_val)
+
+
+                }
+            });
+        }
+    } else {
+        round_alert('error', 'Please choose customer first.')
+    }
+    sessionStorage.setItem('save_status', 'unsaved')
+    saveButtonStatus()
+
+}
+
+
+function calculateLoyaltyReward(shopping_amount) {
+    $.ajax({
+        type: "post",
+        url: "/admin/ajax-request",
+        data: {
+            isset_calculate_shopping_amount: 1,
+            shopping_amount: shopping_amount
+        },
+        success: function (response) {
+            $('#loyalty-reward').html(`${response} points`)
+
+        }
+    });
+}
+
+
+function showSelectedTables() {
+    let selectedTables = sessionStorage.getItem('selectedTables')
+    if (selectedTables !== null && selectedTables !== 'null', selectedTables != '') {
+        selectedTables = JSON.parse(selectedTables).toString()
+        $('#table-button').removeClass('btn-warning').addClass('btn-success').html(`Table: ${selectedTables}`)
+    } else {
+        $('#table-button').removeClass('btn-success').addClass('btn-warning').html('Table')
+    }
+}
+
+showSelectedTables()
 
 
 // ================= billing section ended ================

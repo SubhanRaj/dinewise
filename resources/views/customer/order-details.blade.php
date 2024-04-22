@@ -81,13 +81,35 @@
                     <div class="card">
 
                         <div class="card-body">
-                            <h5 class="fw-bold table-number-head">Table Number :
-                                @php
-                                    $table = json_decode($orderData[0]->selectedTable, true);
-                                @endphp
-                                {{ $table[0] }}
-                            </h5>
-                            <h5 class="order-details-title">Order Details</h5>
+                            <h6 class="d-flex justify-content-between align-items-center">
+                                <span class="table-number-head"> <b> Table Number:</b>
+                                    @php
+                                        $table = json_decode($orderData[0]->selectedTable, true);
+                                    @endphp
+                                    {{ $table[0] }}
+                                </span>
+                                <span><b> Order Status:</b>
+                                    @if ($orderData[0]->status == 'completed')
+                                        <span class="text-success">Completed</span>
+                                    @else
+                                        <span class="text-info">{{ $orderData[0]->status }}</span>
+                                    @endif
+                                </span>
+                            </h6>
+
+                            <h5 class="order-details-title">Order Details </h5>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Order Id</th>
+                                    <td>{{ $orderData[0]->order_id }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date</th>
+                                    <td>{{ showDate($orderData[0]->date) }}</td>
+                                </tr>
+                            </table>
+
+                            <h5 class="order-details-title">Product Details</h5>
                             <table class="table table-bordered">
                                 <thead class="thead">
                                     <tr>
@@ -103,7 +125,8 @@
                                 @endphp
                                 @foreach ($product as $single_product)
                                     <tr>
-                                        <td class="text-center align-middle">{{ $single_product['product_name'] }}</td>
+                                        <td class="text-center align-middle">
+                                            {{ getProductName($single_product['product_id']) }}</td>
                                         <td class="text-center align-middle">{{ $single_product['product_unit'] }}</td>
                                         <td class="text-center align-middle">{{ $single_product['product_qty'] }}</td>
                                         <td class="text-center align-middle">
@@ -122,56 +145,6 @@
                                 @endforeach
                             </table>
                             <hr>
-                            {{-- <h5 class="order-details-title">Amount Details</h5>
-                            <div class="bill-detail-box">
-                                <table class="table table-borderless">
-                                    <tr>
-                                        <td>
-                                            <div class="bill-item">
-                                                <span> <i class="fa-solid fa-list-check"></i></span>
-                                                <b>Total Items</b>
-                                            </div>
-                                        </td>
-                                        <td class="text-end">{{ $orderData[0]->total_item }} </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="bill-item">
-                                                <span> <i class="fa-solid fa-money-check"></i></span>
-                                                <b>Sub Total</b>
-                                            </div>
-                                        </td>
-                                        <td class="text-end">
-                                            ₹{{ IND_num_format($orderData[0]->total_amount - $orderData[0]->gst_amount) }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="bill-item">
-                                                <span> <i class="fa-solid fa-receipt"></i></span>
-                                                <b>Tax</b>
-                                            </div>
-                                        </td>
-                                        <td class="text-end">₹{{ IND_num_format($orderData[0]->gst_amount) }} </td>
-                                    </tr>
-                                    <tr class="grand-total">
-                                        <td>
-                                            <div class="bill-item">
-                                                <span> <i class="fa-solid fa-indian-rupee-sign"></i></span>
-                                                <b>Grand Total</b>
-                                            </div>
-                                        </td>
-                                        <td class="text-end">
-                                            @if (!is_null($orderData[0]->grand_amount))
-                                                ₹{{ IND_num_format($orderData[0]->grand_amount) }}
-                                            @else
-                                                <div class="badge text-bg-danger">Unpaid</div>
-                                                ₹{{ IND_num_format($orderData[0]->total_amount) }}
-                                            @endif
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div> --}}
 
                             <h5 class="order-details-title">Order Instructions</h5>
                             <p>{{ $orderData[0]->orderInstruction }}</p>
@@ -204,8 +177,83 @@
                             <hr>
 
                             <h5 class="order-details-title">Payment</h5>
-                            <a class="custom-btn"
-                                href="{{ route('customer.paymentData', $orderData[0]->order_id) }}">Payment</a>
+                            @if ($orderData[0]->status == 'completed')
+                                <div class="bill-detail-box">
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <td>
+                                                <div class="bill-item">
+                                                    <span> <i class="fa-solid fa-list-check"></i></span>
+                                                    <b>Total Items</b>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">{{ $orderData[0]->total_item }} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="bill-item">
+                                                    <span> <i class="fa-solid fa-money-check"></i></span>
+                                                    <b>Sub Total</b>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">
+                                                ₹{{ IND_num_format($orderData[0]->total_amount - $orderData[0]->gst_amount) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="bill-item">
+                                                    <span> <i class="fa-solid fa-money-check"></i></span>
+                                                    <b>Discount</b>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">
+                                                ₹{{ IND_num_format($orderData[0]->discount_amount) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="bill-item">
+                                                    <span> <i class="fa-solid fa-money-check"></i></span>
+                                                    <b>Loyalty Discount</b>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">
+                                                ₹{{ IND_num_format($orderData[0]->loyalty_discount) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="bill-item">
+                                                    <span> <i class="fa-solid fa-receipt"></i></span>
+                                                    <b>Tax</b>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">₹{{ IND_num_format($orderData[0]->gst_amount) }} </td>
+                                        </tr>
+                                        <tr class="grand-total">
+                                            <td>
+                                                <div class="bill-item">
+                                                    <span> <i class="fa-solid fa-indian-rupee-sign"></i></span>
+                                                    <b>Grand Total</b>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">
+                                                @if (!is_null($orderData[0]->grand_amount))
+                                                    ₹{{ IND_num_format($orderData[0]->payable_amount) }}
+                                                @else
+                                                    <div class="badge text-bg-danger">Unpaid</div>
+                                                    ₹{{ IND_num_format($orderData[0]->total_amount) }}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            @else
+                                <a class="custom-btn"
+                                    href="{{ route('customer.paymentData', $orderData[0]->order_id) }}">Payment</a>
+                            @endif
+
                         </div>
                     </div>
                 </div>

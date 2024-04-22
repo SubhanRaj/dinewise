@@ -107,7 +107,7 @@
                                             </div>
                                         </td>
                                         <td class="text-end">
-                                            ₹{{ IND_num_format($orderData[0]->total_amount - $orderData[0]->gst_amount) }}
+                                            ₹{{ IND_num_format($orderData[0]->total_amount) }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -131,44 +131,54 @@
                                                 ₹{{ IND_num_format($orderData[0]->grand_amount) }}
                                             @else
                                                 <div class="badge text-bg-danger">Unpaid</div>
-                                                ₹{{ IND_num_format($orderData[0]->total_amount) }}
+                                                ₹{{ IND_num_format($orderData[0]->total_amount + $orderData[0]->gst_amount) }}
                                             @endif
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <h5 class="order-details-title">Payment Method</h5>
-                            <div class="list-group mb-3">
-                                @php
-                                    $cash = $orderData[0]->payment_method == 'cash' ? 'checked' : '';
-                                    $card = $orderData[0]->payment_method == 'card' ? 'checked' : '';
-                                    $qrCode = $orderData[0]->payment_method == 'qr-code' ? 'checked' : '';
-                                @endphp
-                                <label class="list-group-item border-0">
-                                    <input class="form-check-input me-1 payment-checkbox" name="payment_method"
-                                        onclick="showQrCode(this.value)" type="radio" value="cash"
-                                        {{ $cash }} />
-                                    Cash
-                                </label>
-                                <label class="list-group-item border-0">
-                                    <input class="form-check-input me-1 payment-checkbox" name="payment_method"
-                                        onclick="showQrCode(this.value)" type="radio" value="card"
-                                        {{ $card }} />
-                                    Card
-                                </label>
-                                <label class="list-group-item border-0">
-                                    <input class="form-check-input me-1 payment-checkbox" name="payment_method"
-                                        onclick="showQrCode(this.value)" type="radio" value="qr-code"
-                                        {{ $qrCode }} />
-                                    QR-Code
-                                </label>
-                            </div>
-                            <div class="p-3 pt-0 d-none justify-content-center align-items-center" id="payment-qr-code">
-                                <img src="{{ asset('assets/qr-code.webp') }}" style="max-width: 100%">
-                            </div>
-                            <button type="button" class="custom-btn"
+
+                            @if ($orderData[0]->payment_status != 'done')
+                                <h5 class="order-details-title">Payment Method</h5>
+                                <div class="list-group mb-3">
+                                    @php
+                                        $cash = $orderData[0]->payment_method == 'cash' ? 'checked' : '';
+                                        $card = $orderData[0]->payment_method == 'card' ? 'checked' : '';
+                                        $qrCode = $orderData[0]->payment_method == 'qr-code' ? 'checked' : '';
+                                    @endphp
+                                    <label class="list-group-item border-0">
+                                        <input class="form-check-input me-1 payment-checkbox" name="payment_method"
+                                            onclick="showQrCode(this.value)" type="radio" value="cash"
+                                            {{ $cash }} />
+                                        Cash
+                                    </label>
+                                    <label class="list-group-item border-0">
+                                        <input class="form-check-input me-1 payment-checkbox" name="payment_method"
+                                            onclick="showQrCode(this.value)" type="radio" value="card"
+                                            {{ $card }} />
+                                        Card
+                                    </label>
+                                    <label class="list-group-item border-0">
+                                        <input class="form-check-input me-1 payment-checkbox" name="payment_method"
+                                            onclick="showQrCode(this.value)" type="radio" value="qr-code"
+                                            {{ $qrCode }} />
+                                        QR-Code
+                                    </label>
+                                </div>
+                                <div class="p-3 pt-0 d-none justify-content-center align-items-center" id="payment-qr-code">
+                                    <img src="{{ asset('assets/qr-code.webp') }}" style="max-width: 100%">
+                                </div>
+                            @else
+                                <strong class="text-dark">Payment Status : <b class="text-success"> Done</b></strong>
+                            @endif
+
+
+                            <input class="payment-checkbox visually-hidden" name="payment_method" type="checkbox"
+                                value="{{ $orderData[0]->payment_method }}" checked />
+                            <button type="button" class="custom-btn mt-3"
                                 onclick="generateBill('{{ $orderData[0]->order_id }}','{{ route('customer.generateBill') }}',event)">Generate
                                 Bill</button>
+
                         </div>
                     </div>
                 </div>

@@ -39,6 +39,14 @@
             border-radius: 5px;
             outline-color: #ff5100
         }
+
+        .loyalty-points-head {
+            font-weight: bold;
+            font-style: italic;
+            color: #ff5100;
+            text-align: center;
+            padding-top: 20px;
+        }
     </style>
 @endpush
 @section('main-section')
@@ -90,13 +98,13 @@
                                             <div class="input-group mb-3 mt-2">
                                                 <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
                                                 <input type="text" class="form-control" name="phone_number"
-                                                    placeholder="Registered phone number">
+                                                    placeholder="Signin with phone number">
                                             </div>
                                             <div class="mb-3">
                                                 <button type="submit" class="custom-btn" id="acc-login-btn">Sign
                                                     In</button>
                                             </div>
-                                            
+
                                         </form>
                                     </div>
                                 </div>
@@ -106,9 +114,7 @@
                 @else
                     @php
                         $customer_id = session()->get('customer_id');
-                        $customer_data = DB::table('customers')
-                            ->where('id', '=', $customer_id)
-                            ->first();
+                        $customer_data = DB::table('customers')->where('id', '=', $customer_id)->first();
                     @endphp
                     <div class="col-12">
                         <div class="account-details">
@@ -210,6 +216,30 @@
                         </div>
                     </div>
 
+
+                    <div class="col-12 mb-5">
+
+                        {{-- get loyalty points  --}}
+
+                        @php
+                            $loyalty_points = DB::table('customer_loyalty_points')
+                                ->where('customer_id', $customer_id)
+                                ->get();
+                        @endphp
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <img src="{{ asset('admin-assets/assets/images/icons/coin.png') }}" alt="">
+                                </div>
+                                <h5 class="loyalty-points-head">Loyalty Points :
+                                    {{ count($loyalty_points) > 0 ? $loyalty_points[0]->points : 0 }}</h5>
+                            </div>
+                        </div>
+                    </div>
+
+
+
                     {{-- edit customer data modal  --}}
                     <div class="modal fade" id="edit-account-details" tabindex="-1" data-bs-backdrop="static"
                         data-bs-keyboard="false" role="dialog" aria-hidden="true">
@@ -232,7 +262,7 @@
                                                             placeholder="Name" value="{{ $customer_data->name }}"
                                                             required>
                                                     </div>
-                                                    <div class="mb-3">
+                                                    {{-- <div class="mb-3">
                                                         <label class="form-label mb-0 text-dark">Phone No.</label>
                                                         <input type="number" class="input" name="phone"
                                                             placeholder="Phone Number"
@@ -243,7 +273,7 @@
                                                         <input type="email" class="input" name="email"
                                                             placeholder="Email Address"
                                                             value="{{ $customer_data->email }}" required>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="mb-3">
                                                         <label class="form-label mb-0 text-dark">Date Of Birth</label>
                                                         <input type="date" class="input"

@@ -2,6 +2,7 @@
 @push('title')
     <title>Product Category </title>
 @endpush
+
 @section('main-section')
     <div class="page-wrapper">
         <div class="page-content">
@@ -75,6 +76,7 @@
                                             <tr>
                                                 <th></th>
                                                 <th class="sort text-nowrap">Category Icon</th>
+                                                <th class="sort text-nowrap">Category Banner</th>
                                                 <th class="sort text-nowrap">Category Name</th>
                                                 <th class="sort text-nowrap">Created At</th>
                                                 <th class="sort text-nowrap">Updated At</th>
@@ -93,4 +95,23 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            // Product Category Column Started
+
+            let ProductCategoryColumn = ["cat_img", "cat_banner", "cat_name"];
+            let Trash_ProductCategoryColumn = ProductCategoryColumn;
+
+            initServerSideDataTable(
+                "category-table",
+                "/admin/show-category",
+                "category-selected",
+                createColumn(ProductCategoryColumn),
+                "category-table-action"
+            );
+
+            // Product Category Column Ended
+        </script>
+    @endpush
 @endsection

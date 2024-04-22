@@ -13,8 +13,8 @@
 
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/png" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet">
- 
-       
+
+
     <link href="{{ asset('admin-assets/assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
 
     <link href="{{ asset('admin-assets/assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/assets/css/dark-theme.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin-assets/assets/css/custom.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin-assets/assets/plugins/dselect/dselect.css') }}">
-   
+
     <link rel="stylesheet" href="{{ asset('admin-assets/assets/plugins/yearpicker/yearpicker.css') }}">
 
     <link rel="stylesheet" href="{{ asset('admin-assets/assets/plugins/datatable/datatables.min.css') }}">
@@ -148,6 +148,7 @@
                                     class="bx bx-right-arrow-alt text-warning"></i>Orders Details</a></li>
                     </ul>
                 </li>
+
                 <li>
                     <a href="{{ route('admin.getCustomersData') }}">
                         <div class="parent-icon"><i class="fa-solid fa-users text-primary"></i>
@@ -155,6 +156,20 @@
                         <div class="menu-title">Customers</div>
                     </a>
                 </li>
+
+                {{-- <li>
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="parent-icon"><i class="fa-solid fa-coins text-primary"></i>
+                        </div>
+                        <div class="menu-title">Loyalty</div>
+                    </a>
+                    <ul>
+                        <li><a href="{{ route('admin.loyaltySetup') }}"><i
+                                    class="bx bx-right-arrow-alt text-warning"></i>Add Loyalty </a></li>
+                        <li><a href="{{ route('admin.showLoyaltySetup') }}"><i
+                                    class="bx bx-right-arrow-alt text-warning"></i>Show Loyalty </a></li>
+                    </ul>
+                </li> --}}
 
                 <li>
                     <a href="javascript:;" class="has-arrow">
@@ -256,7 +271,7 @@
                     <ul>
                         <li> <a href="{{ route('admin.addMediaIndex') }}"><i
                                     class="bx bx-right-arrow-alt text-warning"></i>Add
-                                Media</a> 
+                                Media</a>
                         </li>
                         <li> <a href="{{ route('admin.mediaIndex') }}"><i
                                     class="bx bx-right-arrow-alt text-warning"></i>All Media
@@ -265,7 +280,7 @@
                     </ul>
                 </li>
 
- 
+
                 <li>
                     <a href="javascript:;" class="has-arrow">
                         <div class="parent-icon"><i class="fa-regular fa-users text-primary"></i>
@@ -281,10 +296,16 @@
                                     class="bx bx-right-arrow-alt text-warning"></i>All Users
                             </a>
                         </li>
-                        {{-- <li> <a href=""><i class="bx bx-right-arrow-alt"></i>Reset Password
-                            </a>
-                        </li> --}}
+                        
                     </ul>
+                </li>
+                <li>
+                    <a href="{{ route('admin.settings') }}"  >
+                        <div class="parent-icon"><i class="fa-solid fa-gear text-primary"></i>
+                        </div>
+                        <div class="menu-title">Settings</div>
+                    </a>
+                    
                 </li>
 
 

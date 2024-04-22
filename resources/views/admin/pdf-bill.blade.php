@@ -38,10 +38,14 @@
 
     .item-details tr td,
     .item-details tr th {
-        text-align: center;
+        /* text-align: center; */
         white-space: nowrap;
         padding: 5px 2px;
 
+    }
+
+    .text-center {
+        text-align: center;
     }
 
     /* .item-details tr td:nth-child(1) {
@@ -91,16 +95,17 @@
 </style>
 
 @php
-    $order = DB::table('orders_details')
-        ->where('order_id', '=', $order_id)
-        ->first();
-    
+    $order = DB::table('orders_details')->where('order_id', '=', $order_id)->first();
+
 @endphp
 
 <body>
     <div id="receipt-wrapper">
         <div class="receipt-logo">
+            {{-- local  --}}
             <img src="{{ public_path() }}/tempPdf/logo.png" style="width: 45mm;">
+            {{-- production  --}}
+            {{-- <img src="<Domain>/tempPdf/logo.png" style="width: 45mm;">  --}}
         </div>
         <table class="w-100 my-2">
             <tr>
@@ -131,10 +136,10 @@
         <table class="w-100 my-2 item-details">
             <tr>
                 <th>Item</th>
-                <th>Unit</th>
-                <th>Price</th>
-                <th>qty</th>
-                <th>Total</th>
+                <th class="text-center">Unit</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">qty</th>
+                <th class="text-center">Total</th>
             </tr>
             @php
                 // get product data with product name
@@ -143,10 +148,10 @@
             @foreach ($product as $single_product)
                 <tr>
                     <td>{{ $single_product['product_name'] }}</td>
-                    <td>{{ $single_product['product_unit'] }} </td>
-                    <td>Rs.{{ IND_num_format($single_product['price_per_unit']) }}</td>
-                    <td>{{ IND_num_format($single_product['product_qty']) }} </td>
-                    <td>Rs.{{ IND_num_format($single_product['product_price']) }}</td>
+                    <td class="text-center">{{ $single_product['product_unit'] }} </td>
+                    <td class="text-center">Rs.{{ IND_num_format($single_product['price_per_unit']) }}</td>
+                    <td class="text-center">{{ IND_num_format($single_product['product_qty']) }} </td>
+                    <td class="text-center">Rs.{{ IND_num_format($single_product['product_price']) }}</td>
                 </tr>
             @endforeach
 
@@ -179,8 +184,14 @@
             </tr>
             <tr>
                 <td>
+                    <span>Loyalty Discount</span>
+                    <span>Rs.{{ IND_num_format($order->loyalty_discount) }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
                     <span>Grand Total</span>
-                    <span>Rs.{{ IND_num_format($order->grand_amount) }}</span>
+                    <span>Rs.{{ IND_num_format($order->payable_amount) }}</span>
                 </td>
             </tr>
         </table>
@@ -199,10 +210,14 @@
         <div id="qr-img">
             @php
                 $file_name = uniqid() . '.svg';
-                $path = public_path() . '/QR/' . $file_name;
+                $path = public_path() . '/QR/' . $file_name; // local
+                // $path = 'QR/' . $file_name; // production
                 QrCode::generate('http://127.0.0.1:8000/receipt-verification/' . $order_id, $path);
             @endphp
+            {{-- local  --}}
             <img src="{{ $path }}">
+            {{-- production  --}}
+            {{-- <img src="<Domain>{{ $path }}">  --}}
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"></script>

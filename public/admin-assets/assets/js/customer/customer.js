@@ -4,6 +4,24 @@ $.ajaxSetup({
     },
 });
 
+
+if (sessionStorage.getItem('order_id') !== null) {
+    let order_id = sessionStorage.getItem('order_id')
+    $.ajax({
+        type: "post",
+        url: `/customer/get-order-details/${order_id}`,
+        data: {
+            order_id: order_id
+        },
+        success: function (response) {
+            let order_data = response['order_data']
+            if (order_data['status'] == 'completed') {
+                sessionStorage.clear()
+            }
+        }
+    });
+}
+
 $(window).on('scroll', () => {
     let scroll_top = $(window).scrollTop()
     let window_height = $(window).height();
@@ -27,6 +45,9 @@ $(window).on('scroll', () => {
     sessionStorage.setItem('last_scroll', scroll_top)
 })
 
+
+
+
 const backToTop = () => {
     $(window).scrollTop(0);
 }
@@ -37,6 +58,7 @@ const showSearchBar = (show_or_hide) => {
     } else {
         $('.page-title-search-box').css('display', 'none')
     }
+    showProductAndActivateActiveClass()
 }
 
 const showHideCart = (show_or_hide) => {
@@ -102,10 +124,26 @@ const termConditionsCheckbox = (event) => {
     }
 }
 
+const getCategoryBanner = (cat_id) => {
+    $.ajax({
+        type: "post",
+        url: "/customer-ajax",
+        data: {
+            isset_get_category_banner: true,
+            cat_id: cat_id
+        },
+        success: function (response) {
+            $('.shop-product-banner img').attr('src', response['banner'])
+        }
+    });
+}
+
+
 //  select category 
 const selectCategory = (cat_id) => {
     sessionStorage.setItem('category', cat_id)
     activeCategory()
+    getCategoryBanner(cat_id)
     $.ajax({
         type: "post",
         url: "/customer-ajax",
@@ -115,6 +153,7 @@ const selectCategory = (cat_id) => {
         },
 
         success: function (response) {
+
             $('.product-row').html('')
             if (response['status']) {
                 let product = response['product']
@@ -213,6 +252,12 @@ const selectCategory = (cat_id) => {
                     `);
 
                 });
+            } else {
+                $('.product-row').html(`
+                   <div class='w-100 d-flex justify-content-center align-items-center pt-5'>
+                     <img src='../../admin-assets/assets/images/icons/not-found.webp' height='80' />
+                   </div>
+                `)
             }
         }
     });
@@ -338,6 +383,12 @@ const searchProduct = (this_value) => {
                     `);
 
                 });
+            } else {
+                $('.product-row').html(`
+                   <div class='w-100 d-flex justify-content-center align-items-center pt-5'>
+                     <img src='../../admin-assets/assets/images/icons/not-found.webp' height='80' />
+                   </div>
+                `)
             }
         }
     });
@@ -382,98 +433,110 @@ const getPrice = (price_box, unit_and_price, price_input, event) => {
 
 const selectProduct = (dynamic_id) => {
 
-    let unit_and_price_json = $('#unit_price' + dynamic_id).val()
-    let unit_and_price = JSON.parse(unit_and_price_json);
+    let table_no = sessionStorage.getItem('table_no')
+    let payment_status = sessionStorage.getItem('payment_status')
+    if (table_no !== null && table_no != 'null') {
 
-    let unit = $('#unit_val_' + dynamic_id).val()
-    let price = $('#price_val_' + dynamic_id).val() // this is price of product according to per unit
-    let product_id = $('#auto_product_id_' + dynamic_id).val()
-    let product_name = $('#product_name_' + dynamic_id).val()
-    let product_img = $('#product_img_' + dynamic_id).val()
+        if (payment_status != 'done') {
+            let unit_and_price_json = $('#unit_price' + dynamic_id).val()
+            let unit_and_price = JSON.parse(unit_and_price_json);
+            let unit = $('#unit_val_' + dynamic_id).val()
+            let price = $('#price_val_' + dynamic_id).val() // this is price of product according to per unit
+            let product_id = $('#auto_product_id_' + dynamic_id).val()
+            let product_name = $('#product_name_' + dynamic_id).val()
+            let product_img = $('#product_img_' + dynamic_id).val()
 
-    if (unit_and_price.length > 0) {
-        $('#sub-unit-wrapper').html('')
-        let n
-        unit_and_price.forEach(element => {
-            let n = Math.ceil(Math.random() * 100000000);
-            $('#sub-unit-wrapper').append(`
-            <div class="sub-unit-product-details">
-            <div class="sub-unit-product-content">
-                <div class="sub-unit-product-img">
-                    ${product_img}
-                </div>
-                <div class="sub-unit-product-name-box">
-                    <span class="sub-unit-product-unit">${element[0]}</span>
-                    <strong class="sub-unit-product-price">₹${element[1]}</strong>
-                </div>
-            </div>
+            if (unit_and_price.length > 0) {
+                $('#sub-unit-wrapper').html('')
+                let n
+                unit_and_price.forEach(element => {
+                    let n = Math.ceil(Math.random() * 100000000);
+                    $('#sub-unit-wrapper').append(`
+                        <div class="sub-unit-product-details">
+                        <div class="sub-unit-product-content">
+                            <div class="sub-unit-product-img">
+                                ${product_img}
+                            </div>
+                            <div class="sub-unit-product-name-box">
+                                <span class="sub-unit-product-unit">${element[0]}</span>
+                                <strong class="sub-unit-product-price">₹${element[1]}</strong>
+                            </div>
+                        </div>
+            
+                        <div class="sub-unit-product-qty" id='action_box_${n}'>
+                            <div class="add-btn"><button type="button" onclick="selectSubUnitProduct('${n}')">Add</button></div>
+                        </div>
+                        <input type='hidden' name='unit_and_price' value='${unit_and_price_json}' id='unit_price${n}' >
+                        <input type='hidden' value='${element[0]}' id='sub_unit_val_${n}'>
+                        <input type='hidden' value='${element[1]}' id='sub_price_val_${n}'>
+                        <input type='hidden' value='${product_id}' id='sub_auto_product_id_${n}'>
+                        <input type='hidden' value='${product_name}' id='sub_product_name_${n}'>
+                        <input type='hidden' value="${product_img}" id='sub_product_img_${n}'>
+                        </div> 
+                        `)
 
-            <div class="sub-unit-product-qty" id='action_box_${n}'>
-                <div class="add-btn"><button type="button" onclick="selectSubUnitProduct('${n}')">Add</button></div>
-            </div>
-            <input type='hidden' name='unit_and_price' value='${unit_and_price_json}' id='unit_price${n}' >
-            <input type='hidden' value='${element[0]}' id='sub_unit_val_${n}'>
-            <input type='hidden' value='${element[1]}' id='sub_price_val_${n}'>
-            <input type='hidden' value='${product_id}' id='sub_auto_product_id_${n}'>
-            <input type='hidden' value='${product_name}' id='sub_product_name_${n}'>
-            <input type='hidden' value="${product_img}" id='sub_product_img_${n}'>
-            </div> 
-            `)
 
+                });
+                showHideSubUnit('show');
+            } else {
 
-        });
-        showHideSubUnit('show');
-    } else {
-
-        let products
-        let n = 0;
-        if (sessionStorage.getItem('products') == null) {
-            products = []
-        } else {
-            products = JSON.parse(sessionStorage.getItem('products'))
-            products.forEach(element => {
-                let selected_product_id = element['product_id'];
-                let selected_product_unit = element['product_unit'];
-                if (selected_product_id == product_id && selected_product_unit == unit) {
-                    n++;
+                let products
+                let n = 0;
+                if (sessionStorage.getItem('products') == null) {
+                    products = []
+                } else {
+                    products = JSON.parse(sessionStorage.getItem('products'))
+                    products.forEach(element => {
+                        let selected_product_id = element['product_id'];
+                        let selected_product_unit = element['product_unit'];
+                        if (selected_product_id == product_id && selected_product_unit == unit) {
+                            n++;
+                        }
+                    });
                 }
-            });
-        }
 
-        if (n === 0) {
-            let product_data = {
-                product_id: product_id,
-                product_name: product_name,
-                product_img: product_img,
-                product_unit: unit,
-                product_qty: 1,
-                price_per_unit: price,
-                product_price: price,
-                status: 'unsave',
-                order_status: 'Recieved',
-                id: product_id + unit
+                if (n === 0) {
+                    let product_data = {
+                        product_id: product_id,
+                        product_name: product_name,
+                        product_img: product_img,
+                        product_unit: unit,
+                        product_qty: 1,
+                        price_per_unit: price,
+                        product_price: price,
+                        status: 'unsave',
+                        order_status: 'Recieved',
+                        id: product_id + unit
+                    }
+                    // store the product data into session storage 
+                    products.push(product_data);
+
+                    sessionStorage.setItem('products', JSON.stringify(products));
+
+                    let id = product_id + unit
+                    $("#action_box_" + dynamic_id).html(`
+                        <div class="qty-btn">
+                            <button type="button" onclick="updateQty('${id}','${product_id}','dec','${dynamic_id}')" >
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <span id="pro_qty_${dynamic_id}" >1</span>
+                            <button type="button" onclick="updateQty('${id}','${product_id}','inc','${dynamic_id}')">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                        `)
+                }
+                getAddedProductDetails()
+                calculateAmountDetails()
+                cartItemCount()
             }
-            // store the product data into session storage 
-            products.push(product_data);
-
-            sessionStorage.setItem('products', JSON.stringify(products));
-
-            let id = product_id + unit
-            $("#action_box_" + dynamic_id).html(`
-            <div class="qty-btn">
-                <button type="button" onclick="updateQty('${id}','${product_id}','dec','${dynamic_id}')" >
-                    <i class="fa-solid fa-minus"></i>
-                </button>
-                <span id="pro_qty_${dynamic_id}" >1</span>
-                <button type="button" onclick="updateQty('${id}','${product_id}','inc','${dynamic_id}')">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
-            </div>
-            `)
+        } else {
+            round_alert('error', 'Payment has been done. Can not add order more products.')
         }
-        getAddedProductDetails()
-        calculateAmountDetails()
-        cartItemCount()
+ 
+
+    } else {
+        round_alert('error', 'Please select table.')
     }
 }
 
@@ -771,7 +834,7 @@ const calculateAmountDetails = () => {
         });
 
         gst_amount = Math.ceil((product_amount * 20) / 100)
-        total_amount = product_amount + gst_amount;
+        total_amount = product_amount;
 
         let amount_arr = {
             "items": total_item,
@@ -924,7 +987,6 @@ const placeOrder = () => {
                     data: ajax_data,
                     success: function (response) {
 
-                        console.log(response)
 
                         if (response['status']) {
 
@@ -942,6 +1004,7 @@ const placeOrder = () => {
                              <strong>Order saved successfully. Your order id is ${order_id}. Please note down your order id for further use.</strong>
                             </div>`)
 
+                            getOrderDetailsUsingOrderId(order_id)
                             initializeOrder()
 
                             sessionStorage.setItem('ordered_products', JSON.stringify(response['ordered_products']))
@@ -981,11 +1044,15 @@ const getOrderDetailsUsingOrderId = (order_id) => {
                 console.log(response)
                 let order_data = response['order_data']
                 let products = JSON.parse(order_data['productData'])
+                let payment_status = order_data['payment_status'];
+                let order_status = order_data['status'];
                 let customer = order_data['customer']
                 let order_detail_url = response['order_detail_url']
                 sessionStorage.setItem('ordered_products', JSON.stringify(products))
                 sessionStorage.setItem('order-details-url', order_detail_url)
                 sessionStorage.setItem('order_id', order_data['order_id'])
+                sessionStorage.setItem('payment_status', payment_status)
+                sessionStorage.setItem('order_status', order_status)
 
                 let customer_details =
                 {
@@ -997,6 +1064,8 @@ const getOrderDetailsUsingOrderId = (order_id) => {
         });
     }
 }
+
+
 
 const resetOrder = () => {
     sessionStorage.clear();
