@@ -109,13 +109,21 @@ class ProductCategoryController extends Controller
                         return 'Not Found';
                     }
                 })
+                ->editColumn('cat_banner', function ($data) {
+                    if (!is_null($data->cat_banner) && $data->cat_banner != 'null') {
+                        $img = json_decode($data->cat_banner, true);
+                        return getMediaFile($img[0]['file_id']);
+                    } else {
+                        return 'Not Found';
+                    }
+                })
                 ->editColumn('created_at', function ($data) {
                     return showDateTime($data->created_at);
                 })
                 ->editColumn('updated_at', function ($data) {
                     return showDateTime($data->updated_at);
                 })
-                ->rawColumns(['action', 'checkbox', 'cat_img'])
+                ->rawColumns(['action', 'checkbox', 'cat_img', 'cat_banner'])
                 ->toJson();
         }
 

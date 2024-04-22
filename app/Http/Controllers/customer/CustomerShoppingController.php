@@ -9,25 +9,29 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
+
 class CustomerShoppingController extends Controller
 {
-    public function customerShopping(Request $request, $table_no)
+    public function customerShopping(Request $request, $table_no  = null)
     {
+        if ($table_no != null) {
+            $table_no = base64_decode($table_no);
+            // check table status 
+            $arr_table_no = [$table_no];
+            $orderDetails = Orders::with('customer')->where([
+                ['selectedTable', '=', json_encode($arr_table_no)],
+                ['table_status', '=', 0],
+            ])->get();
 
-        $table_no = base64_decode($table_no);
-        // check table status 
-        $arr_table_no = [$table_no];
-        $orderDetails = Orders::with('customer')->where([
-            ['selectedTable', '=', json_encode($arr_table_no)],
-            ['table_status', '=', 0],
-        ])->get();
-
-        if (count($orderDetails) > 0) {
-            $order_id = $orderDetails[0]->order_id;
+            if (count($orderDetails) > 0) {
+                $order_id = $orderDetails[0]->order_id;
+            } else {
+                $order_id = false;
+            }
+            return view('customer.shop', ['table_no' => $table_no,  'order_id' => $order_id]);
         } else {
-            $order_id = false;
+            return view('customer.shop', ['table_no' => $table_no,  'order_id' => false]);
         }
-        return view('customer.shop', ['table_no' => $table_no,  'order_id' => $order_id]);
     }
 
     public function customerShoppingPayment()
@@ -44,7 +48,7 @@ class CustomerShoppingController extends Controller
         $email = $request->email;
         $no_of_people = $request->no_of_people;
         $order_instruction = $request->order_instruction;
- 
+
         $table_no = $request->table_no;
 
         if ($request->has('order_id')) {
@@ -100,7 +104,6 @@ class CustomerShoppingController extends Controller
                         'msg' => "Failed to save order",
                     ]);
                 }
- 
             }
         } else {
             // check if the table is free or not
@@ -146,7 +149,9 @@ class CustomerShoppingController extends Controller
                         $saveData->total_amount =  $amount['total_amount'];
                         $saveData->gst_amount =  $amount['gst'];
                         $saveData->status = 'order taken';
-
+                        $saveData->date  = date('Y-m-d');
+                        $saveData->month  = date('F');
+                        $saveData->year  = date('Y');
                         //code...
                         $saveData->save();
                         DB::commit();
@@ -197,10 +202,9 @@ class CustomerShoppingController extends Controller
 
             $orderData = Orders::with('customer')->where('order_id', '=', $order_id)->first();
             $orderData->discount_amount = 0;
-            $orderData->paid_amount = $orderData->total_amount;
-            $orderData->due_amount = 0;
+            $orderData->payable_amount = $orderData->total_amount + $orderData->gst_amount - $orderData->discount_amount - $orderData->loyalty_discount;
             $orderData->payment_method = $payment_method;
-            $orderData->grand_amount =  $orderData->total_amount;
+            $orderData->grand_amount =  $orderData->total_amount + $orderData->gst_amount;
             $orderData->payment_status =  'done';
             $orderData->save();
 

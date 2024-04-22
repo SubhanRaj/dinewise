@@ -103,16 +103,16 @@ class Login extends Controller
                 } else {
                     return response()->json([
                         'status' => false,
-                        'errors' => array('password' => array('Password Incorrect')),
-                        'message' => 'Incorrect Password',
+                        'errors' => '',
+                        'message' => 'Incorrect username or password',
                         'redirect' => ''
                     ]);
                 }
             } else {
                 return response()->json([
                     'status' => false,
-                    'errors' => array('username' => array('Username Incorrect')),
-                    'message' => 'Incorrect Username',
+                    'errors' =>  '',
+                    'message' => 'Incorrect username or password',
                     'redirect' => ''
                 ]);
             }

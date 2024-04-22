@@ -28,9 +28,7 @@
                             </span>
                         </a>
                         @php
-                            $CategoryData = DB::table('product_categories')
-                                ->orderBy('cat_name', 'asc')
-                                ->get();
+                            $CategoryData = DB::table('product_categories')->orderBy('cat_name', 'asc')->get();
                         @endphp
                         @if (count($CategoryData) != 0)
                             @foreach ($CategoryData as $single_CategoryData)
@@ -81,12 +79,12 @@
                                     data-bs-placement="auto"> <i class='bx bx-moon'></i>
                                 </button>
                             </div>
-                            <div class="">
-                                <button type="button" class="btn btn-warning text-nowrap ms-2" id="order-save-button"
+                            <div class="" id="save-btn">
+                                {{-- <button type="button" class="btn btn-warning text-nowrap ms-2" id="order-save-button"
                                     data-bs-toggle="tooltip" data-bs-title="Save order" data-bs-placement="auto"
-                                    onclick="saveOrder()"> <i class="fa-solid fa-floppy-disk"></i> Save
+                                    onclick="saveOrder()"><i class="fa-solid fa-floppy-disk"></i> Save
                                     Order
-                                </button>
+                                </button> --}}
                             </div>
 
                             <div class="flex-grow-1 ms-2 d-sm-block d-none">
@@ -108,9 +106,10 @@
                             </div>
 
                             <div class="btn-group">
-                                <button type="button" data-bs-toggle="tooltip" data-bs-title='Select Table'
-                                    data-bs-placement='auto' onclick="selectTableModal('table-select-modal')"
-                                    class="btn btn-warning ms-2">Table</button>
+                                <button type="button" data-bs-toggle="tooltip" id="table-button"
+                                    data-bs-title='Select Table' data-bs-placement='auto'
+                                    onclick="selectTableModal('table-select-modal')" class="btn btn-warning ms-2">
+                                    Table</button>
 
                             </div>
                             <div class="" id="customer-selection-btn">
@@ -204,6 +203,11 @@
                                         data-billing-box='selected-item' id="select-item-btn">
                                         <i class="fa-solid fa-list"></i>
                                     </button>
+                                    <button type="button" data-bs-toggle="tooltip" data-bs-title="Order Status"
+                                        data-bs-placement="auto" class="btn btn-primary rounded-0 billing-toggle d-none"
+                                        data-billing-box='order-status' id="order-status-btn">
+                                        <i class="fa-solid fa-cauldron"></i>
+                                    </button>
                                     <button type="button" data-bs-toggle="tooltip" data-bs-title="Order Instructions"
                                         data-bs-placement="auto" class="btn btn-primary rounded-0 billing-toggle"
                                         data-billing-box='instruction-details' id="instruction-details-btn">
@@ -214,27 +218,24 @@
                                         data-billing-box='kot' id="kot-btn">
                                         <i class="fa-regular fa-file-invoice"></i>
                                     </button>
-                                    <button type="button" data-bs-toggle="tooltip" data-bs-title="Amount Details"
+                                    <button type="button" data-bs-toggle="tooltip" data-bs-title="Payment Details"
                                         data-bs-placement="auto" class="btn btn-primary rounded-0 billing-toggle"
                                         data-billing-box='amount-details' id="amount-details-btn">
                                         <i class="fa-solid fa-money-check-dollar"></i>
                                     </button>
-                                    <button type="button" data-bs-toggle="tooltip" data-bs-title="Collect Payment"
-                                        data-bs-placement="auto" class="btn btn-primary rounded-0 billing-toggle"
-                                        data-billing-box='collect-payment' id="collect-cash-btn">
-                                        <i class="fas fa-hand-holding-usd"></i>
-                                    </button>
+
                                     <button type="button" data-bs-toggle="tooltip" data-bs-title="Order Bill"
                                         data-bs-placement="auto" class="btn btn-primary rounded-0 billing-toggle"
                                         data-billing-box='generate-bill' id="generate-bill-btn">
                                         <i class="fa-solid fa-file-invoice-dollar"></i>
                                     </button>
-                                    <button type="button" data-bs-toggle="tooltip"
-                                        data-bs-title="Order Details & Status" data-bs-placement="auto"
-                                        class="btn btn-primary rounded-0 billing-toggle d-none"
-                                        data-billing-box='order-status' id="order-status-btn">
+
+                                    <button type="button" data-bs-toggle="tooltip" data-bs-title="Order Details"
+                                        data-bs-placement="auto" class="btn btn-primary rounded-0 billing-toggle d-none"
+                                        data-billing-box='order-detail' id="order-detail-btn">
                                         <i class="fa-regular fa-burger-glass"></i>
                                     </button>
+
                                 </div>
                             </div>
                         </div>
@@ -301,7 +302,7 @@
                             </div>
                             <div class="billing-box col-12 p-0 d-none overflow-control h-100" id="amount-details">
                                 <div class="p-3">
-                                    <h6>Amount Details</h6>
+                                    <h6 class="text-primary">Amount Details</h6>
                                     <ul class="list-group -0">
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <span>Total Item</span>
@@ -330,33 +331,61 @@
                                             <span>
                                                 <input type="number" class="form-control py-0" style="width:120px"
                                                     value="" id="discount-input"
-                                                    onkeyup="calculatePaidAmount(this.value)">
+                                                    onkeyup="calculatePayableAmount(this.value)">
                                             </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <span>Paid Amount</span>
+                                            <span>Loyalty Discount</span>
                                             <span>
                                                 <input type="number" class="form-control py-0" style="width:120px"
-                                                    value="" id="paid-amount-input"
-                                                    onkeyup="calculateDueAmount(this.value)">
+                                                    value="0" id="loyalty-discount-input"
+                                                    onchange="calculatePayableAmount(this.value)" readonly>
                                             </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <span>Due Amount</span>
+                                            <span>Payable Amount</span>
                                             <span>
-                                                <input type="number" readonly class="form-control py-0"
-                                                    style="width:120px" value="" id="due-input">
+                                                <input type="number" class="form-control py-0" style="width:120px"
+                                                    value="" id="payable-amount-input">
                                             </span>
                                         </li>
+
                                     </ul>
-                                    <div class="text-center pt-4">
+                                    <div id="loyalty-discount-checkbox">
+
+
+                                    </div>
+                                    {{-- <div class="text-center pt-4">
                                         <button type="button" class="btn btn-primary"
-                                            onclick="setDiscountAndPaidAmount()"> <i class="fa-solid fa-floppy-disk"></i>
+                                            onclick="setDiscountAndPayableAmount()"> <i
+                                                class="fa-solid fa-floppy-disk"></i>
                                             Save</button>
+                                    </div> --}}
+                                </div>
+
+                                <div class="p-3 mb-5">
+                                    <h6 class="text-primary">Payment Method</h6>
+                                    <div class="list-group" id="payment-method">
+                                        <label class="list-group-item">
+                                            <input class="collect-payment-method form-check-input me-1" type="radio"
+                                                name="method" value="cash">
+                                            Cash
+                                        </label>
+                                        <label class="list-group-item">
+                                            <input class="collect-payment-method form-check-input me-1" type="radio"
+                                                name="method" value="card">
+                                            Card
+                                        </label>
+                                        <label class="list-group-item">
+                                            <input class="collect-payment-method form-check-input me-1" type="radio"
+                                                name="method" value="upi">
+                                            UPI
+                                        </label>
                                     </div>
                                 </div>
+
                             </div>
-                            <div class="billing-box col-12 p-0 d-none overflow-control h-100" id="collect-payment">
+                            {{-- <div class="billing-box col-12 p-0 d-none overflow-control h-100" id="collect-payment">
                                 <div class="p-3">
                                     <h6>Collect Payment</h6>
                                     <div class="list-group" id="payment-method">
@@ -372,40 +401,14 @@
                                         </label>
                                         <label class="list-group-item">
                                             <input class="collect-payment-method form-check-input me-1" type="radio"
-                                                name="method" value="googlepay">
-                                            Google Pay
+                                                name="method" value="upi">
+                                            UPI
                                         </label>
-                                        <label class="list-group-item">
-                                            <input class="collect-payment-method form-check-input me-1" type="radio"
-                                                name="method" value="phonepay">
-                                            Phone Pay
-                                        </label>
-                                        <label class="list-group-item">
-                                            <input class="collect-payment-method form-check-input me-1" type="radio"
-                                                name="method" value="paytm">
-                                            PayTm
-                                        </label>
-                                        <label class="list-group-item">
-                                            <input class="collect-payment-method form-check-input me-1" type="radio"
-                                                name="method" value="bharatpay">
-                                            Bharat Pay
-                                        </label>
-                                        <label class="list-group-item">
-                                            <input class="collect-payment-method form-check-input me-1" type="radio"
-                                                name="method" value="other">
-                                            Other
-                                        </label>
-                                        <label class="list-group-item d-none" id="collect-payment-other">
-                                            <input class="collect-payment-method form-control" type="text"
-                                                name="other_method" value="">
-                                        </label>
+ 
                                     </div>
-                                    <div class="text-center pt-4">
-                                        <button type="button" class="btn btn-primary" onclick="savePaymentMethod()"> <i
-                                                class="fa-solid fa-floppy-disk"></i> Save</button>
-                                    </div>
+                                    
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="billing-box col-12 p-0 d-none overflow-control h-100" id="generate-bill">
                                 <div class="p-3">
                                     <h6>Order Bill</h6>
@@ -433,14 +436,15 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="billing-box col-12 p-0 d-none overflow-control h-100 position-relative"
-                                id="order-status">
+                                id="order-detail">
                                 <div class="p-3">
                                     <h6 class="text-center font-20 text-uppercase">Order Details</h6>
                                     <div class="order-spiner">
                                         <img src="{{ asset('admin-assets/assets/images/gif/spiner.svg') }}">
                                     </div>
-                                    <div id="order-details">
+                                    <div id="order-data">
 
                                     </div>
                                     <div class="pb-4 text-center">
@@ -450,6 +454,15 @@
                                             <i class="fa-solid fa-floppy-disk"></i>
                                             Complete
                                         </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="billing-box col-12 p-0 d-none overflow-control h-100 position-relative"
+                                id="order-status">
+                                <div class="p-2">
+                                    <h6 class="text-center font-20 text-uppercase">Order Status</h6>
+                                    <div id="order-status-details">
+
                                     </div>
                                 </div>
                             </div>
@@ -463,7 +476,7 @@
 
     @include('admin.order-modal')
     @push('scripts')
-        <script src="{{ asset('admin-assets/assets/js/order.js') }}"></script>
+        <script src="{{ asset('admin-assets/assets/js/order.js') }}?v={{ time() }}"></script>
         <script>
             // $(".wrapper").addClass('toggled')
             // $(function() {
@@ -483,8 +496,8 @@
 
             // $('.toggle-icon').hide();
 
-            let toggleBillingBoxBtn = localStorage.getItem('toggleBillingBoxBtn')
-            let toggleBillingBox = localStorage.getItem('toggleBillingBox')
+            let toggleBillingBoxBtn = sessionStorage.getItem('toggleBillingBoxBtn')
+            let toggleBillingBox = sessionStorage.getItem('toggleBillingBox')
 
             if (toggleBillingBox != null && toggleBillingBoxBtn != null) {
                 $('.billing-box').addClass('d-none').removeClass('d-block')

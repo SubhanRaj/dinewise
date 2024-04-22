@@ -55,6 +55,7 @@ function initServerSideDataTable(
         scrollY: "550px",
         scrollCollapse: true,
         scrollX: true,
+        colReorder: true,
         autoWidth: false,
         lengthMenu: [
             [10, 25, 50, 100, 250, 500, -1],
@@ -73,11 +74,13 @@ function initServerSideDataTable(
         order: [],
         columns: columns,
         dom: "Bfrtip",
+
         buttons: [
             {
                 extend: "pageLength",
                 className: "DT_pageLenght",
             },
+
             {
                 extend: "colvis",
                 text: "<i class='fa-solid fa-line-columns' data-bs-toggle='tooltip' data-bs-title='Column Visibility' data-bs-placement='auto'></i>",
@@ -126,7 +129,17 @@ function initServerSideDataTable(
                     columns: ':visible'
                 }
             },
+            {
+                text: "<i class='fa-solid fa-repeat' data-bs-toggle='tooltip' data-bs-title='Reset Table' data-bs-placement='auto'></i>",
+                className: "DT_ResetTable",
+                action: function () {
+                    table.state.clear();
+                    window.location.reload();
+                }
+            },
+
         ],
+
         select: false,
     };
     if (checkcbox == true) {
@@ -226,20 +239,7 @@ initServerSideDataTable(
 
 // MEDIA ENDED
 
-// Product Category Column Started
 
-let ProductCategoryColumn = ['cat_img',"cat_name"];
-let Trash_ProductCategoryColumn = ProductCategoryColumn;
-
-initServerSideDataTable(
-    "category-table",
-    "/admin/show-category",
-    "category-selected",
-    createColumn(ProductCategoryColumn),
-    "category-table-action"
-);
-
-// Product Category Column Ended
 
 // pricing unit column started
 
@@ -338,29 +338,6 @@ let Trash_BookingTablesColumn = BookingTablesColumn;
 // data table on page
 // booking column ended
 
-// order table col started
-
-let OrderTablesColumn = [
-    "order_id",
-    "productData",
-    "selectedTable",
-    "no_of_people",
-    "customer_name",
-    "customer_mobile",
-    "paid_amount",
-    "status",
-    "chef_status",
-];
-
-let Trash_OrderTablesColumn = OrderTablesColumn;
-
-initServerSideDataTable(
-    "order-table",
-    "/admin/view-order-details",
-    "order-selected",
-    createColumn(OrderTablesColumn),
-    "order-table-action"
-);
 
 // order table col ended
 

@@ -13,7 +13,6 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StaffOrderDetails;
-use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ReceptonController;
 use App\Http\Controllers\DeleteAllController;
 use App\Http\Controllers\ReceiptVerification;
@@ -23,27 +22,30 @@ use App\Http\Controllers\StaffIndexController;
 use App\Http\Controllers\StaffLeaveController;
 use App\Http\Controllers\TableModelController;
 use App\Http\Controllers\AjaxRequestController;
-use App\Http\Controllers\ChefPanelOrderDetails;
 use App\Http\Controllers\PricingUnitController;
-use App\Http\Controllers\CustomerAjaxController;
 use App\Http\Controllers\ProductModelController;
 use App\Http\Controllers\StaffPaymentController;
 use App\Http\Controllers\StaffProfileController;
-use App\Http\Controllers\ChefDashboardController;
 use App\Http\Controllers\CreatePaymentController;
 use App\Http\Controllers\AdvancePaymentController;
+use App\Http\Controllers\ChefDashboardController;
+use App\Http\Controllers\ChefPanelOrderDetails;
+use App\Http\Controllers\customer\CustomerDashboardController;
+use App\Http\Controllers\customer\CustomerLoginController;
+use App\Http\Controllers\CustomerAjaxController;
+use App\Http\Controllers\customer\CustomerOrderController;
+use App\Http\Controllers\customer\CustomerShoppingController;
+use App\Http\Controllers\CustomerLoyaltyPointsModelController;
 use App\Http\Controllers\CustomersModelController;
+use App\Http\Controllers\LoyaltyModelController;
 use App\Http\Controllers\ReleasePaymentController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductMaterialController;
 use App\Http\Controllers\StaffAttendanceController;
 use App\Http\Controllers\StaffPanelProfileController;
 use App\Http\Controllers\ReceptionDashboardController;
-use App\Http\Controllers\customer\CustomerLoginController;
-use App\Http\Controllers\customer\CustomerOrderController;
-use App\Http\Controllers\customer\CustomerShoppingController;
-use App\Http\Controllers\customer\CustomerDashboardController;
-
+use App\Http\Controllers\SettingModelController;
+use App\Http\Controllers\UserAccessController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,14 +58,9 @@ use App\Http\Controllers\customer\CustomerDashboardController;
 |
 */
 
-// ------------------ Frontend Route Start ------------------
-Route::controller(FrontendController::class)->group(function(){
-    Route::get('/', 'index')->name('frontend-index');
-
-});
 //  ----------------- Admin Login Controller Start ----------------
 Route::controller(Login::class)->group(function () {
-    Route::get('/login', 'index')->name('login-view');
+    Route::get('/', 'index')->name('login-view');
     Route::post('/login', 'login')->name('login-check');
     Route::post('/otp-verification', 'loginOtpVerification')->name('login-otp-verification');
     Route::get('/reset-otp-verification', 'resetOtpVerification')->name('reset-otp-verification');
@@ -192,6 +189,7 @@ Route::middleware('adminLogin')->group(function () {
         Route::post('/add-customer', 'addCustomer')->name('addCustomer');
         Route::get('/view-customer-details', 'getCustomersData')->name('getCustomersData');
         Route::get('/export-customer-data', 'exportCustomers')->name('exportCustomers');
+        Route::get('/customer-profile/{customer_id}', 'customerProfile')->name('customerProfile');
     });
 
 
@@ -288,7 +286,7 @@ Route::middleware('adminLogin')->group(function () {
     });
 
 
-    Route::controller(SettingController::class)->prefix('admin')->name('admin.')->group(function () {
+    Route::controller(UserAccessController::class)->prefix('admin')->name('admin.')->group(function () {
         Route::get('/add-users', 'addUsers')->name('addUsers');
         Route::post('/add-users', 'saveUsers')->name('saveUsers');
         Route::get('/edit-users/{id}', 'editUsers')->name('editUsers');
@@ -313,6 +311,22 @@ Route::middleware('adminLogin')->group(function () {
         Route::get('/staff-profile-get-leave', 'getStaffProfileleave')->name('getStaffProfileleave');
         Route::get('/staff-profile-get-worksheet', 'getStaffProfileworksheet')->name('getStaffProfileworksheet');
         Route::get('/staff-profile-get-payout', 'getStaffProfilepayout')->name('getStaffProfilepayout');
+    });
+    Route::controller(LoyaltyModelController::class)->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/loyalty-setup', 'loyaltySetup')->name('loyaltySetup');
+        Route::post('/loyalty-setup', 'saveLoyaltySetup')->name('saveLoyaltySetup');
+        Route::get('/edit-loyalty-setup/{id}', 'editLoyaltySetup')->name('editLoyaltySetup');
+        Route::post('/edit-loyalty-setup/{id}', 'updateLoyaltySetup')->name('updateLoyaltySetup');
+        Route::get('/show-loyalty', 'showLoyaltySetup')->name('showLoyaltySetup');
+        Route::get('/get-loyalty', 'getLoyaltySetup')->name('getLoyaltySetup');
+    });
+    Route::controller(CustomerLoyaltyPointsModelController::class)->prefix('admin')->name('admin.')->group(function () {
+        Route::post('/save-customer-loyalty-point', 'saveLoyaltyPoint')->name('saveLoyaltyPoint');
+    });
+
+    Route::controller(SettingModelController::class)->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/settings', 'settings')->name('settings');
+        Route::post('/save-settings', 'saveSettings')->name('saveSettings');
     });
 });
 
@@ -457,7 +471,7 @@ Route::controller(CustomerDashboardController::class)->prefix('customer')->name(
     Route::get('/dashboard', 'index')->name('index');
 });
 Route::controller(CustomerShoppingController::class)->prefix('customer')->name('customer.')->group(function () {
-    Route::get('/shop/{table_no}', 'customerShopping')->name('customerShopping');
+    Route::get('/shop/{table_no?}', 'customerShopping')->name('customerShopping');
     Route::get('/payment', 'customerShoppingPayment')->name('customerShoppingPayment');
     Route::post('/place-order', 'placeOrder')->name('placeOrder');
     Route::get('/order-details/{order_id}', 'orderDetails')->name('orderDetails');

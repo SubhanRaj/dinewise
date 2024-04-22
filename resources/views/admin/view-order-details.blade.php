@@ -24,6 +24,48 @@
             </div>
 
             <div class="container-fluid">
+
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="card radius-10 border-start border-0 border-4 border-primary">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <h6 class="mb-0 text-secondary">Today's Sales</h6>
+                                        <h4 class="my-1">
+                                            ₹{{ IND_num_format($todays_amount) }}
+                                        </h4>
+                                    </div>
+                                    <div class="text-primary ms-auto font-35"><i class="fa-solid fa-indian-rupee-sign"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-12 ">
+                        <div class="card radius-10 border-start border-0 border-4 border-warning">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <h6 class="mb-0 text-secondary">Total Sales</h6>
+                                        <h4 class="my-1">
+                                            ₹{{ IND_num_format($all_sales_amount) }}
+                                        </h4>
+                                    </div>
+                                    <div class="text-warning ms-auto font-35"><i class="fa-solid fa-indian-rupee-sign"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
                 <div class="row">
                     <div class="col-12 p-0 mt-4">
                         <div class="card">
@@ -44,14 +86,18 @@
                                             <div class="btn-group" role="group" aria-label="Basic example">
                                                 <a href="{{ route('admin.addOrder') }}" data-bs-toggle="tooltip"
                                                     data-bs-placement="auto" data-bs-title="Add New"
-                                                    class="btn btn-primary"><i class="fa-regular fa-plus"></i>
+                                                    class="btn btn-primary">New Order</i>
                                                 </a>
+                                                <button type="button" class="btn btn-info"
+                                                    onclick="show_modal('filter-modal')">
+                                                    <i class="fa-solid fa-filter"></i>
+                                                </button>
+
                                                 <a href="{{ route('admin.Trash', 'product-order-trash') }}"
                                                     data-bs-toggle="tooltip" data-bs-placement="auto"
                                                     data-bs-title="Show Trash" class="btn btn-warning"> <i
                                                         class="fa-sharp fa-solid fa-trash-undo"></i>
                                                 </a>
-
 
                                                 <button type="button" class="btn btn-danger disabled-btn"
                                                     data-bs-toggle="tooltip" data-bs-placement="auto"
@@ -78,7 +124,7 @@
                                                 <th class="sort text-nowrap">People</th>
                                                 <th class="sort text-nowrap">Customer Name</th>
                                                 <th class="sort text-nowrap">Customer Mobile</th>
-                                                <th class="sort text-nowrap">Paid Amount</th>
+                                                <th class="sort text-nowrap">Payable Amount</th>
                                                 <th class="sort text-nowrap">Status</th>
                                                 <th class="sort text-nowrap">Coocking Status</th>
                                                 <th class="sort text-nowrap">Created At</th>
@@ -87,7 +133,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{-- Data will load here using ajax server side . --}}
+                                            {{-- Data will load here using ajax server side --}}
                                         </tbody>
                                     </table>
                                 </div>
@@ -98,4 +144,78 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Body -->
+    <div class="modal fade" id="filter-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+        role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Filter Orders
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="get">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label class="form-label">From</label>
+                                <input type="date" class="form-control" value="{{ $from }}" name="from"
+                                    required>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="form-label">To</label>
+                                <input type="date" class="form-control" value="{{ $to }}" name="to"
+                                    required>
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-primary w-100">Filter</button>
+                            </div>
+                            <div class="col-6">
+                                <a href="{{ route('admin.showOrderDetails') }}" class="btn btn-danger w-100">Clear</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @push('scripts')
+        <script>
+            // order table col started
+
+            let OrderTablesColumn = [
+                "order_id",
+                "productData",
+                "selectedTable",
+                "no_of_people",
+                "customer_name",
+                "customer_mobile",
+                "payable_amount",
+                "status",
+                "chef_status",
+            ];
+
+
+            let queryParams = getQueryParams();
+            let searchParams = queryParams[1];
+            if (queryParams == 0) {
+                $('#order-table').DataTable().clear().destroy();
+                initServerSideDataTable('order-table', '/admin/view-order-details', 'order-selected',
+                    createColumn(OrderTablesColumn),
+                    'order-table-action')
+            } else {
+                $('#order-table').DataTable().clear().destroy();
+                let fetchurl = `/admin/view-order-details` + searchParams
+
+                initServerSideDataTable('order-table', fetchurl, 'order-selected',
+                    createColumn(OrderTablesColumn),
+                    'order-table-action')
+
+            }
+        </script>
+    @endpush
 @endsection
