@@ -47,7 +47,13 @@
                     <li><a class="nav-link scrollto" href="#services">Services</a></li>
                     <li><a class="nav-link scrollto" href="#team">Team</a></li>
                     <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-                    <li><a class="getstarted scrollto" href="{{route('login-view')}}">Login</a></li>
+                    <li>
+                        @if(Session::has('abcdefgh'))
+                        <a class="getstarted scrollto" href="{{route('admin.indexView')}}">Dashboard</a>
+                        @else
+                        <a class="getstarted scrollto" href="{{route('login-view')}}">Login</a>
+                        @endif
+                    </li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
@@ -98,7 +104,7 @@
     <script src="{{asset('frontend/assets/vendor/swiper/swiper-bundle.min.js')}}"></script>
     <script src="{{asset('frontend/assets/vendor/php-email-form/validate.js')}}"></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-        <!-- Template Main JS File -->
+    <!-- Template Main JS File -->
     <script src="{{asset('frontend/assets/js/main.js')}}"></script>
 </body>
 
