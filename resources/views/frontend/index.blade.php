@@ -5,7 +5,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
-          <h1 data-aos="fade-up">Grow your business with Vesperr</h1>
+          <h1 data-aos="fade-up">Grow your business with Dine Wise</h1>
           <h2 data-aos="fade-up" data-aos-delay="400">We are team of talented designers making websites with Bootstrap</h2>
           <div data-aos="fade-up" data-aos-delay="800">
             <a href="#about" class="btn-get-started scrollto">Get Started</a>
@@ -497,7 +497,7 @@
 
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
             <div class="contact-about">
-              <h3>Vesperr</h3>
+              <h3>Dine Wise</h3>
               <p>Cras fermentum odio eu feugiat. Justo eget magna fermentum iaculis eu non diam phasellus. Scelerisque felis imperdiet proin fermentum leo. Amet volutpat consequat mauris nunc congue.</p>
               <div class="social-links">
                 <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
