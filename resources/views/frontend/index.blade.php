@@ -79,6 +79,9 @@
           <div class="col-lg-6 pt-4 pt-lg-0" data-aos="fade-up" data-aos-delay="300">
             <p>
               DineWise goes beyond mere automation; it empowers restaurants to gain a deeper understanding of their operations and customer behavior. Through this newfound knowledge, restaurants can make informed decisions, personalize offerings, and cultivate a loyal customer base. Ultimately, DineWise serves as a strategic partner for modern restaurants, paving the way for sustainable growth and success in a dynamic and competitive environment.
+            </p>
+            <p>
+              Imagine a world where order tracking keeps your kitchen in perfect rhythm, inventory control ensures ingredients are always in tune, and insightful reports unveil opportunities to elevate your menu. DineWise empowers you to conduct your restaurant with confidence, making informed decisions based on data-driven insights. The result? Increased profitability, a thriving team, and happy customers returning for the perfect plate, every time.
 
             </p>
             <a href="{{route('login-view')}}" class="btn-learn-more">Explore Now</a>
