@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 22, 2024 at 04:42 AM
+-- Generation Time: Apr 26, 2024 at 02:15 PM
 -- Server version: 8.0.30
--- PHP Version: 8.3.3
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,9 +29,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `advance_payment` (
   `id` bigint UNSIGNED NOT NULL,
-  `uid` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `amount` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `month` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uid` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `month` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `year` year NOT NULL,
   `date` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -48,12 +48,12 @@ CREATE TABLE `advance_payment` (
 CREATE TABLE `attendance` (
   `id` bigint UNSIGNED NOT NULL,
   `year` year NOT NULL,
-  `month` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `month` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date` date NOT NULL,
-  `uid` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uid` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `login` time DEFAULT NULL,
   `logout` time DEFAULT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `attendance_rule` int NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE `attendance_rules` (
   `id` bigint UNSIGNED NOT NULL,
   `start` time DEFAULT NULL,
   `end` time DEFAULT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -90,20 +90,20 @@ INSERT INTO `attendance_rules` (`id`, `start`, `end`, `status`, `created_at`, `u
 
 CREATE TABLE `bookings` (
   `id` bigint UNSIGNED NOT NULL,
-  `booking_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `mobile` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `no_of_people` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `event` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `booking_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `no_of_people` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `event` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `booked_from` timestamp NULL DEFAULT NULL,
   `booked_to` timestamp NULL DEFAULT NULL,
-  `tables` text COLLATE utf8mb4_unicode_ci,
-  `amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cancel_reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tables` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `amount` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cancel_reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -117,14 +117,14 @@ CREATE TABLE `bookings` (
 
 CREATE TABLE `create_payment` (
   `id` bigint UNSIGNED NOT NULL,
-  `uid` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uid` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `year` year NOT NULL,
-  `month` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `deduction` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bonus` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `final_amount` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `comment` text COLLATE utf8mb4_unicode_ci,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `month` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deduction` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bonus` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `final_amount` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -138,12 +138,12 @@ CREATE TABLE `create_payment` (
 
 CREATE TABLE `customers` (
   `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `dob` date DEFAULT NULL,
   `doa` date DEFAULT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -155,7 +155,8 @@ CREATE TABLE `customers` (
 
 INSERT INTO `customers` (`id`, `name`, `phone`, `email`, `dob`, `doa`, `status`, `deleted_at`, `created_at`, `updated_at`) VALUES
 (1, 'Vaibhav goswami', '7518445857', 'goswamivaibhav72@gmail.com', '2024-04-18', NULL, NULL, NULL, '2024-04-15 09:26:43', '2024-04-17 09:48:36'),
-(2, 'Shazan Ateeq', '324354', 'digi@gmail.com', '2024-04-18', NULL, NULL, NULL, '2024-04-18 05:29:46', '2024-04-18 05:29:46');
+(2, 'Shazan Ateeq', '324354', 'digi@gmail.com', '2024-04-18', NULL, NULL, NULL, '2024-04-18 05:29:46', '2024-04-18 05:29:46'),
+(3, 'Subhan Raj', '9919611222', 'shubhanraj2002@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -165,7 +166,7 @@ INSERT INTO `customers` (`id`, `name`, `phone`, `email`, `dob`, `doa`, `status`,
 
 CREATE TABLE `customer_loyalty_points` (
   `id` bigint UNSIGNED NOT NULL,
-  `customer_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `customer_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `points` int NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -188,9 +189,9 @@ INSERT INTO `customer_loyalty_points` (`id`, `customer_id`, `points`, `deleted_a
 
 CREATE TABLE `define_salary` (
   `id` bigint UNSIGNED NOT NULL,
-  `uid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `starting_salary` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `current_salary` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `uid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `starting_salary` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `current_salary` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -204,11 +205,11 @@ CREATE TABLE `define_salary` (
 
 CREATE TABLE `failed_jobs` (
   `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -221,20 +222,20 @@ CREATE TABLE `failed_jobs` (
 CREATE TABLE `inquiry` (
   `id` bigint UNSIGNED NOT NULL,
   `year` year NOT NULL,
-  `month` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `month` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date` date NOT NULL,
-  `source` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `client_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `req` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `whatsapp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `business` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `website` text COLLATE utf8mb4_unicode_ci,
-  `status` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `source` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `client_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `req` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `whatsapp` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `business` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `website` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `status` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `follow_up_date` date DEFAULT NULL,
-  `service_taken` text COLLATE utf8mb4_unicode_ci,
+  `service_taken` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -248,15 +249,15 @@ CREATE TABLE `inquiry` (
 
 CREATE TABLE `leaves` (
   `id` bigint UNSIGNED NOT NULL,
-  `uid` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uid` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `l_from` date NOT NULL,
   `l_to` date NOT NULL,
-  `type` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `des` text COLLATE utf8mb4_unicode_ci,
-  `reject_reason` text COLLATE utf8mb4_unicode_ci,
+  `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `des` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `reject_reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `year` int NOT NULL,
-  `month` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `month` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -288,9 +289,9 @@ CREATE TABLE `logins` (
 
 INSERT INTO `logins` (`id`, `role`, `user_id`, `email`, `phone`, `password`, `two_fa_email`, `two_fa_phone`, `created_at`, `updated_at`) VALUES
 (2, 'ADMIN', '123443', 'admin@gmail.com', '123456789', '$2y$10$iPTIfKy4yBWCsQZr0waxie6sfHQx1UO22j55CaZ0z6H03Rrsb8cpW', 'NO', ' NO', '2022-11-28 05:17:05', '2022-11-28 05:17:05'),
-(8, 'STAFF', 'Vaibhav2023', 'goswamivaibhav72@gmail.com', '7518445857', '$2y$10$zkje/71BoXanOgg1U06ZQu1ufLeUFNnDKYmwJgg96OYlEKxTiOIyG', 'NO', NULL, '2023-03-02 12:15:04', '2023-04-21 06:30:04'),
-(10, 'RECEPTION', '46498213', 'testing@gmail.com', '45455', '$2y$10$zkje/71BoXanOgg1U06ZQu1ufLeUFNnDKYmwJgg96OYlEKxTiOIyG', 'NO', NULL, '2023-04-15 05:30:36', '2023-04-15 05:30:36'),
-(11, 'CHEF', 'chef@2023', 'vaibhavgoswami2023@gmail.com', NULL, '$2y$10$iPTIfKy4yBWCsQZr0waxie6sfHQx1UO22j55CaZ0z6H03Rrsb8cpW', 'NO', 'NO', NULL, NULL);
+(8, 'STAFF', 'Vaibhav2023', 'goswamivaibhav72@gmail.com', '7518445857', '$2y$10$iPTIfKy4yBWCsQZr0waxie6sfHQx1UO22j55CaZ0z6H03Rrsb8cpW', 'NO', NULL, '2023-03-02 12:15:04', '2023-04-21 06:30:04'),
+(10, 'RECEPTION', '46498213', 'reception@gmail.com', '45455', '$2y$10$iPTIfKy4yBWCsQZr0waxie6sfHQx1UO22j55CaZ0z6H03Rrsb8cpW', 'NO', NULL, '2023-04-15 05:30:36', '2023-04-15 05:30:36'),
+(11, 'CHEF', 'chef@2023', 'chef@gmail.com', NULL, '$2y$10$iPTIfKy4yBWCsQZr0waxie6sfHQx1UO22j55CaZ0z6H03Rrsb8cpW', 'NO', 'NO', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -300,8 +301,8 @@ INSERT INTO `logins` (`id`, `role`, `user_id`, `email`, `phone`, `password`, `tw
 
 CREATE TABLE `loyalty` (
   `id` bigint UNSIGNED NOT NULL,
-  `amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `points` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `points` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -324,7 +325,7 @@ INSERT INTO `loyalty` (`id`, `amount`, `points`, `deleted_at`, `created_at`, `up
 
 CREATE TABLE `media` (
   `id` bigint UNSIGNED NOT NULL,
-  `img_name` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `img_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -348,7 +349,7 @@ INSERT INTO `media` (`id`, `img_name`, `deleted_at`, `created_at`, `updated_at`)
 
 CREATE TABLE `migrations` (
   `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -381,29 +382,29 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `orders_details` (
   `id` bigint UNSIGNED NOT NULL,
-  `order_id` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `productData` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `selectedTable` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `productData` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `selectedTable` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `no_of_people` int NOT NULL,
   `table_status` int NOT NULL DEFAULT '0',
-  `customer_or_booking` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_id_or_booking_id` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `orderInstruction` text COLLATE utf8mb4_unicode_ci,
-  `total_item` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `total_amount` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gst_amount` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `discount_amount` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `loyalty_discount` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `loyalty_used` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `payable_amount` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payment_method` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `other_method` text COLLATE utf8mb4_unicode_ci,
-  `grand_amount` text COLLATE utf8mb4_unicode_ci,
-  `payment_status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `chef_status` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT 'RECEIVED',
+  `customer_or_booking` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `customer_id_or_booking_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `orderInstruction` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `total_item` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_amount` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gst_amount` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `discount_amount` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `loyalty_discount` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `loyalty_used` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `payable_amount` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_method` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `other_method` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `grand_amount` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `payment_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `chef_status` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'RECEIVED',
   `date` date DEFAULT NULL,
-  `month` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `month` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `year` year DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -415,15 +416,15 @@ CREATE TABLE `orders_details` (
 --
 
 INSERT INTO `orders_details` (`id`, `order_id`, `productData`, `selectedTable`, `no_of_people`, `table_status`, `customer_or_booking`, `customer_id_or_booking_id`, `orderInstruction`, `total_item`, `total_amount`, `gst_amount`, `discount_amount`, `loyalty_discount`, `loyalty_used`, `payable_amount`, `payment_method`, `other_method`, `grand_amount`, `payment_status`, `status`, `chef_status`, `date`, `month`, `year`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, '2024041', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":2,\"price_per_unit\":220,\"product_price\":440,\"order_status\":\"Prepared\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":180,\"product_price\":180,\"order_status\":\"Recieved\"},{\"product_id\":\"8F0D908618\",\"product_name\":\"Green Tea\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":50,\"product_price\":50,\"order_status\":\"Processing\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '3', '670', '134', '0', '5', '100', '799', 'card', '', '804', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 05:47:53', '2024-04-19 06:49:47'),
-(2, '2024042', '[{\"product_id\":\"F95EA1F2A9\",\"product_name\":\"Mineral Water\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Bottle\",\"product_qty\":\"1\",\"price_per_unit\":\"20\",\"product_price\":\"20\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"F95EA1F2A9Bottle\"},{\"product_id\":\"2DF34B9EA4\",\"product_name\":\"Soft Drink\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Bottle\",\"product_qty\":\"1\",\"price_per_unit\":\"60\",\"product_price\":\"60\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"2DF34B9EA4Bottle\"},{\"product_id\":\"833C6BD3D6\",\"product_name\":\"Masal Shikanji\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"100\",\"product_price\":\"100\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"833C6BD3D6Item\"},{\"product_id\":\"37EBBCC2A5\",\"product_name\":\"Diet Cold Drink\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"100\",\"product_price\":\"100\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"37EBBCC2A5Item\"},{\"product_id\":\"F815B4A1DD\",\"product_name\":\"Mango Delight\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"150\",\"product_price\":\"150\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"F815B4A1DDItem\"},{\"product_id\":\"5FBA9AA9E7\",\"product_name\":\"Paneer Tikka Pizza\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"250\",\"product_price\":\"250\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"5FBA9AA9E7Item\"},{\"product_id\":\"22EE424D02\",\"product_name\":\"Margherita Pizza\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"220\",\"product_price\":\"220\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"22EE424D02Item\"}]', '[\"2\"]', 1, 1, 'customers', '1', 'hello', '7', '900', '180', '0', '0', '0', '1080', 'cash', NULL, '1080', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 06:12:36', '2024-04-19 07:48:03'),
-(3, '2024043', '[{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Processing\"},{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Recieved\"},{\"product_id\":\"9F11CABED2\",\"product_name\":\"Ckn Mandi\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"599\",\"product_price\":\"599\",\"order_status\":\"Recieved\"},{\"product_id\":\"AA8729FC7C\",\"product_name\":\"Bun Kebab\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"150\",\"product_price\":\"150\",\"order_status\":\"Recieved\"},{\"product_id\":\"BCA2CF7DF6\",\"product_name\":\"Hell\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"120\",\"product_price\":\"120\",\"order_status\":\"Recieved\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '5', '1269', '254', '20', '5', '100', '1498', 'cash', '', '1523', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 07:12:05', '2024-04-19 07:47:49'),
-(4, '2024044', '[{\"product_id\":\"8FE3BAD9A1\",\"product_name\":\"Ckn Perry Perry\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"230\",\"product_price\":\"230\",\"order_status\":\"Recieved\"},{\"product_id\":\"8FDF39B58F\",\"product_name\":\"Crunchy Chicken\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"300\",\"product_price\":\"300\",\"order_status\":\"Recieved\"},{\"product_id\":\"F257E4C13B\",\"product_name\":\"Chicken Steak\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"350\",\"product_price\":\"350\",\"order_status\":\"Recieved\"},{\"product_id\":\"26725E3C51\",\"product_name\":\"Chicken Sandwich\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"}]', '[\"5\"]', 2, 1, 'customers', '1', '', '4', '1060', '212', '100', '5', '100', '1167', 'upi', '', '1272', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 07:25:03', '2024-04-19 07:46:45'),
-(5, '2024045', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Recieved\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"},{\"product_id\":\"5FC90AF235\",\"product_name\":\"CKN Korma\",\"product_unit\":\"Full\",\"product_qty\":1,\"price_per_unit\":\"550\",\"product_price\":\"550\",\"order_status\":\"Recieved\"},{\"product_id\":\"38A4CF75EC\",\"product_name\":\"Trinidadian CKN\",\"product_unit\":\"Half\",\"product_qty\":1,\"price_per_unit\":\"320\",\"product_price\":\"320\",\"order_status\":\"Recieved\"},{\"product_id\":\"24ACC4CAEF\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"95\",\"product_price\":\"95\",\"order_status\":\"Recieved\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '5', '1365', '273', '0', '0', '0', '1638', 'card', NULL, '1638', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 07:59:44', '2024-04-19 09:25:09'),
-(6, '2024046', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":220,\"product_price\":220,\"order_status\":\"Recieved\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":180,\"product_price\":180,\"order_status\":\"Recieved\"},{\"product_id\":\"26725E3C51\",\"product_name\":\"Chicken Sandwich\",\"product_unit\":\"Item\",\"product_qty\":2,\"price_per_unit\":180,\"product_price\":360,\"order_status\":\"Recieved\"}]', '[\"2\"]', 2, 1, 'customers', '1', 'fsdfdsf', '3', '760', '152', '50', '1', '10', '861', 'cash', NULL, '912', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 09:22:32', '2024-04-19 09:24:50'),
-(7, '2024047', '[{\"product_id\":\"F95EA1F2A9\",\"product_name\":\"Mineral Water\",\"product_unit\":\"Bottle\",\"product_qty\":\"1\",\"price_per_unit\":\"20\",\"product_price\":\"20\",\"order_status\":\"Prepared\"},{\"product_id\":\"B70752D21A\",\"product_name\":\"Red Bull\",\"product_unit\":\"Bottle\",\"product_qty\":\"3\",\"price_per_unit\":\"190\",\"product_price\":\"570\",\"order_status\":\"Prepared\"}]', '[\"2\"]', 1, 1, 'customers', '1', 'Hello this is vaibhav goswami', '2', '590', '118', '0', '0', '0', '708', 'cash', NULL, '708', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 09:27:12', '2024-04-19 09:29:02'),
-(8, '2024048', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Recieved\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"},{\"product_id\":\"5A61DEE9B0\",\"product_name\":\"Butter Naan\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"60\",\"product_price\":\"60\",\"order_status\":\"Recieved\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '3', '460', '92', '0', '0', '0', '552', 'cash', NULL, '552', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 09:36:01', '2024-04-20 04:50:43'),
-(9, '2024049', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Recieved\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"}]', '[\"2\"]', 2, 1, 'customers', '1', '', '2', '400', '80', '0', '0', '0', '480', 'cash', NULL, '480', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 10:01:41', '2024-04-19 10:02:55');
+(1, '2024041', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":2,\"price_per_unit\":220,\"product_price\":440,\"order_status\":\"Prepared\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":180,\"product_price\":180,\"order_status\":\"Recieved\"},{\"product_id\":\"8F0D908618\",\"product_name\":\"Green Tea\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":50,\"product_price\":50,\"order_status\":\"Processing\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '3', '670', '134', '0', '5', '100', '799', 'card', '', '804', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 05:47:53', '2024-04-19 06:49:47'),
+(2, '2024042', '[{\"product_id\":\"F95EA1F2A9\",\"product_name\":\"Mineral Water\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Bottle\",\"product_qty\":\"1\",\"price_per_unit\":\"20\",\"product_price\":\"20\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"F95EA1F2A9Bottle\"},{\"product_id\":\"2DF34B9EA4\",\"product_name\":\"Soft Drink\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Bottle\",\"product_qty\":\"1\",\"price_per_unit\":\"60\",\"product_price\":\"60\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"2DF34B9EA4Bottle\"},{\"product_id\":\"833C6BD3D6\",\"product_name\":\"Masal Shikanji\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"100\",\"product_price\":\"100\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"833C6BD3D6Item\"},{\"product_id\":\"37EBBCC2A5\",\"product_name\":\"Diet Cold Drink\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"100\",\"product_price\":\"100\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"37EBBCC2A5Item\"},{\"product_id\":\"F815B4A1DD\",\"product_name\":\"Mango Delight\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"150\",\"product_price\":\"150\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"F815B4A1DDItem\"},{\"product_id\":\"5FBA9AA9E7\",\"product_name\":\"Paneer Tikka Pizza\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"250\",\"product_price\":\"250\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"5FBA9AA9E7Item\"},{\"product_id\":\"22EE424D02\",\"product_name\":\"Margherita Pizza\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"220\",\"product_price\":\"220\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"22EE424D02Item\"}]', '[\"2\"]', 1, 1, 'customers', '1', 'hello', '7', '900', '180', '0', '0', '0', '1080', 'cash', NULL, '1080', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 06:12:36', '2024-04-19 07:48:03'),
+(3, '2024043', '[{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Processing\"},{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Recieved\"},{\"product_id\":\"9F11CABED2\",\"product_name\":\"Ckn Mandi\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"599\",\"product_price\":\"599\",\"order_status\":\"Recieved\"},{\"product_id\":\"AA8729FC7C\",\"product_name\":\"Bun Kebab\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"150\",\"product_price\":\"150\",\"order_status\":\"Recieved\"},{\"product_id\":\"BCA2CF7DF6\",\"product_name\":\"Hell\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"120\",\"product_price\":\"120\",\"order_status\":\"Recieved\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '5', '1269', '254', '20', '5', '100', '1498', 'cash', '', '1523', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 07:12:05', '2024-04-19 07:47:49'),
+(4, '2024044', '[{\"product_id\":\"8FE3BAD9A1\",\"product_name\":\"Ckn Perry Perry\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"230\",\"product_price\":\"230\",\"order_status\":\"Recieved\"},{\"product_id\":\"8FDF39B58F\",\"product_name\":\"Crunchy Chicken\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"300\",\"product_price\":\"300\",\"order_status\":\"Recieved\"},{\"product_id\":\"F257E4C13B\",\"product_name\":\"Chicken Steak\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"350\",\"product_price\":\"350\",\"order_status\":\"Recieved\"},{\"product_id\":\"26725E3C51\",\"product_name\":\"Chicken Sandwich\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"}]', '[\"5\"]', 2, 1, 'customers', '1', '', '4', '1060', '212', '100', '5', '100', '1167', 'upi', '', '1272', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 07:25:03', '2024-04-19 07:46:45'),
+(5, '2024045', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Recieved\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"},{\"product_id\":\"5FC90AF235\",\"product_name\":\"CKN Korma\",\"product_unit\":\"Full\",\"product_qty\":1,\"price_per_unit\":\"550\",\"product_price\":\"550\",\"order_status\":\"Recieved\"},{\"product_id\":\"38A4CF75EC\",\"product_name\":\"Trinidadian CKN\",\"product_unit\":\"Half\",\"product_qty\":1,\"price_per_unit\":\"320\",\"product_price\":\"320\",\"order_status\":\"Recieved\"},{\"product_id\":\"24ACC4CAEF\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"95\",\"product_price\":\"95\",\"order_status\":\"Recieved\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '5', '1365', '273', '0', '0', '0', '1638', 'card', NULL, '1638', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 07:59:44', '2024-04-19 09:25:09'),
+(6, '2024046', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":220,\"product_price\":220,\"order_status\":\"Recieved\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":180,\"product_price\":180,\"order_status\":\"Recieved\"},{\"product_id\":\"26725E3C51\",\"product_name\":\"Chicken Sandwich\",\"product_unit\":\"Item\",\"product_qty\":2,\"price_per_unit\":180,\"product_price\":360,\"order_status\":\"Recieved\"}]', '[\"2\"]', 2, 1, 'customers', '1', 'fsdfdsf', '3', '760', '152', '50', '1', '10', '861', 'cash', NULL, '912', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 09:22:32', '2024-04-19 09:24:50'),
+(7, '2024047', '[{\"product_id\":\"F95EA1F2A9\",\"product_name\":\"Mineral Water\",\"product_unit\":\"Bottle\",\"product_qty\":\"1\",\"price_per_unit\":\"20\",\"product_price\":\"20\",\"order_status\":\"Prepared\"},{\"product_id\":\"B70752D21A\",\"product_name\":\"Red Bull\",\"product_unit\":\"Bottle\",\"product_qty\":\"3\",\"price_per_unit\":\"190\",\"product_price\":\"570\",\"order_status\":\"Prepared\"}]', '[\"2\"]', 1, 1, 'customers', '1', 'Hello this is vaibhav goswami', '2', '590', '118', '0', '0', '0', '708', 'cash', NULL, '708', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 09:27:12', '2024-04-19 09:29:02'),
+(8, '2024048', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Recieved\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"},{\"product_id\":\"5A61DEE9B0\",\"product_name\":\"Butter Naan\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"60\",\"product_price\":\"60\",\"order_status\":\"Recieved\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '3', '460', '92', '0', '0', '0', '552', 'cash', NULL, '552', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 09:36:01', '2024-04-20 04:50:43'),
+(9, '2024049', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Processing\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"}]', '[\"2\"]', 2, 1, 'customers', '1', '', '2', '400', '80', '0', '0', '0', '480', 'cash', NULL, '480', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 10:01:41', '2024-04-26 11:18:36');
 
 -- --------------------------------------------------------
 
@@ -433,11 +434,11 @@ INSERT INTO `orders_details` (`id`, `order_id`, `productData`, `selectedTable`, 
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -452,8 +453,8 @@ CREATE TABLE `personal_access_tokens` (
 
 CREATE TABLE `pricing_units` (
   `id` bigint UNSIGNED NOT NULL,
-  `unit_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `unit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `unit_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -478,14 +479,14 @@ INSERT INTO `pricing_units` (`id`, `unit_id`, `unit`, `deleted_at`, `created_at`
 
 CREATE TABLE `products` (
   `id` bigint UNSIGNED NOT NULL,
-  `auto_product_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cat_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_name` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_image` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `stock` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `price` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `auto_product_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cat_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `stock` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `price` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `stared` int DEFAULT '0',
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -675,10 +676,10 @@ INSERT INTO `products` (`id`, `auto_product_id`, `product_id`, `cat_id`, `produc
 
 CREATE TABLE `product_categories` (
   `id` bigint UNSIGNED NOT NULL,
-  `cat_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cat_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cat_img` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cat_banner` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cat_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cat_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cat_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cat_banner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -718,10 +719,10 @@ INSERT INTO `product_categories` (`id`, `cat_id`, `cat_name`, `cat_img`, `cat_ba
 
 CREATE TABLE `product_materials` (
   `id` bigint UNSIGNED NOT NULL,
-  `material_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `material` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `qty` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `material_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `material` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `qty` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -736,11 +737,11 @@ CREATE TABLE `product_materials` (
 CREATE TABLE `reception` (
   `id` bigint UNSIGNED NOT NULL,
   `year` int NOT NULL,
-  `month` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `month` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date` date NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(12) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `purpose` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `purpose` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `entry_time` time NOT NULL,
   `exit_time` time DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -755,12 +756,12 @@ CREATE TABLE `reception` (
 
 CREATE TABLE `released_payment` (
   `id` bigint UNSIGNED NOT NULL,
-  `uid` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_payment_id` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `paid_amount` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `rest_amount` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `method` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `transaction_id` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uid` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_payment_id` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `paid_amount` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `rest_amount` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `method` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `transaction_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_time` datetime NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -775,8 +776,8 @@ CREATE TABLE `released_payment` (
 
 CREATE TABLE `salary_increment` (
   `id` bigint UNSIGNED NOT NULL,
-  `uid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -790,8 +791,8 @@ CREATE TABLE `salary_increment` (
 
 CREATE TABLE `settings` (
   `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -813,16 +814,16 @@ INSERT INTO `settings` (`id`, `name`, `value`, `deleted_at`, `created_at`, `upda
 
 CREATE TABLE `staffs` (
   `id` bigint UNSIGNED NOT NULL,
-  `uid` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `work_ex` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `designation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uid` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `work_ex` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `designation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `doj` date DEFAULT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `profile_picture` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `documents` text COLLATE utf8mb4_unicode_ci,
+  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `profile_picture` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `documents` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -844,15 +845,15 @@ INSERT INTO `staffs` (`id`, `uid`, `name`, `email`, `phone`, `work_ex`, `designa
 
 CREATE TABLE `staff_account_details` (
   `id` bigint UNSIGNED NOT NULL,
-  `uid` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bank_name` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `account_holder_name` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `acc_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ifsc_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `gpay` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phonepay` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `paytm` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uid` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bank_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `account_holder_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `acc_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ifsc_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gpay` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phonepay` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `paytm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -874,18 +875,10 @@ INSERT INTO `staff_account_details` (`id`, `uid`, `bank_name`, `account_holder_n
 
 CREATE TABLE `stared_products` (
   `id` bigint UNSIGNED NOT NULL,
-  `product_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `stared_products`
---
-
-INSERT INTO `stared_products` (`id`, `product_id`, `created_at`, `updated_at`) VALUES
-(1, 'FF6884ECEC', '2024-04-15 09:25:35', '2024-04-15 09:25:35'),
-(2, 'E1B90029D9', '2024-04-15 09:25:37', '2024-04-15 09:25:37');
 
 -- --------------------------------------------------------
 
@@ -895,9 +888,9 @@ INSERT INTO `stared_products` (`id`, `product_id`, `created_at`, `updated_at`) V
 
 CREATE TABLE `tables` (
   `id` bigint UNSIGNED NOT NULL,
-  `table_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `capacity` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `table_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `capacity` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
