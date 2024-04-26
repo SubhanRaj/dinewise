@@ -90,9 +90,10 @@ class Login extends Controller
                         $data = json_encode(['user_id' => $user_data[0]['user_id'], 'email' => $username, 'role' => $role]);
                         $abcdefgh = encodeData($data);
                         session()->put('abcdefgh', $abcdefgh);
-                        // session()->put('loginStatus', 'true');
-                        // session()->put('role', $role);
-                        // session()->put('user_id', $user_data[0]['user_id']);
+                        session()->put('loginStatus', 'true');
+                        session()->put('role', $role);
+                        session()->put('user_id', $user_data[0]['user_id']);
+                        session()->put('username', $username);
                         return response()->json([
                             'status' => true,
                             'errors' => '',

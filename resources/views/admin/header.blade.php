@@ -345,8 +345,12 @@
                             <img src="{{ asset('admin-assets/assets/images/digi-user.png') }}" class="user-img"
                                 alt="user avatar">
                             <div class="user-info ps-3">
-                                <p class="user-name mb-0">Digicrowd Solution</p>
-                                <p class="designattion mb-0">Digital Marketing Agency</p>
+                                <p class="user-name mb-0">
+                                    {{ session('username') }}
+                                </p>
+                                <p class="designattion mb-0">
+                                    {{ session('role') }}
+                                </p>
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
