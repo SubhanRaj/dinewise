@@ -281,7 +281,9 @@
 
         <div class="section-title" data-aos="fade-up">
           <h2>Team</h2>
-          <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem</p>
+          <p>
+            The team behind DineWise is a group of passionate and dedicated professionals with a shared vision of transforming the restaurant industry through technological innovation. Our team members bring a diverse set of skills and experiences to the table, enabling us to develop a robust and user-friendly software solution that meets the needs of modern restaurants. Together, we are committed to helping restaurants thrive in today's competitive market by providing them with the tools and support they need to succeed.
+          </p>
         </div>
 
         <div class="row">
@@ -298,8 +300,10 @@
                 </div>
               </div>
               <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Executive Officer</span>
+                <h4>Subhan Raj</h4>
+                <span>
+                  Project Manager & DevOps Engineer
+                </span>
               </div>
             </div>
           </div>
@@ -316,8 +320,8 @@
                 </div>
               </div>
               <div class="member-info">
-                <h4>Sarah Jhonson</h4>
-                <span>Product Manager</span>
+                <h4>Vaibhav Goswami</h4>
+                <span>Lead Developer</span>
               </div>
             </div>
           </div>
@@ -334,8 +338,8 @@
                 </div>
               </div>
               <div class="member-info">
-                <h4>William Anderson</h4>
-                <span>CTO</span>
+                <h4>Vaishnavi Mishra</h4>
+                <span>Tester & Documentation Specialist</span>
               </div>
             </div>
           </div>
