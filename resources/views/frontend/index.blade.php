@@ -99,39 +99,39 @@
 
         <div class="section-title" data-aos="fade-up">
           <h2>Services</h2>
-          <p>Magnam dolores commodi suscipit eius consequatur ex aliquid fug</p>
+          <p>DineWise offers a wide range of services designed to meet the unique needs of modern restaurants. From order management to inventory control, our software solution provides the tools and support you need to succeed in today's competitive market. Explore our services below to learn more about how DineWise can help your restaurant thrive.</p>
         </div>
 
         <div class="row">
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-              <div class="icon"><i class="bx bxl-dribbble"></i></div>
-              <h4 class="title"><a href="">Lorem Ipsum</a></h4>
-              <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+              <div class="icon"><i class='bx bxs-bowl-hot'></i></div>
+              <h4 class="title"><a href="">Table Reservation & Booking</a></h4>
+              <p class="description">DineWise helps you manage your restaurant's table reservations and bookings with ease, ensuring a seamless dining experience for your customers.</p>
             </div>
           </div>
 
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
-              <div class="icon"><i class="bx bx-file"></i></div>
-              <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
-              <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+              <div class="icon"><i class='bx bx-wallet'></i></div>
+              <h4 class="title"><a href="">Billing & Inventory Management</a></h4>
+              <p class="description"> Our software solution enables you to manage billing and inventory efficiently, reducing waste and increasing profitability.</p>
             </div>
           </div>
 
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
-              <div class="icon"><i class="bx bx-tachometer"></i></div>
-              <h4 class="title"><a href="">Magni Dolores</a></h4>
-              <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
+              <div class="icon"><i class='bx bxs-business'></i></div>
+              <h4 class="title"><a href="">Employee & Payroll Management</a></h4>
+              <p class="description">DineWise helps you manage your restaurant's employees and payroll, ensuring smooth operations, attendence, and salary management.</p>
             </div>
           </div>
 
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
-              <div class="icon"><i class="bx bx-world"></i></div>
-              <h4 class="title"><a href="">Nemo Enim</a></h4>
-              <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+              <div class="icon"><i class='bx bxs-report'></i></div>
+              <h4 class="title"><a href="">Reporting & Analysis with AI and ML</a></h4>
+              <p class="description">Our software solution provides you with valuable insights and reports, enabling you to make data-driven decisions and optimize your restaurant's performance.</p>
             </div>
           </div>
 
@@ -193,14 +193,15 @@
 
         <div class="section-title" data-aos="fade-up">
           <h2>Features</h2>
-          <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem</p>
+          <p>
+            DineWise offers a wide range of features designed to help restaurants streamline operations, optimize workflows, and improve overall efficiency. From order management to inventory control, our software solution provides the tools and support you need to succeed in today's competitive market. Explore our features below to learn more about how DineWise can help your restaurant thrive.
         </div>
 
         <div class="row" data-aos="fade-up" data-aos-delay="300">
           <div class="col-lg-3 col-md-4">
             <div class="icon-box">
-              <i class="ri-store-line" style="color: #ffbb2c;"></i>
-              <h3><a href="">Lorem Ipsum</a></h3>
+              <i class="ri-restaurant-2-line" style="color: #ffbb2c;"></i>
+              <h3><a href="">Table Booking</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
