@@ -23,6 +23,8 @@
     <link href="{{asset('frontend/assets/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.2.0/tabler-icons.min.css"> -->
+
 
     <!-- Template Main CSS File -->
     <link href="{{asset('frontend/assets/css/style.css')}}" rel="stylesheet">
@@ -45,6 +47,7 @@
                     <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
                     <li><a class="nav-link scrollto" href="#about">About</a></li>
                     <li><a class="nav-link scrollto" href="#services">Services</a></li>
+                    <li><a class="nav-link scrollto" href="#features">Features</a></li>
                     <li><a class="nav-link scrollto" href="#team">Team</a></li>
                     <li>
                         @if(Session::has('abcdefgh'))
@@ -80,8 +83,8 @@
                     <nav class="footer-links text-lg-right text-center pt-2 pt-lg-0">
                         <a href="#intro" class="scrollto">Home</a>
                         <a href="#about" class="scrollto">About</a>
-                        <a href="#">Services</a>
-                        <a href="#">Features</a>
+                        <a href="#services" class="scrollto">Services</a>
+                        <a href="#features" class="scrollto">Features</a>
                     </nav>
                 </div>
             </div>
@@ -99,6 +102,7 @@
     <script src="{{asset('frontend/assets/vendor/swiper/swiper-bundle.min.js')}}"></script>
     <script src="{{asset('frontend/assets/vendor/php-email-form/validate.js')}}"></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.2.0/dist/tabler-icons.min.css">
     <!-- Template Main JS File -->
     <script src="{{asset('frontend/assets/js/main.js')}}"></script>
 </body>
