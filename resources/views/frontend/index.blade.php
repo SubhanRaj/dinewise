@@ -279,7 +279,7 @@
               </div>
               <div class="member-info">
                 <h4>Vaishnavi Mishra</h4>
-                <span>Tester & Documentation Specialist</span>
+                <span>QA Engineer</span>
               </div>
             </div>
           </div>
