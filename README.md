@@ -15,6 +15,8 @@
 ## About Dine Wise
 
 DineWise is a comprehensive restaurant management software application developed using Laravel, designed to address the challenges and opportunities faced by modern restaurants in today's competitive market. It empowers restaurants to streamline operations, optimize workflows, and improve overall efficiency, ultimately leading to increased profitability and enhanced customer satisfaction.
+<!-- screenshot -->
+<p align="center"><a href="#" target="_blank"><img src="screenshot.png" width="800" alt="Dine Wise Screenshot"></a></p>
 
 
 ## Tech Stack
@@ -31,6 +33,9 @@ DineWise is a comprehensive restaurant management software application developed
 <img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white" alt="Firebase Badge"/>
 <!-- mysql -->
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL Badge"/>
+<!-- AWS -->
+<img src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white" alt="AWS Badge"/>
+
 </div>
 
 ## Prequesties
