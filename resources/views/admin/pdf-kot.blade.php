@@ -83,7 +83,7 @@
             <tr>
                 <td style="width:100%">
                     <div style="display: flex;justify-content: center;width:100%">
-                        <img src="{{ public_path() }}/tempPdf/logo.png">
+                        <img src="{{ public_path() }}/tempPdf/logo.png" height="50">
                     </div>
                 </td>
             </tr>
