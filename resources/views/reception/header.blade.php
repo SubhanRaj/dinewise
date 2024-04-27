@@ -136,7 +136,7 @@
                             <img src="{{ asset('admin-assets/assets/images/digi-user.png') }}" class="user-img"
                                 alt="user avatar">
                             <div class="user-info ps-3">
-                                <p class="user-name mb-0">Digicrowd Solution</p>
+                                <p class="user-name mb-0">Dine Wise</p>
                                 <p class="designattion mb-0">Digital Marketing Agency</p>
                             </div>
                         </a>

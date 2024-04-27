@@ -109,7 +109,7 @@
         </div>
         <table class="w-100 my-2">
             <tr>
-                <th class="text-center border-0 pt-3">Digicrowd Solution</th>
+                <th class="text-center border-0 pt-3">Dine Wise</th>
             </tr>
             <tr>
                 <td class="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit</td>
