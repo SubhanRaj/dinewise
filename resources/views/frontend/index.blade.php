@@ -229,10 +229,7 @@
       </div>
     </section><!-- End Features Section -->
 
-
-
-
-
+ 
     <!-- ======= Team Section ======= -->
     <section id="team" class="team section-bg">
       <div class="container">

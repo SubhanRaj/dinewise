@@ -616,7 +616,7 @@ let Staff_OrderTablesColumn = [
     "no_of_people",
     "customer_name",
     "customer_mobile",
-    "paid_amount",
+    // "paid_amount",
     "status",
     "view",
 ];

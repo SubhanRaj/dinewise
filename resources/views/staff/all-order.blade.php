@@ -48,7 +48,7 @@
                                                 <th class="sort text-nowrap">People</th>
                                                 <th class="sort text-nowrap">Customer Name</th>
                                                 <th class="sort text-nowrap">Customer Mobile</th>
-                                                <th class="sort text-nowrap">Paid Amount</th>
+                                                {{-- <th class="sort text-nowrap">Paid Amount</th> --}}
                                                 <th class="sort text-nowrap">Status</th>
                                                 <th class="sort text-nowrap">View</th>
                                                 <th class="sort text-nowrap">Created At</th>
