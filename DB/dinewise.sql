@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 28, 2024 at 04:38 AM
+-- Generation Time: Apr 28, 2024 at 05:10 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.3
 
@@ -1053,8 +1053,7 @@ ALTER TABLE `product_categories`
 --
 ALTER TABLE `product_materials`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `material_id` (`material_id`),
-  ADD KEY `material_id_2` (`material_id`);
+  ADD KEY `material_id` (`material_id`);
 
 --
 -- Indexes for table `reception`
