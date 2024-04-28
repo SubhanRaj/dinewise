@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pricing_units', function (Blueprint $table) {
-            $table->id();
-            $table->string('unit_id')->unique();
-            $table->string('unit')->unique();
-            $table->softDeletes();
+        Schema::create('stared_products', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('product_id')->index('product_id');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pricing_units');
+        Schema::dropIfExists('stared_products');
     }
 };

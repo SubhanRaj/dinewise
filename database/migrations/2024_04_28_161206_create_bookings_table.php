@@ -12,19 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('bookings', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('booking_id')->unique();
             $table->string('name');
-            $table->string('mobile', '20');
+            $table->string('mobile', 20);
             $table->string('email')->nullable();
             $table->text('address')->nullable();
             $table->string('no_of_people');
             $table->string('event')->nullable();
-            $table->timestamp('booking_date_time');
-            $table->text('tables');
+            $table->timestamp('booked_from')->nullable();
+            $table->timestamp('booked_to')->nullable();
+            $table->text('tables')->nullable();
             $table->string('amount');
             $table->text('description');
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->string('cancel_reason')->nullable();
             $table->softDeletes();
             $table->timestamps();

@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('loyalty', function (Blueprint $table) {
-            $table->id();
-            $table->string('loyalty_percentage');
-            $table->string('min_amount');
-            $table->string('max_points');
-            $table->string('expiry_days');
+        Schema::create('media', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->text('img_name');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('loyalty');
+        Schema::dropIfExists('media');
     }
 };

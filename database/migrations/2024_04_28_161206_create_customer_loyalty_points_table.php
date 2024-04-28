@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customers', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('phone');
-            $table->string('email')->nullable();
-            $table->date('dob')->nullable();
-            $table->date('doa')->nullable();
-            $table->string('status')->nullable();
+        Schema::create('customer_loyalty_points', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('customer_id')->unique();
+            $table->integer('points');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('customer_loyalty_points');
     }
 };

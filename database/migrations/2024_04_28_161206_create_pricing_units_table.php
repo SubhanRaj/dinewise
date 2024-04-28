@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tables', function (Blueprint $table) {
-            $table->id();
-            $table->string('table_no')->unique();
-            $table->string('capacity');
+        Schema::create('pricing_units', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('unit_id')->unique('unit_id');
+            $table->string('unit')->index('unit');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->unique(['unit_id'], 'unit_id_2');
+            $table->index(['unit_id'], 'unit_id_3');
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tables');
+        Schema::dropIfExists('pricing_units');
     }
 };

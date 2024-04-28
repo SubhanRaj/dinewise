@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customer_loyalty_points', function (Blueprint $table) {
-            $table->id();
-            $table->string('customer_id')->unique();
-            $table->string('points');
-            $table->string('used');
-            $table->softDeletes();
+        Schema::create('salary_increment', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('uid');
+            $table->string('amount');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customer_loyalty_points');
+        Schema::dropIfExists('salary_increment');
     }
 };

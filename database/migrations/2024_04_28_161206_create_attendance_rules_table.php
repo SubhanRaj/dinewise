@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stared_products', function (Blueprint $table) {
-            $table->id();
-            $table->string('product_id')->unique();
+        Schema::create('attendance_rules', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->time('start')->nullable();
+            $table->time('end')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stared_products');
+        Schema::dropIfExists('attendance_rules');
     }
 };
