@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 27, 2024 at 04:09 AM
+-- Generation Time: Apr 28, 2024 at 04:38 AM
 -- Server version: 8.0.30
--- PHP Version: 8.1.10
+-- PHP Version: 8.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -109,6 +109,13 @@ CREATE TABLE `bookings` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `bookings`
+--
+
+INSERT INTO `bookings` (`id`, `booking_id`, `name`, `mobile`, `email`, `address`, `no_of_people`, `event`, `booked_from`, `booked_to`, `tables`, `amount`, `description`, `status`, `cancel_reason`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, '2024041', 'Subhan Raj', '9450430095', 'shubhanraj2002@gmail.com', '554/705, Bheem Nagar, Near Janta Girls Inter College', '10', 'Anniversary', '2024-04-30 03:37:00', '2024-05-03 03:37:00', NULL, '10000', '', NULL, NULL, NULL, '2024-04-28 03:38:06', '2024-04-28 03:38:06');
+
 -- --------------------------------------------------------
 
 --
@@ -179,7 +186,8 @@ CREATE TABLE `customer_loyalty_points` (
 
 INSERT INTO `customer_loyalty_points` (`id`, `customer_id`, `points`, `deleted_at`, `created_at`, `updated_at`) VALUES
 (1, '1', 561, NULL, '2024-04-16 07:32:27', '2024-04-20 04:50:43'),
-(2, '2', 90, NULL, '2024-04-18 12:23:41', '2024-04-18 12:27:51');
+(2, '2', 90, NULL, '2024-04-18 12:23:41', '2024-04-18 12:27:51'),
+(3, '3', 21, NULL, '2024-04-28 03:48:49', '2024-04-28 03:48:49');
 
 -- --------------------------------------------------------
 
@@ -416,15 +424,16 @@ CREATE TABLE `orders_details` (
 --
 
 INSERT INTO `orders_details` (`id`, `order_id`, `productData`, `selectedTable`, `no_of_people`, `table_status`, `customer_or_booking`, `customer_id_or_booking_id`, `orderInstruction`, `total_item`, `total_amount`, `gst_amount`, `discount_amount`, `loyalty_discount`, `loyalty_used`, `payable_amount`, `payment_method`, `other_method`, `grand_amount`, `payment_status`, `status`, `chef_status`, `date`, `month`, `year`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, '2024041', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":2,\"price_per_unit\":220,\"product_price\":440,\"order_status\":\"Prepared\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":180,\"product_price\":180,\"order_status\":\"Recieved\"},{\"product_id\":\"8F0D908618\",\"product_name\":\"Green Tea\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":50,\"product_price\":50,\"order_status\":\"Processing\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '3', '670', '134', '0', '5', '100', '799', 'card', '', '804', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 05:47:53', '2024-04-19 06:49:47'),
-(2, '2024042', '[{\"product_id\":\"F95EA1F2A9\",\"product_name\":\"Mineral Water\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Bottle\",\"product_qty\":\"1\",\"price_per_unit\":\"20\",\"product_price\":\"20\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"F95EA1F2A9Bottle\"},{\"product_id\":\"2DF34B9EA4\",\"product_name\":\"Soft Drink\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Bottle\",\"product_qty\":\"1\",\"price_per_unit\":\"60\",\"product_price\":\"60\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"2DF34B9EA4Bottle\"},{\"product_id\":\"833C6BD3D6\",\"product_name\":\"Masal Shikanji\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"100\",\"product_price\":\"100\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"833C6BD3D6Item\"},{\"product_id\":\"37EBBCC2A5\",\"product_name\":\"Diet Cold Drink\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"100\",\"product_price\":\"100\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"37EBBCC2A5Item\"},{\"product_id\":\"F815B4A1DD\",\"product_name\":\"Mango Delight\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"150\",\"product_price\":\"150\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"F815B4A1DDItem\"},{\"product_id\":\"5FBA9AA9E7\",\"product_name\":\"Paneer Tikka Pizza\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"250\",\"product_price\":\"250\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"5FBA9AA9E7Item\"},{\"product_id\":\"22EE424D02\",\"product_name\":\"Margherita Pizza\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"220\",\"product_price\":\"220\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"22EE424D02Item\"}]', '[\"2\"]', 1, 1, 'customers', '1', 'hello', '7', '900', '180', '0', '0', '0', '1080', 'cash', NULL, '1080', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 06:12:36', '2024-04-19 07:48:03'),
-(3, '2024043', '[{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Processing\"},{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Recieved\"},{\"product_id\":\"9F11CABED2\",\"product_name\":\"Ckn Mandi\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"599\",\"product_price\":\"599\",\"order_status\":\"Recieved\"},{\"product_id\":\"AA8729FC7C\",\"product_name\":\"Bun Kebab\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"150\",\"product_price\":\"150\",\"order_status\":\"Recieved\"},{\"product_id\":\"BCA2CF7DF6\",\"product_name\":\"Hell\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"120\",\"product_price\":\"120\",\"order_status\":\"Recieved\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '5', '1269', '254', '20', '5', '100', '1498', 'cash', '', '1523', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 07:12:05', '2024-04-19 07:47:49'),
-(4, '2024044', '[{\"product_id\":\"8FE3BAD9A1\",\"product_name\":\"Ckn Perry Perry\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"230\",\"product_price\":\"230\",\"order_status\":\"Recieved\"},{\"product_id\":\"8FDF39B58F\",\"product_name\":\"Crunchy Chicken\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"300\",\"product_price\":\"300\",\"order_status\":\"Recieved\"},{\"product_id\":\"F257E4C13B\",\"product_name\":\"Chicken Steak\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"350\",\"product_price\":\"350\",\"order_status\":\"Recieved\"},{\"product_id\":\"26725E3C51\",\"product_name\":\"Chicken Sandwich\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"}]', '[\"5\"]', 2, 1, 'customers', '1', '', '4', '1060', '212', '100', '5', '100', '1167', 'upi', '', '1272', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 07:25:03', '2024-04-19 07:46:45'),
-(5, '2024045', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Recieved\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"},{\"product_id\":\"5FC90AF235\",\"product_name\":\"CKN Korma\",\"product_unit\":\"Full\",\"product_qty\":1,\"price_per_unit\":\"550\",\"product_price\":\"550\",\"order_status\":\"Recieved\"},{\"product_id\":\"38A4CF75EC\",\"product_name\":\"Trinidadian CKN\",\"product_unit\":\"Half\",\"product_qty\":1,\"price_per_unit\":\"320\",\"product_price\":\"320\",\"order_status\":\"Recieved\"},{\"product_id\":\"24ACC4CAEF\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"95\",\"product_price\":\"95\",\"order_status\":\"Recieved\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '5', '1365', '273', '0', '0', '0', '1638', 'card', NULL, '1638', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 07:59:44', '2024-04-19 09:25:09'),
-(6, '2024046', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":220,\"product_price\":220,\"order_status\":\"Recieved\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":180,\"product_price\":180,\"order_status\":\"Recieved\"},{\"product_id\":\"26725E3C51\",\"product_name\":\"Chicken Sandwich\",\"product_unit\":\"Item\",\"product_qty\":2,\"price_per_unit\":180,\"product_price\":360,\"order_status\":\"Recieved\"}]', '[\"2\"]', 2, 1, 'customers', '1', 'fsdfdsf', '3', '760', '152', '50', '1', '10', '861', 'cash', NULL, '912', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 09:22:32', '2024-04-19 09:24:50'),
-(7, '2024047', '[{\"product_id\":\"F95EA1F2A9\",\"product_name\":\"Mineral Water\",\"product_unit\":\"Bottle\",\"product_qty\":\"1\",\"price_per_unit\":\"20\",\"product_price\":\"20\",\"order_status\":\"Prepared\"},{\"product_id\":\"B70752D21A\",\"product_name\":\"Red Bull\",\"product_unit\":\"Bottle\",\"product_qty\":\"3\",\"price_per_unit\":\"190\",\"product_price\":\"570\",\"order_status\":\"Prepared\"}]', '[\"2\"]', 1, 1, 'customers', '1', 'Hello this is vaibhav goswami', '2', '590', '118', '0', '0', '0', '708', 'cash', NULL, '708', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 09:27:12', '2024-04-19 09:29:02'),
-(8, '2024048', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Recieved\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"},{\"product_id\":\"5A61DEE9B0\",\"product_name\":\"Butter Naan\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"60\",\"product_price\":\"60\",\"order_status\":\"Recieved\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '3', '460', '92', '0', '0', '0', '552', 'cash', NULL, '552', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 09:36:01', '2024-04-20 04:50:43'),
-(9, '2024049', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Processing\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"}]', '[\"2\"]', 2, 1, 'customers', '1', '', '2', '400', '80', '0', '0', '0', '480', 'cash', NULL, '480', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', 2024, NULL, '2024-04-19 10:01:41', '2024-04-26 11:18:36');
+(1, '2024041', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":2,\"price_per_unit\":220,\"product_price\":440,\"order_status\":\"Prepared\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":180,\"product_price\":180,\"order_status\":\"Recieved\"},{\"product_id\":\"8F0D908618\",\"product_name\":\"Green Tea\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":50,\"product_price\":50,\"order_status\":\"Processing\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '3', '670', '134', '0', '5', '100', '799', 'card', '', '804', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 05:47:53', '2024-04-19 06:49:47'),
+(2, '2024042', '[{\"product_id\":\"F95EA1F2A9\",\"product_name\":\"Mineral Water\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Bottle\",\"product_qty\":\"1\",\"price_per_unit\":\"20\",\"product_price\":\"20\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"F95EA1F2A9Bottle\"},{\"product_id\":\"2DF34B9EA4\",\"product_name\":\"Soft Drink\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Bottle\",\"product_qty\":\"1\",\"price_per_unit\":\"60\",\"product_price\":\"60\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"2DF34B9EA4Bottle\"},{\"product_id\":\"833C6BD3D6\",\"product_name\":\"Masal Shikanji\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"100\",\"product_price\":\"100\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"833C6BD3D6Item\"},{\"product_id\":\"37EBBCC2A5\",\"product_name\":\"Diet Cold Drink\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"100\",\"product_price\":\"100\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"37EBBCC2A5Item\"},{\"product_id\":\"F815B4A1DD\",\"product_name\":\"Mango Delight\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"150\",\"product_price\":\"150\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"F815B4A1DDItem\"},{\"product_id\":\"5FBA9AA9E7\",\"product_name\":\"Paneer Tikka Pizza\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"250\",\"product_price\":\"250\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"5FBA9AA9E7Item\"},{\"product_id\":\"22EE424D02\",\"product_name\":\"Margherita Pizza\",\"product_img\":\"<img src=\'http:\\/\\/127.0.0.1:8000\\/mystorage\\/media\\/f991cb0cfa7912.jpg\'>\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"220\",\"product_price\":\"220\",\"status\":\"saved\",\"order_status\":\"Recieved\",\"id\":\"22EE424D02Item\"}]', '[\"2\"]', 1, 1, 'customers', '1', 'hello', '7', '900', '180', '0', '0', '0', '1080', 'cash', NULL, '1080', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 06:12:36', '2024-04-19 07:48:03'),
+(3, '2024043', '[{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Processing\"},{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Recieved\"},{\"product_id\":\"9F11CABED2\",\"product_name\":\"Ckn Mandi\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"599\",\"product_price\":\"599\",\"order_status\":\"Recieved\"},{\"product_id\":\"AA8729FC7C\",\"product_name\":\"Bun Kebab\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"150\",\"product_price\":\"150\",\"order_status\":\"Recieved\"},{\"product_id\":\"BCA2CF7DF6\",\"product_name\":\"Hell\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"120\",\"product_price\":\"120\",\"order_status\":\"Recieved\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '5', '1269', '254', '20', '5', '100', '1498', 'cash', '', '1523', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 07:12:05', '2024-04-19 07:47:49'),
+(4, '2024044', '[{\"product_id\":\"8FE3BAD9A1\",\"product_name\":\"Ckn Perry Perry\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"230\",\"product_price\":\"230\",\"order_status\":\"Recieved\"},{\"product_id\":\"8FDF39B58F\",\"product_name\":\"Crunchy Chicken\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"300\",\"product_price\":\"300\",\"order_status\":\"Recieved\"},{\"product_id\":\"F257E4C13B\",\"product_name\":\"Chicken Steak\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"350\",\"product_price\":\"350\",\"order_status\":\"Recieved\"},{\"product_id\":\"26725E3C51\",\"product_name\":\"Chicken Sandwich\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"}]', '[\"5\"]', 2, 1, 'customers', '1', '', '4', '1060', '212', '100', '5', '100', '1167', 'upi', '', '1272', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 07:25:03', '2024-04-19 07:46:45'),
+(5, '2024045', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Recieved\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"},{\"product_id\":\"5FC90AF235\",\"product_name\":\"CKN Korma\",\"product_unit\":\"Full\",\"product_qty\":1,\"price_per_unit\":\"550\",\"product_price\":\"550\",\"order_status\":\"Recieved\"},{\"product_id\":\"38A4CF75EC\",\"product_name\":\"Trinidadian CKN\",\"product_unit\":\"Half\",\"product_qty\":1,\"price_per_unit\":\"320\",\"product_price\":\"320\",\"order_status\":\"Recieved\"},{\"product_id\":\"24ACC4CAEF\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"95\",\"product_price\":\"95\",\"order_status\":\"Recieved\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '5', '1365', '273', '0', '0', '0', '1638', 'card', NULL, '1638', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 07:59:44', '2024-04-19 09:25:09'),
+(6, '2024046', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":220,\"product_price\":220,\"order_status\":\"Recieved\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":180,\"product_price\":180,\"order_status\":\"Recieved\"},{\"product_id\":\"26725E3C51\",\"product_name\":\"Chicken Sandwich\",\"product_unit\":\"Item\",\"product_qty\":2,\"price_per_unit\":180,\"product_price\":360,\"order_status\":\"Recieved\"}]', '[\"2\"]', 2, 1, 'customers', '1', 'fsdfdsf', '3', '760', '152', '50', '1', '10', '861', 'cash', NULL, '912', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 09:22:32', '2024-04-19 09:24:50'),
+(7, '2024047', '[{\"product_id\":\"F95EA1F2A9\",\"product_name\":\"Mineral Water\",\"product_unit\":\"Bottle\",\"product_qty\":\"1\",\"price_per_unit\":\"20\",\"product_price\":\"20\",\"order_status\":\"Prepared\"},{\"product_id\":\"B70752D21A\",\"product_name\":\"Red Bull\",\"product_unit\":\"Bottle\",\"product_qty\":\"3\",\"price_per_unit\":\"190\",\"product_price\":\"570\",\"order_status\":\"Prepared\"}]', '[\"2\"]', 1, 1, 'customers', '1', 'Hello this is vaibhav goswami', '2', '590', '118', '0', '0', '0', '708', 'cash', NULL, '708', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 09:27:12', '2024-04-19 09:29:02'),
+(8, '2024048', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Recieved\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Recieved\"},{\"product_id\":\"5A61DEE9B0\",\"product_name\":\"Butter Naan\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"60\",\"product_price\":\"60\",\"order_status\":\"Recieved\"}]', '[\"1\"]', 2, 1, 'customers', '1', '', '3', '460', '92', '0', '0', '0', '552', 'cash', NULL, '552', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 09:36:01', '2024-04-20 04:50:43'),
+(9, '2024049', '[{\"product_id\":\"FF6884ECEC\",\"product_name\":\"Chicken Chilli\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"220\",\"product_price\":\"220\",\"order_status\":\"Processing\"},{\"product_id\":\"E1B90029D9\",\"product_name\":\"Chicken Spring Roll\",\"product_unit\":\"Item\",\"product_qty\":1,\"price_per_unit\":\"180\",\"product_price\":\"180\",\"order_status\":\"Prepared\"}]', '[\"2\"]', 2, 1, 'customers', '1', '', '2', '400', '80', '0', '0', '0', '480', 'cash', NULL, '480', 'done', 'completed', 'RECEIVED', '2024-04-19', 'April', '2024', NULL, '2024-04-19 10:01:41', '2024-04-27 04:12:22'),
+(10, '20240410', '[{\"product_id\":\"5FBA9AA9E7\",\"product_name\":\"Paneer Tikka Pizza\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"250\",\"product_price\":\"250\",\"order_status\":\"Prepared\"},{\"product_id\":\"D025662986\",\"product_name\":\"Vanilla\",\"product_unit\":\"Item\",\"product_qty\":\"1\",\"price_per_unit\":\"95\",\"product_price\":\"95\",\"order_status\":\"Processing\"}]', '[\"5\"]', 1, 1, 'customers', '3', 'Make it quick', '2', '345', '69', '10', '0', '0', '404', 'cash', NULL, '414', 'done', 'completed', 'RECEIVED', '2024-04-28', 'April', '2024', NULL, '2024-04-28 03:45:33', '2024-04-28 03:48:49');
 
 -- --------------------------------------------------------
 
@@ -803,7 +812,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `name`, `value`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(2, 'company_name', 'Digicrowd  Solution', NULL, '2024-04-16 10:59:39', '2024-04-16 11:12:03'),
+(2, 'company_name', 'DineWise', NULL, '2024-04-16 10:59:39', '2024-04-28 04:34:21'),
 (3, 'loyalty_point_value', '.05', NULL, '2024-04-16 10:59:39', '2024-04-18 10:01:08');
 
 -- --------------------------------------------------------
@@ -997,6 +1006,12 @@ ALTER TABLE `loyalty`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `media`
+--
+ALTER TABLE `media`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -1009,14 +1024,240 @@ ALTER TABLE `orders_details`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `pricing_units`
+--
+ALTER TABLE `pricing_units`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unit_id` (`unit_id`),
+  ADD UNIQUE KEY `unit_id_2` (`unit_id`),
+  ADD KEY `unit_id_3` (`unit_id`),
+  ADD KEY `unit` (`unit`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`,`cat_id`);
+
+--
+-- Indexes for table `product_categories`
+--
+ALTER TABLE `product_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `cat_id` (`cat_id`),
+  ADD KEY `cat_name` (`cat_name`,`cat_img`,`cat_banner`);
+
+--
+-- Indexes for table `product_materials`
+--
+ALTER TABLE `product_materials`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `material_id` (`material_id`),
+  ADD KEY `material_id_2` (`material_id`);
+
+--
+-- Indexes for table `reception`
+--
+ALTER TABLE `reception`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `released_payment`
+--
+ALTER TABLE `released_payment`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `salary_increment`
+--
+ALTER TABLE `salary_increment`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `settings`
+--
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `staffs`
+--
+ALTER TABLE `staffs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `staff_account_details`
+--
+ALTER TABLE `staff_account_details`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `stared_products`
+--
+ALTER TABLE `stared_products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `tables`
+--
+ALTER TABLE `tables`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `advance_payment`
+--
+ALTER TABLE `advance_payment`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `attendance`
+--
+ALTER TABLE `attendance`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `attendance_rules`
+--
+ALTER TABLE `attendance_rules`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `bookings`
+--
+ALTER TABLE `bookings`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `create_payment`
+--
+ALTER TABLE `create_payment`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `customer_loyalty_points`
+--
+ALTER TABLE `customer_loyalty_points`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `define_salary`
+--
+ALTER TABLE `define_salary`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `inquiry`
+--
+ALTER TABLE `inquiry`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `leaves`
+--
+ALTER TABLE `leaves`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `loyalty`
+--
+ALTER TABLE `loyalty`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `media`
+--
+ALTER TABLE `media`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `orders_details`
 --
 ALTER TABLE `orders_details`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `pricing_units`
+--
+ALTER TABLE `pricing_units`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
+
+--
+-- AUTO_INCREMENT for table `product_categories`
+--
+ALTER TABLE `product_categories`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `product_materials`
+--
+ALTER TABLE `product_materials`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `reception`
+--
+ALTER TABLE `reception`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `released_payment`
+--
+ALTER TABLE `released_payment`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `salary_increment`
+--
+ALTER TABLE `salary_increment`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `settings`
+--
+ALTER TABLE `settings`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `staffs`
+--
+ALTER TABLE `staffs`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `staff_account_details`
+--
+ALTER TABLE `staff_account_details`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `stared_products`
+--
+ALTER TABLE `stared_products`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tables`
+--
+ALTER TABLE `tables`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
