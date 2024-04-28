@@ -15,8 +15,7 @@
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/png" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet">
 
-    <link href="{{ asset('admin-assets/assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}"
-        rel="stylesheet">
+    <link href="{{ asset('admin-assets/assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
     <link href="{{ asset('admin-assets/assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
 
     <link href="{{ asset('admin-assets/assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
@@ -44,10 +43,8 @@
         <div class="sidebar-wrapper" data-simplebar="true">
             <div class="sidebar-header">
                 <div>
-                    <img src="{{ asset('admin-assets/assets/images/logo.png') }}" class="logo-icon logo-big"
-                        alt="logo icon">
-                    <img src="{{ asset('admin-assets/assets/images/logo-sm.png') }}" class="logo-icon d-none logo-sm"
-                        alt="logo icon">
+                    <img src="{{ asset('admin-assets/assets/images/logo.png') }}" class="logo-icon logo-big" alt="logo icon">
+                    <img src="{{ asset('admin-assets/assets/images/logo-sm.png') }}" class="logo-icon d-none logo-sm" alt="logo icon">
                 </div>
 
                 <div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
@@ -84,32 +81,29 @@
                     <div class="top-menu ms-auto">
                         <ul class="navbar-nav align-items-center">
                             <li class="nav-item">
-                                <a class="nav-link text-warning" href="#" data-bs-toggle="tooltip"
-                                    data-bs-title="Full Screen Mode" data-bs-placement="auto" onclick="fullScreen()"
-                                    id="fullscreen-btn"> <i class='bx bx-fullscreen' id="fullscreen-icon"></i>
+                                <a class="nav-link text-warning" href="#" data-bs-toggle="tooltip" data-bs-title="Full Screen Mode" data-bs-placement="auto" onclick="fullScreen()" id="fullscreen-btn"> <i class='bx bx-fullscreen' id="fullscreen-icon"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link theme-change text-info" href="#" id="theme-change-btn"
-                                    onclick="changeTheme()" data-bs-toggle="tooltip" data-bs-title="Switch to dark mood"
-                                    data-bs-placement="auto"> <i class='bx bx-moon '></i>
+                                <a class="nav-link theme-change text-info" href="#" id="theme-change-btn" onclick="changeTheme()" data-bs-toggle="tooltip" data-bs-title="Switch to dark mood" data-bs-placement="auto"> <i class='bx bx-moon '></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div class="user-box dropdown">
-                        <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret"
-                            href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('admin-assets/assets/images/digi-user.png') }}" class="user-img"
-                                alt="user avatar">
+                        <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ asset('admin-assets/assets/images/digi-user.png') }}" class="user-img" alt="user avatar">
                             <div class="user-info ps-3">
-                                <p class="user-name mb-0">Dine Wise</p>
-                                <p class="designattion mb-0">Digital Marketing Agency</p>
+                                <p class="user-name mb-0">
+                                    {{ session('username') }}
+                                </p>
+                                <p class="designattion mb-0">
+                                    {{ session('role') }}
+                                </p>
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="{{ route('chef.logout') }}"><i
-                                        class='bx bx-log-out-circle'></i><span>Logout</span></a>
+                            <li><a class="dropdown-item" href="{{ route('chef.logout') }}"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
                             </li>
                         </ul>
                     </div>

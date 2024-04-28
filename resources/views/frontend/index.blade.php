@@ -172,55 +172,55 @@
           </div>
           <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
             <div class="icon-box">
-              <i class="ri-paint-brush-line" style="color: #e361ff;"></i>
+              <i class="ti ti-truck-delivery" style="color: #e361ff;"></i>
               <h3><a href="">Order Management</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box">
-              <i class="ri-database-2-line" style="color: #47aeff;"></i>
+              <i class="ti ti-friends" style="color: #47aeff;"></i>
               <h3><a href="">Customer Management</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box">
-              <i class="ri-gradienter-line" style="color: #ffa76e;"></i>
-              <h3><a href="">Table Bookings</a></h3>
+              <i class="ti ti-headset" style="color: #ffa76e;"></i>
+              <h3><a href="">Enquiry & Support</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box">
-              <i class="ri-file-list-3-line" style="color: #11dbcf;"></i>
+              <i class="ti ti-desk" style="color: #11dbcf;"></i>
               <h3><a href="">Staff Management</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box">
-              <i class="ri-price-tag-2-line" style="color: #4233ff;"></i>
+              <i class="ti ti-wallet" style="color: #4233ff;"></i>
               <h3><a href="">Payout Management</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box">
-              <i class="ri-anchor-line" style="color: #b2904f;"></i>
+              <i class="ti ti-calendar-clock" style="color: #b2904f;"></i>
               <h3><a href="">Attendance Management</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box">
-              <i class="ri-disc-line" style="color: #b20969;"></i>
+              <i class="ti ti-door-exit" style="color: #b20969;"></i>
               <h3><a href="">Leave Management</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box">
-              <i class="ri-base-station-line" style="color: #ff5828;"></i>
-              <h3><a href="">User Access Controle</a></h3>
+              <i class="ti ti-access-point" style="color: #ff5828;"></i>
+              <h3><a href="">User Access Control</a></h3>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 mt-4">
             <div class="icon-box">
-              <i class="ri-fingerprint-line" style="color: #29cc61;"></i>
+              <i class="ti ti-settings" style="color: #29cc61;"></i>
               <h3><a href="">Settings</a></h3>
             </div>
           </div>
@@ -247,12 +247,6 @@
             <div class="member" data-aos="fade-up" data-aos-delay="100">
               <div class="member-img">
                 <img src="{{asset('frontend/assets/img/team/team-1.jpg')}}" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
               <div class="member-info">
                 <h4>Subhan Raj</h4>
@@ -267,12 +261,6 @@
             <div class="member" data-aos="fade-up" data-aos-delay="200">
               <div class="member-img">
                 <img src="{{asset('frontend/assets/img/team/team-2.jpg')}}" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
               <div class="member-info">
                 <h4>Vaibhav Goswami</h4>
@@ -285,16 +273,10 @@
             <div class="member" data-aos="fade-up" data-aos-delay="300">
               <div class="member-img">
                 <img src="{{asset('frontend/assets/img/team/team-3.jpg')}}" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
               <div class="member-info">
                 <h4>Vaishnavi Mishra</h4>
-                <span>Tester & Documentation Specialist</span>
+                <span>QA Engineer</span>
               </div>
             </div>
           </div>
